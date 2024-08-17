@@ -14,6 +14,8 @@ module.exports = {
       },
       colors: {
         navyblue: '#10107b',
+        primarydarkblue: '#21467D',
+        primarylightblue: '#64B5F6',
       },
     },
   },

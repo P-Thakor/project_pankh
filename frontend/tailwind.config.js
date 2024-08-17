@@ -16,6 +16,7 @@ module.exports = {
         navyblue: '#10107b',
         primarydarkblue: '#21467D',
         primarylightblue: '#64B5F6',
+        primaryblue: '#0064D0',
       },
     },
   },

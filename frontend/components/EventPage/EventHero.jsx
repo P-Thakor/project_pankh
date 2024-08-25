@@ -6,7 +6,7 @@ export default function EventHero({item}) {
       <section className="relative m-10">
         <div className="relative">
           <Image
-            src="/assests/images/EventHeroBg.png"
+            src="/assets/images/EventHeroBg.png"
             alt="Bg image"
             height={1500}
             width={1500}
@@ -24,7 +24,7 @@ export default function EventHero({item}) {
               </p>
             </div>
             <div className="w-1/2 flex items-center justify-center">
-              <div className="p-8 w-96 items-center justify-center rounded-xl bg-white cursor-pointer">
+              <div className="p-8 w-96 items-center justify-center rounded-xl bg-white">
                 <div>
                   <h3 className="font-bold text-3xl font-sans mb-4">
                     Date & Time
@@ -35,10 +35,10 @@ export default function EventHero({item}) {
                   <p className="text-lg text-primaryblue mb-4">
                     {item.locations}
                   </p>
-                  <button className="custom-btn w-full mb-2">
+                  <button className="custom-btn w-full mb-2 hover:bg-primarydarkblue">
                     Book Now
                 </button>
-                <button className="custom-btn !bg-gray-500 w-full">
+                <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full">
                     More Info
                 </button>
                 </div>

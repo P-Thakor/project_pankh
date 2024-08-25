@@ -6,7 +6,7 @@ const Hero = () => {
       <section className="relative pt-5 m-10">
         <div>
           <Image
-            src="/assests/images/HeroBg.png"
+            src="/assets/images/HeroBg.png"
             alt="Bg image"
             height={1500}
             width={1500}

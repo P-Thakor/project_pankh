@@ -1,6 +1,6 @@
 export const events = [
   {
-    name: "Tech Conference 2024",
+    name: "Tech Conference 2024 Tech Conference 2024 Tech Conference",
     slug: "tech-conference-2024",
     description:
       "A conference focused on the latest advancements in technology.",

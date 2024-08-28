@@ -1,6 +1,6 @@
 const Event = require('../Models/eventModel');
-const catchAsync = require('../Utils/catchAsync');
-const AppError = require('../Utils/appError');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 exports.getAllEvents = catchAsync(async (req, res, next) => {
   const events = await Event.find();

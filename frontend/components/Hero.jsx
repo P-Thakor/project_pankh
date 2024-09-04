@@ -4,20 +4,24 @@ const Hero = () => {
   return (
     <>
       <section className="relative pt-5 m-10">
-        <div>
+        <div className="relative w-full">
+          {/* image */}
           <Image
             src="/assets/images/HeroBg.png"
             alt="Bg image"
             height={1500}
             width={1500}
-            className="rounded-md"
+            className="w-full h-full rounded-md"
           />
-        </div>
-        <div className="absolute inset-0 flex justify-center top-[15%]">
-          <p className="text-white text-center text-[70px] font-bold">
-            MADE FOR THOSE
-            <br /> WHO DO
-          </p>
+          {/* black layer */}
+          <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 rounded-md" />
+          {/* text on image */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <p className="font-bold text-center text-white" style={{ fontSize: "6vw" }}>
+              MADE FOR THOSE
+              <br /> WHO DO
+            </p>
+          </div>
         </div>
       </section>
     </>

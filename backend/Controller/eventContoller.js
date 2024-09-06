@@ -3,6 +3,7 @@ const catchAsync = require('../Utils/catchAsync');
 const AppError = require('../Utils/appError');
 
 exports.getAllEvents = catchAsync(async (req, res, next) => {
+  // console.log(req.headers);
   const events = await Event.find();
   res.status(200).json({
     status: 'success',

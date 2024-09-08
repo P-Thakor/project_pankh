@@ -1,6 +1,6 @@
 const Club = require('../Models/clubModel');
-const catchAsync = require('./utils/catchAsync.js');
-const AppError = require('./utils/appError.js');
+const catchAsync = require('../utils/catchAsync.js');
+const AppError = require('../utils/appError.js');
 
 exports.createClub = catchAsync(async (req, res, next) => {
   const newClub = await Club.create(req.body);

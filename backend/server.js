@@ -1,22 +1,15 @@
-const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-<<<<<<< HEAD
+const dotenv = require('dotenv');
+
 const app = require('./app');
 const cors = require('cors');
 app.use(cors());
-=======
-const cors = require('cors');
->>>>>>> 5a1ef9b6bc97c62b38a71c1f7f01c116becb8b01
 
 process.on('uncaughtException', (err) => {
   console.log(`${err.name} --> ${err.message}\nUNCAUGHT EXCEPTION💣\n${err}`);
 });
 
 dotenv.config({ path: './config.env' });
-
-<<<<<<< HEAD
-=======
-const app = require('./app');
 
 app.use(
   cors({
@@ -36,9 +29,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// ap;
-
->>>>>>> 5a1ef9b6bc97c62b38a71c1f7f01c116becb8b01
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD,
@@ -46,7 +36,7 @@ const DB = process.env.DATABASE.replace(
 
 async function main() {
   await mongoose.connect(DB);
-  await console.log('Connection!');
+ console.log('Connection!');
 }
 
 // console.log(process.env);

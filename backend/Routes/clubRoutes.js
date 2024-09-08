@@ -1,5 +1,6 @@
 const express = require('express');
 const clubController = require('../Controller/clubController'); // Update the path as needed
+
 const router = express.Router();
 
 router.route('/clubs').get(clubController.getAllClubs);

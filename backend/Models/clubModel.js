@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const slugify = require('slugify');
-const validator = require('validator');
 
 const clubSchema = new mongoose.Schema({
   name: {

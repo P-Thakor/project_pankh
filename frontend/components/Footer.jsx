@@ -3,7 +3,7 @@ import Image from "next/image"
 
 const Footer = () => {
   return (
-    <footer className="flex justify-between items-center px-20 bg-navyblue text-white">
+    <footer className="flex justify-between items-center px-20 bg-navyblue text-white p-0 m-0">
         <div>
             <Image src="/logo-white.svg" alt="PANKH logo" width={130} height={20} className="object-contain"/>
         </div>

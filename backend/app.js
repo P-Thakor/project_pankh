@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const eventRouter = require('./Routes/eventRouter');
-
+const clubRouter = require('./Routes/clubRoutes');
 const app = express();
 
 app.use(
@@ -27,5 +27,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use('/api/v1', eventRouter);
+app.use('/api/v1', clubRouter);
 
 module.exports = app;

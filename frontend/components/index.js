@@ -7,5 +7,6 @@ import EventHero from "./EventPage/EventHero";
 import EventDescription from "./EventDescription";
 import CustomFilter from "./CustomFilter";
 import CreateEvent from "./CreateEventPage/CreateEvent";
+import SignUp from "./SignUp";
 
-export { Navbar, Footer, AddNewEventTab, EventsList, Hero, EventHero, EventDescription, CustomFilter, CreateEvent};
+export { Navbar, Footer, AddNewEventTab, EventsList, Hero, EventHero, EventDescription, CustomFilter, CreateEvent, SignUp};

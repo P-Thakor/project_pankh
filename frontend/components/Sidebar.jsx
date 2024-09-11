@@ -27,7 +27,7 @@ export default function Sidebar() {
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-white text-black transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
-        } transition-transform duration-300 ease-in-out z-40 rounded-r-2xl`}
+        } transition-transform duration-300 ease-in-out z-40 rounded-r-lg`}
       >
         {/* Nav Links */}
         <ul className="mt-8 space-y-4">

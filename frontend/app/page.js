@@ -1,4 +1,4 @@
-import { AddNewEventTab, EventsList, Hero, EventHero, EventDescription, CustomFilter, CreateEvent, SignUp } from "@/components";
+import { AddNewEventTab, EventsList, Hero, EventHero, EventDescription, CustomFilter, CreateEvent, Sidebar, SignUp } from "@/components";
 import events from "@/components/EventPage/dummyData";
 import SignIn from "@/components/SignIn";
 import { Days, EventCategory, EventMode } from "@/constants";
@@ -7,6 +7,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <main className="flex flex-col items-center justify-between min-h-screen px-0 py-24">
+      <Sidebar/>
       {/* <CreateEvent/> */}
       <Hero />
       <EventHero item={events}/>

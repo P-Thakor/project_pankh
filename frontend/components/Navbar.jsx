@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <header className="w-full z-10 mb-12">
-        <nav className="w-full mx-auto flex justify-between h-28 items-center shadow-md sm:px-16 px-6 py-4">
+    <header className="z-10 w-full mb-12">
+        <nav className="flex items-center justify-between w-full px-6 py-4 mx-auto shadow-md h-28 sm:px-16">
             <Link href="/">
                 <Image src="/logo.svg" alt="PANKH logo" width={170} height={25} className="object-contain"/>
             </Link>

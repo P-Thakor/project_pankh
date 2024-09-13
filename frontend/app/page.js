@@ -9,6 +9,8 @@ export default async function Home() {
   console.log(eventData);
   return (
     <main className="flex flex-col items-center justify-between min-h-screen px-0 py-24">
+      <Sidebar/>
+      {/* <CreateEvent/> */}
       <Hero />
       <EventHero item={eventData[0]}/>
       <List list={eventData} />

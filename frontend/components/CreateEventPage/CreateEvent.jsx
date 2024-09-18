@@ -17,7 +17,7 @@ const CreateEvent = () => {
   };
 
   const handleEndDateChange = (e) => {
-    if (e.target.value >startDate) {
+    if (e.target.value > startDate) {
       setEndDate(e.target.value);
     }
   };

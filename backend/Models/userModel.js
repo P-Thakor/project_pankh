@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'User should have a Name'],
-    trim: true,
-  },
+  // username: {
+  //   type: String,
+  //   required: [true, 'User should have a Name'],
+  //   trim: true,
+  //   unique: true,
+  // },
   email: {
     type: String,
     required: [true, 'User should have an Email'],
@@ -23,22 +25,6 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'faculty-member', 'club-leader', 'admin'],
     default: 'user',
   },
-  password: {
-    type: String,
-    required: [true, 'User should have a Password'],
-    minlength: 8,
-    select: false,
-  },
-  passwordConfirm: {
-    type: String,
-    required: [true, 'Please Confirm your Password'],
-    validate: {
-      validator: function (el) {
-        return el === this.password;
-      },
-      message: 'Passwords are not the same!',
-    },
-  },
   // passwordChangedAt: Date,
   // resetPasswordToken: String,
   // resetPasswordExpire: Date,
@@ -48,6 +34,7 @@ const userSchema = new mongoose.Schema({
     select: false,
   },
 });
+userSchema.plugin(passportLocalMongoose); // Use email for authentication instead of username;
 
 const User = mongoose.model('User', userSchema);
 

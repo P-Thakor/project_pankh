@@ -71,6 +71,12 @@ const eventSchema = new mongoose.Schema({
   endDate: Date,
   startTime: Date,
   endTime: Date,
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Review',
+    },
+  ],
 });
 
 // eventSchema.path('contactNumbr').validate(function validatePhone() {

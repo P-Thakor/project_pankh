@@ -1,4 +1,4 @@
-import { AddNewEventTab, Hero, EventHero, EventDescription, CustomFilter, CreateEvent, SignUp } from "@/components";
+import { AddNewEventTab, Hero, EventHero, EventDescription, CustomFilter, CreateEvent, SignUp, Sidebar } from "@/components";
 import List from "@/components/EventsList/List";
 import SignIn from "@/components/SignIn";
 import { Days, EventCategory, EventMode } from "@/constants";

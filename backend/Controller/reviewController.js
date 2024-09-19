@@ -1,7 +1,7 @@
 const Event = require('../Models/eventModel'); // Assuming you have an event model
-const Review = require('../Models/reviewModel'); // Assuming you have a review model
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
+const Review = require('../Models/ReviewModel'); // Assuming you have a review model
+const catchAsync = require('../Utils/catchAsync');
+const AppError = require('../Utils/appError');
 
 // Create a review for a specific event
 exports.createReview = catchAsync(async (req, res, next) => {

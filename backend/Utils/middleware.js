@@ -1,4 +1,4 @@
-const AppError = require('./utils/appError');
+const AppError = require('./appError');
 
 exports.isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {

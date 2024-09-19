@@ -13,7 +13,7 @@ const eventRouter = require('./Routes/eventRouter');
 const userRouter = require('./Routes/userRoutes');
 const clubRouter = require('./Routes/clubRoutes');
 const authRouter = require('./Routes/authRoutes');
-const { isAuthenticated } = require('./middleware');
+// const { isAuthenticated } = require('./Utils/middleware');
 const User = require('./Models/userModel');
 
 const app = express();
@@ -40,13 +40,13 @@ app.use(
 );
 
 //Set Security HTTP Headers
-// app.use(helmet());
+app.use(helmet());
 
 // Data Sanitization against noSQL querry injection
 app.use(mongoSanitize());
 
 // Data Sanitization against XSS (cross-site scripting)
-// app.use(xss());
+app.use(xss());
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));

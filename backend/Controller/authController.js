@@ -1,6 +1,6 @@
 const User = require('../Models/userModel');
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
+const catchAsync = require('../Utils/catchAsync');
+const AppError = require('../Utils/appError');
 const passport = require('passport');
 
 // Sign-up

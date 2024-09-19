@@ -1,6 +1,9 @@
 const express = require('express');
+
+const { isAuthenticated } = require('../Utils/middleware');
+
 const userController = require('../Controller/userController');
-const { isAuthenticated } = require('../middleware');
+
 const router = express.Router();
 
 router.route('/getAllUsers').get(isAuthenticated, userController.getAllUsers);

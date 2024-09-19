@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
+const cors = require('cors');
 
 const reviewRouter = require('./Routes/reviewRouter');
 const eventRouter = require('./Routes/eventRouter');
@@ -51,6 +52,8 @@ app.use(xss());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+app.use(cors());
 
 app.use('/api/v1/event', eventRouter);
 app.use('/api/v1/club', clubRouter);

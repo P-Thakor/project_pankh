@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.route('/getAllUsers').get(isAuthenticated, userController.getAllUsers);
 
-// router.route('/createUser').post(userController.createUser);
+router.route('/createUser').post(userController.createUser);
 
 router.route('/getUser/:id').get(isAuthenticated, userController.getOneUser);
 

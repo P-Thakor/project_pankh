@@ -33,6 +33,12 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  eventsParticipated: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Event',
+    },
+  ],
 });
 userSchema.plugin(passportLocalMongoose); // Use email for authentication instead of username;
 

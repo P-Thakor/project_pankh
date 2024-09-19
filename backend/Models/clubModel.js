@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+// const validator = require('validator');
+
 const clubSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -17,7 +19,7 @@ const clubSchema = new mongoose.Schema({
     type: Date,
     required: [true, 'A Club must have a founded date'],
   },
-  image: String,
+  image: [String],
 });
 
 const Club = mongoose.model('Club', clubSchema);

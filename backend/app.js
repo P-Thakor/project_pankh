@@ -16,6 +16,7 @@ const clubRouter = require('./Routes/clubRoutes');
 const authRouter = require('./Routes/authRoutes');
 // const { isAuthenticated } = require('./Utils/middleware');
 const User = require('./Models/userModel');
+const globalErrorHandler = require('./Controller/errorController');
 
 const app = express();
 app.use(bodyParser.json());
@@ -40,13 +41,14 @@ app.use(
   }),
 );
 
-//Set Security HTTP Headers
+// Set Security HTTP Headers
 app.use(helmet());
 
 // Data Sanitization against noSQL querry injection
 app.use(mongoSanitize());
 
 // Data Sanitization against XSS (cross-site scripting)
+app.use(xss());
 app.use(xss());
 
 if (process.env.NODE_ENV === 'development') {
@@ -58,7 +60,7 @@ app.use(cors());
 app.use('/api/v1/event', eventRouter);
 app.use('/api/v1/club', clubRouter);
 app.use('/api/v1/user', userRouter);
-app.use('/api/v1/event/:eventId/reviews', reviewRouter);
-app.use('/api/v1/auth', authRouter);
+
+app.use(globalErrorHandler);
 
 module.exports = app;

@@ -7,12 +7,12 @@ const eventController = require('../Controller/eventContoller');
 router.get('/getAllEvents', eventController.getAllEvents);
 
 router.route('/createEvent').post(isAuthenticated, eventController.createEvent);
-router.post(
-  '/createEvent',
-  // eventController.uploadEventImages,
-  // eventController.uploadImage,
-  eventController.createEvent,
-);
+// router.post(
+//   '/createEvent',
+//   // eventController.uploadEventImages,
+//   // eventController.uploadImage,
+//   eventController.createEvent,
+// );
 
 router.get('/getEvent/:id', eventController.getOneEvent);
 

@@ -24,7 +24,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 // Login
 exports.login = (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
+  passport.authenticate('local', (err, user) => {
     if (err) return next(err);
     if (!user) return next(new AppError('Incorrect email or password', 401));
 
@@ -42,7 +42,7 @@ exports.login = (req, res, next) => {
 };
 
 // Logout
-exports.logout = (req, res) => {
+exports.logout = (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err);
     res.status(200).json({

@@ -11,7 +11,6 @@ const clubSchema = new mongoose.Schema({
     maxlength: [50, 'A Club name must be less than or equal to 50 characters'],
     minlength: [1, 'A Club name must be at least 1 character'],
   },
-  slug: String,
   description: {
     type: String,
     trim: true,
@@ -20,7 +19,14 @@ const clubSchema = new mongoose.Schema({
     type: Date,
     required: [true, 'A Club must have a founded date'],
   },
-  image: [String],
+  image: String,
+});
+
+clubSchema.pre('save', function (next) {
+  if (this.name) {
+    this.slug = slugify(this.name, { lower: true });
+  }
+  next();
 });
 
 const Club = mongoose.model('Club', clubSchema);

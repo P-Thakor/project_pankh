@@ -1,10 +1,12 @@
 const express = require('express');
-const eventController = require('../Controller/eventContoller');
 
 const router = express.Router();
+const { isAuthenticated } = require('../Utils/middleware');
+const eventController = require('../Controller/eventContoller');
 
 router.get('/getAllEvents', eventController.getAllEvents);
 
+router.route('/createEvent').post(isAuthenticated, eventController.createEvent);
 router.post(
   '/createEvent',
   // eventController.uploadEventImages,
@@ -21,7 +23,13 @@ router.patch(
   // eventController.resizeEventImage,
   eventController.updateEvent,
 );
+router
+  .route('/updateEvent/:id')
+  .patch(isAuthenticated, eventController.updateEvent);
 
 router.delete('/deleteEvent/:id', eventController.deleteEvent);
+router
+  .route('/deleteEvent/:id')
+  .delete(isAuthenticated, eventController.deleteEvent);
 
 module.exports = router;

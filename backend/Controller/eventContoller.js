@@ -103,7 +103,10 @@ exports.getAllEvents = catchAsync(async (req, res, next) => {
 });
 
 exports.getOneEvent = catchAsync(async (req, res, next) => {
-  const event = await Event.findById(req.params.id);
+  const event = await Event.findById(req.params.id).populate({
+    path: 'reviews',
+    populate: { path: 'author' },
+  });
   if (!event) {
     return next(new AppError(404, 'Event not found'));
   }

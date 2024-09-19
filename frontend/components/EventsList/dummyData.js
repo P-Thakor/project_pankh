@@ -1,5 +1,6 @@
 export const events = [
   {
+    _id: "66d0714b2d41b7859d15b1ad",
     name: "Tech Conference 2024 Tech Conference 2024 Tech Conference",
     slug: "tech-conference-2024",
     description:
@@ -26,6 +27,7 @@ export const events = [
   },
 
   {
+    _id: "66d0714b2d41b7859d15b1ad",
     name: "Tech Conference 2024",
     slug: "tech-conference-2024",
     description:
@@ -51,6 +53,7 @@ export const events = [
     endTime: "2024-09-12T17:00:00.000Z",
   },
   {
+    _id: "66d0714b2d41b7859d15b1ad",
     name: "Tech Conference 2024",
     slug: "tech-conference-2024",
     description:
@@ -76,6 +79,7 @@ export const events = [
     endTime: "2024-09-12T17:00:00.000Z",
   },
   {
+    _id: "66d0714b2d41b7859d15b1ad",
     name: "Tech Conference 2024",
     slug: "tech-conference-2024",
     description:
@@ -101,6 +105,7 @@ export const events = [
     endTime: "2024-09-12T17:00:00.000Z",
   },
   {
+    _id: "66d0714b2d41b7859d15b1ad",
     name: "Tech Conference 2024",
     slug: "tech-conference-2024",
     description:
@@ -126,6 +131,7 @@ export const events = [
     endTime: "2024-09-12T17:00:00.000Z",
   },
   {
+    _id: "66d0714b2d41b7859d15b1ad",
     name: "Tech Conference 2024",
     slug: "tech-conference-2024",
     description:

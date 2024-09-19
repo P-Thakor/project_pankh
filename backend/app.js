@@ -3,12 +3,37 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+const cors = require('cors');
+
+const reviewRouter = require('./Routes/reviewRouter');
 const eventRouter = require('./Routes/eventRouter');
-const clubRouter = require('./Routes/clubRoutes');
 const userRouter = require('./Routes/userRoutes');
+const clubRouter = require('./Routes/clubRoutes');
+const authRouter = require('./Routes/authRoutes');
+// const { isAuthenticated } = require('./Utils/middleware');
+const User = require('./Models/userModel');
 const globalErrorHandler = require('./Controller/errorController');
 
 const app = express();
+app.use(bodyParser.json());
+
+app.use(
+  session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use(
   express.json({
@@ -24,10 +49,13 @@ app.use(mongoSanitize());
 
 // Data Sanitization against XSS (cross-site scripting)
 app.use(xss());
+app.use(xss());
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+app.use(cors());
 
 app.use('/api/v1/event', eventRouter);
 app.use('/api/v1/club', clubRouter);

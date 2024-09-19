@@ -3,15 +3,14 @@ const clubController = require('../Controller/clubController'); // Update the pa
 
 const router = express.Router();
 
-router
-  .route('/')
-  .post(clubController.createClub)
-  .get(clubController.getAllClubs);
+router.route('/clubs').get(clubController.getAllClubs);
 
-router
-  .route('/:id')
-  .get(clubController.getClubById)
-  .patch(clubController.updateClub)
-  .delete(clubController.deleteClub);
+router.route('/createClub').post(clubController.createClub);
+
+router.route('/club/:id').get(clubController.getClubById);
+
+router.route('/updateClub/:id').put(clubController.updateClub);
+
+router.route('/deleteClub/:id').delete(clubController.deleteClub);
 
 module.exports = router;

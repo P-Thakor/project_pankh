@@ -7,7 +7,7 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: [true, 'An Event must have a Name'],
     unique: true,
-    trim: true /* Removes whitespaces from front & end */,
+    trim: true,
     maxlength: [
       20,
       'An Event name must be less than or equal to 20 characters',
@@ -37,7 +37,7 @@ const eventSchema = new mongoose.Schema({
       type: Date,
       // required: [true, 'An Event must have deadline'],
     },
-    quantityAvailabe: {
+    quantityAvailabel: {
       type: Number,
       // required: [true, 'An Event must have fixed Quantity of participants'],
     },
@@ -75,6 +75,12 @@ const eventSchema = new mongoose.Schema({
   endDate: Date,
   startTime: Date,
   endTime: Date,
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Review',
+    },
+  ],
 });
 
 // eventSchema.path('contactNumbr').validate(function validatePhone() {

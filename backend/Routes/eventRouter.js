@@ -3,14 +3,25 @@ const eventController = require('../Controller/eventContoller');
 
 const router = express.Router();
 
-router.route('/getAllEvents').get(eventController.getAllEvents);
+router.get('/getAllEvents', eventController.getAllEvents);
 
-router.route('/createEvent').post(eventController.createEvent);
+router.post(
+  '/createEvent',
+  // eventController.uploadEventImages,
+  // eventController.uploadImage,
+  eventController.createEvent,
+);
 
-router.route('/getEvent/:id').get(eventController.getOneEvent);
+router.get('/getEvent/:id', eventController.getOneEvent);
 
-router.route('/updateEvent/:id').patch(eventController.updateEvent);
+router.patch(
+  '/updateEvent/:id',
+  eventController.uploadEventImages,
+  eventController.uploadImage,
+  // eventController.resizeEventImage,
+  eventController.updateEvent,
+);
 
-router.route('/deleteEvent/:id').delete(eventController.deleteEvent);
+router.delete('/deleteEvent/:id', eventController.deleteEvent);
 
 module.exports = router;

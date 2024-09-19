@@ -35,20 +35,20 @@ const eventSchema = new mongoose.Schema({
     },
     deadline: {
       type: Date,
-      required: [true, 'An Event must have deadline'],
+      // required: [true, 'An Event must have deadline'],
     },
     quantityAvailabe: {
       type: Number,
-      required: [true, 'An Event must have fixed Quantity of participants'],
+      // required: [true, 'An Event must have fixed Quantity of participants'],
     },
     isAvailale: {
       type: Boolean,
     },
   },
-  photo: String,
+  photo: [String],
   coverImage: {
     type: String,
-    required: ['An Event must have a cover image'],
+    // required: ['An Event must have a cover image'],
   },
   contactNumber: {
     type: Number,
@@ -63,6 +63,10 @@ const eventSchema = new mongoose.Schema({
     validate: [validator.isEmail, 'Please provide a valid Email'],
   },
   participants: [String],
+  // {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: 'User',
+  // },
   creator: {
     type: String,
     required: [true, "An Event must have organiser's name"],

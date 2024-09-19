@@ -1,0 +1,17 @@
+extends baseEmail
+
+block content
+  p Hi #{firstName},
+  p Welcome to PANKH, we're glad to have you 🎉🙏
+  p "Welcome to [Club Name]! 🎉 We're excited to have you on board! Explore events, connect with fellow members, and make the most of your club experience. Let’s create amazing memories together!"
+  table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+    tbody
+      tr
+        td(align='left')
+          table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+            tbody
+              tr
+                td
+                  a(href=`${url}`, target='_blank') Register
+  p If you need any help with registering Events or Clubs, please don't hesitate to contact me!
+  p - Kandarp Vyas, CEO

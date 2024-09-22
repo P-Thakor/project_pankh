@@ -10,12 +10,12 @@ const AddNewEventTab = () => {
           alt="add new event"
           width={550}
           height={550}
-          className="z-10 ml-20"
+          className="z-10 hidden ml-20 lg:flex"
         />
         {/* background */}
         <div className="absolute flex items-center self-end justify-center w-full bg-navyblue min-h-64">
           {/* content */}
-          <div className="justify-center px-40 ml-auto text-white">
+          <div className="justify-center px-5 ml-auto text-white md:px-40">
             <h1 className="text-4xl font-semibold">Make Your Own Event</h1>
             <p className="mt-2 mb-4 text-md">
               Wanna create an event? Let's do it!

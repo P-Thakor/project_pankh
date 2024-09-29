@@ -1,3 +1,4 @@
+import { formattedDate, formattedTime } from "@/utils";
 import Image from "next/image";
 
 export default function EventHero({item}) {
@@ -33,7 +34,7 @@ export default function EventHero({item}) {
                     Date & Time
                   </h3>
                   <p className="mb-2 text-lg text-gray">
-                    {item.startDate}, {item.startTime}
+                    {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
                   </p>
                   <p className="mb-4 text-lg text-primaryblue">
                     {item.locations}

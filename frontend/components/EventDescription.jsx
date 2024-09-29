@@ -1,3 +1,5 @@
+import { formattedDate, formattedTime } from "@/utils";
+
 const EventDescription = ({ event }) => {
 
 
@@ -13,10 +15,10 @@ const EventDescription = ({ event }) => {
         <div className="mb-12">
           <h2 className="text-2xl font-bold">Timings</h2>
           <p className="text-gray-500 mt-4">
-            Start: {eventData.startDate}, {eventData.startTime}
+            Start: {formattedDate(eventData.startDate)}, {formattedTime(eventData.startTime)}
           </p>
           <p className="text-gray-500">
-            End: {eventData.endDate}, {eventData.endTime}
+            End: {formattedDate(eventData.endDate)}, {formattedTime(eventData.endTime)}
           </p>
         </div>
       </div>

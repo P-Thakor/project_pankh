@@ -23,8 +23,11 @@ const SignUp = () => {
         })
       })
 
-      const data = await response.json();
-      console.log(data.message);
+      // const data = await response.json();
+      console.log(response.status);
+      if (response.status === 201) {
+        alert('Sign Up successfull.')
+      }
 
     setUsername('');
     setEmail('');

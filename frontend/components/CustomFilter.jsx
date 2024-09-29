@@ -18,7 +18,7 @@ const CustomFilter = ({title, options}) => {
           <Image src="/chevron-down.svg" width={20} height={20} alt='chevron down'/>
         </ListboxButton>
         <Transition as={Fragment} leave='transition ease-in duration-300' leaveFrom='opacity-100' leaveTo='opacity-0'>
-          <ListboxOptions className="absolute max-h-60 mt-1 w-full overflow-auto rounded-md bg-gray-200 py-1 text-base shadow-lg cursor-default">
+          <ListboxOptions className="absolute max-h-60 mt-1 w-full text-sm overflow-auto rounded-md bg-gray-200 py-1 shadow-lg cursor-default">
             {options.map((option)=> (
               <ListboxOption key={option.title} value={option} className={(({focus})=> `relative select-none py-2 px-4 ${focus ? 'bg-gray-300 font-medium' : 'text-gray-900'}`)}>
                 {({selected})=> (

@@ -3,7 +3,7 @@ import Image from "next/image";
 const Hero = () => {
   return (
     <>
-      <section className="relative pt-5 m-10">
+      <section className="relative pt-5 mx-10 mb-10">
         <div className="relative w-full">
           {/* image */}
           <Image

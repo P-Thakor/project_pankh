@@ -9,9 +9,8 @@ const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
 
   const handleSignIn = async (e) => {
-    console.log(username);
     e.preventDefault();
-    const res = await fetch("http://localhost:8000/api/v1/auth/login",
+    const response = await fetch("http://localhost:8000/api/v1/auth/login",
       {
         method: "POST",
         headers: {
@@ -24,8 +23,10 @@ const [password, setPassword] = useState('');
         })
       })
 
-      const data = await res.json();
-      console.log(data.message);
+      console.log(response.status);
+      if (response.status === 200) {
+        alert('Login successfull.')
+      }
     setUsername('');
     // setEmail('');
     setPassword('');
@@ -38,10 +39,10 @@ const [password, setPassword] = useState('');
           Sign In to PANKH
         </h1>
         <form className="w-full p-8" onSubmit={handleSignIn}>
-          <label>Email</label>
+          <label>Username</label>
           <input
             type="text"
-            placeholder="Enter email address"
+            placeholder="Enter username"
             className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
             value={username}
             onChange={(e) => {

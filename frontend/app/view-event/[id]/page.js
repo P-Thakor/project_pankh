@@ -7,11 +7,11 @@ const EventPage = async ({ params }) => {
   const events = await fetchEvents();
 
   return (
-    <>
+    <main className="overflow-hidden">
       <EventHero item={eventData} />
       <EventDescription event={eventData} />
       <List list={events} />
-    </>
+    </main>
   );
 };
 

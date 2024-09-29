@@ -9,5 +9,6 @@ import CustomFilter from "./CustomFilter";
 import CreateEvent from "./CreateEventPage/CreateEvent";
 import SignUp from "./SignUp";
 import Sidebar from "./Sidebar";
+import SearchBar from "./SearchBar";
 
-export { Navbar, Footer, AddNewEventTab, EventsList, Hero, EventHero, EventDescription, CustomFilter, CreateEvent,Sidebar, SignUp};
+export { Navbar, Footer, AddNewEventTab, EventsList, Hero, EventHero, EventDescription, CustomFilter, CreateEvent,Sidebar, SignUp, SearchBar};

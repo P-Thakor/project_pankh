@@ -10,7 +10,7 @@ const EventPage = async ({ params }) => {
     <main className="overflow-hidden">
       <EventHero item={eventData} />
       <EventDescription event={eventData} />
-      <List list={events} />
+      <List list={events.filter((item)=> item._id != params.id)} />
     </main>
   );
 };

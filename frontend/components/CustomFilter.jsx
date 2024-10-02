@@ -11,8 +11,8 @@ const CustomFilter = ({title, options}) => {
     <>
       <Listbox value={selected} onChange={(e)=> {setSelected(e)}}>
         <div className='relative w-fit z-10'>
-        <ListboxButton className="relative w-full w-min-[127px] flex justify-between items-center cursor-default rounded-lg bg-gray-200 py-2 px-3 text-left sm:text-sm border">
-          <span className="block truncate">
+        <ListboxButton className="relative w-full w-min-[127px] flex justify-between items-center cursor-default rounded-lg bg-gray-200 py-2 px-4 text-left sm:text-sm border">
+          <span className="block truncate mr-1">
             {selected.title}
           </span>
           <Image src="/chevron-down.svg" width={20} height={20} alt='chevron down'/>

@@ -144,7 +144,7 @@ const CreateEvent = () => {
             <h2 className="mb-4 text-xl font-semibold">Event Description</h2>
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Event Image
+                Event Poster
               </label>
               <input
                 type="file"

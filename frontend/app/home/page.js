@@ -1,6 +1,6 @@
 import { AddNewEventTab, CustomFilter, Hero } from "@/components";
 import List from "@/components/EventsList/List";
-import { Days, EventCategory, EventMode } from "@/constants";
+import { Days, EventCategory, EventMode, EventType } from "@/constants";
 import { fetchEvents } from "@/utils";
 
 const page = async () => {
@@ -17,6 +17,7 @@ const page = async () => {
           <CustomFilter title="Days" options={Days} />
           <CustomFilter title="Mode" options={EventMode} />
           <CustomFilter title="Category" options={EventCategory} />
+          <CustomFilter title="Type" options={EventType} />
         </div>
       </div>
       <List list={events} />

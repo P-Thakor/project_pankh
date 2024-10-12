@@ -1,7 +1,6 @@
 export async function fetchEvents() {
     const res = await fetch('http://localhost:8000/api/v1/event/getAllEvents', {cache:'no-store'});
     const data = await res.json();
-    console.log(data);
     return data.data;
 }
 
@@ -27,9 +26,14 @@ export function formattedTime(time) {
     });
 }
 
-export async function fetchClub(id) {
-    const res = await fetch(`http://localhost:8000/api/v1/club/${id}`);
+export async function fetchClubById(id) {
+    const res = await fetch(`http://localhost:8000/api/v1/club/club/${id}`);
     const data = await res.json();
-    console.log(data);
-    return data.data;
+    return data.data.club;
+}
+
+export async function fetchClubs() {
+    const res = await fetch('http://localhost:8000/api/v1/club/clubs');
+    const data = await res.json();
+    return data.data.clubs;
 }

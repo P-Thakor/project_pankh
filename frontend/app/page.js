@@ -2,11 +2,13 @@ import { AddNewEventTab, Hero, EventHero, EventDescription, CustomFilter, Create
 import List from "@/components/EventsList/List";
 import SignIn from "@/components/SignIn";
 import { Days, EventCategory, EventMode } from "@/constants";
-import { fetchEvents } from "@/utils";
+import { fetchClubs, fetchEvents } from "@/utils";
 
 export default async function Home() {
   const eventData = await fetchEvents();
   console.log(eventData);
+  const clubs = await fetchClubs();
+  console.log(clubs);
   return (
     <main className="flex flex-col items-center justify-between min-h-screen px-0">
       <Hero />
@@ -27,6 +29,8 @@ export default async function Home() {
       {/* <SignUp />
       <SignIn />
       <CreateEvent/> */}
+      <ClubHero />
+      <ClubDetails club={clubs[0]}/>
     </main>
   );
 }

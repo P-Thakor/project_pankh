@@ -10,5 +10,7 @@ import CreateEvent from "./CreateEventPage/CreateEvent";
 import SignUp from "./SignUp";
 import Sidebar from "./Sidebar";
 import SearchBar from "./SearchBar";
+import ClubHero from "./ClubPage/ClubHero";
+import ClubDetails from "./ClubPage/ClubDetails";
 
-export { Navbar, Footer, AddNewEventTab, EventsList, Hero, EventHero, EventDescription, CustomFilter, CreateEvent,Sidebar, SignUp, SearchBar};
+export { Navbar, Footer, AddNewEventTab, EventsList, Hero, EventHero, EventDescription, CustomFilter, CreateEvent,Sidebar, SignUp, SearchBar, ClubHero, ClubDetails};

@@ -1,4 +1,4 @@
-import { AddNewEventTab, Hero, EventHero, EventDescription, CustomFilter, CreateEvent, SignUp, Sidebar } from "@/components";
+import { AddNewEventTab, Hero, EventHero, EventDescription, CustomFilter, CreateEvent, SignUp, Sidebar, ClubHero,ClubDetails } from "@/components";
 import List from "@/components/EventsList/List";
 import SignIn from "@/components/SignIn";
 import { Days, EventCategory, EventMode } from "@/constants";
@@ -10,7 +10,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col items-center justify-between min-h-screen px-0">
       <Hero />
-      <EventHero item={eventData[0]}/>
+      {/* <EventHero item={eventData[0]}/> */}
       <EventDescription event={eventData[0]} />
       <List list={eventData} />
       <AddNewEventTab />
@@ -24,9 +24,9 @@ export default async function Home() {
           <CustomFilter title="Category" options={EventCategory} />
         </div>
       </div>
-      <SignUp />
+      {/* <SignUp />
       <SignIn />
-      <CreateEvent/>
+      <CreateEvent/> */}
     </main>
   );
 }

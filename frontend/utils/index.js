@@ -26,3 +26,10 @@ export function formattedTime(time) {
         hour12: true,
     });
 }
+
+export async function fetchClub(id) {
+    const res = await fetch(`http://localhost:8000/api/v1/club/${id}`);
+    const data = await res.json();
+    console.log(data);
+    return data.data;
+}

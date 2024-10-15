@@ -4,6 +4,7 @@ const cloudinary = require('cloudinary').v2;
 const Event = require('../Models/eventModel');
 const catchAsync = require('../Utils/catchAsync');
 const AppError = require('../Utils/appError');
+const User = require('../Models/userModel');
 
 // Configure Cloudinary
 cloudinary.config({
@@ -93,7 +94,7 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllEvents = catchAsync(async (req, res, next) => {
-  // console.log(req.headers);
+  // console.log(req.user.role);
   const events = await Event.find();
   res.status(200).json({
     status: 'success',
@@ -167,3 +168,23 @@ exports.deleteEvent = catchAsync(async (req, res, next) => {
 
 //   next();
 // });
+
+exports.registerEventForUser = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  const event = await Event.findById(req.params.id);
+  if (!event) {
+    return next(new AppError('Event not found', 404));
+  }
+  if (user.eventsParticipated.includes(req.params.id)) {
+    return next(
+      new AppError('You have already registered for this event', 400),
+    );
+  }
+  // console.log(user);
+  user.eventsParticipated.push(req.params.id);
+  await user.save();
+  res.status(200).json({
+    status: 'success',
+    data: user,
+  });
+});

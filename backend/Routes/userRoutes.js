@@ -3,6 +3,7 @@ const express = require('express');
 const { isAuthenticated } = require('../Utils/middleware');
 
 const userController = require('../Controller/userController');
+const eventContoller = require('../Controller/eventContoller');
 
 const router = express.Router();
 
@@ -17,5 +18,7 @@ router.route('/getUser/:id').get(isAuthenticated, userController.getOneUser);
 router
   .route('/deleteUser/:id')
   .delete(isAuthenticated, userController.deleteUser);
+
+router.route('/registerEvent/:id').patch(eventContoller.registerEventForUser);
 
 module.exports = router;

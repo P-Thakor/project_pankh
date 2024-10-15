@@ -1,16 +1,17 @@
 const nodemailer = require('nodemailer');
 const pug = require('pug');
-const htmlToText = require('html-to-text');
+// const htmlToText = require('html-to-text');
 
 module.exports = class Email {
   constructor(user, url) {
     this.to = user.email;
-    this.firstName = user.name.split(' ')[0];
+    this.firstName = user.username;
     this.url = url;
-    this.from = `Kandarp Vyas <${process.env.EMAIL_FROM}>`;
+    this.from = `Kandarp Vyas <kandarp7777@gmail.com>`;
   }
 
   newTransport() {
+    console.log('Sending Email');
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
@@ -21,12 +22,22 @@ module.exports = class Email {
     });
 
     // return nodemailer.createTransport({
-    //   host: process.env.MAILJET_HOST,
-    //   port: 465,
+    //   host: 'in-v3.mailjet.com',
+    //   port: 587,
     //   secure: false,
     //   auth: {
-    //     user: process.env.MAILJET_EMAIL,
-    //     pass: process.env.PASSWORD,
+    //     user: '930888698701f02121ecec03da2bc761',
+    //     pass: '5b04b9ae86efc318cd62e2087239e37e',
+    //   },
+    // });
+
+    // return nodemailer.createTransport({
+    //   host: 'smtp.mailgun.org',
+    //   port: 587,
+    //   secure: false,
+    //   auth: {
+    //     user: 'postmaster@sandbox2b88f563dd0b4f2ea66018c110271c81.mailgun.org',
+    //     pass: 'SendMail',
     //   },
     // });
   }

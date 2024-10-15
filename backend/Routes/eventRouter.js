@@ -3,8 +3,14 @@ const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../Utils/middleware');
 const eventController = require('../Controller/eventContoller');
+const authController = require('../Controller/authController');
 
-router.get('/getAllEvents', eventController.getAllEvents);
+router.get(
+  '/getAllEvents',
+  // authController.restrictTo('admin'),
+  isAuthenticated,
+  eventController.getAllEvents,
+);
 
 router.route('/createEvent').post(isAuthenticated, eventController.createEvent);
 // router.post(

@@ -1,7 +1,8 @@
+const passport = require('passport');
 const User = require('../Models/userModel');
 const catchAsync = require('../Utils/catchAsync');
 const AppError = require('../Utils/appError');
-const passport = require('passport');
+const SendEmail = require('../Utils/email');
 
 // Sign-up
 exports.signup = catchAsync(async (req, res, next) => {
@@ -9,6 +10,10 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   const newUser = new User({ username, email });
   await User.register(newUser, password);
+
+  const url = `${req.protocol}://${req.get('host')}/me`;
+  // console.log(newUser);
+  await new SendEmail(newUser, url).sendWelcome();
 
   // Optionally: Log the user in after signup
   req.login(newUser, (err) => {
@@ -50,4 +55,18 @@ exports.logout = (req, res, next) => {
       message: 'Logged out successfully',
     });
   });
+};
+
+exports.restrictTo = function (...roles) {
+  return function (req, res, next) {
+    // console.log(roles);
+    // roles ['admin', 'club-leader']. role='user'
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError('You do not have permission to perform this action', 403),
+      );
+    }
+
+    next();
+  };
 };

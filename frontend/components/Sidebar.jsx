@@ -31,10 +31,10 @@ export default function Sidebar() {
       >
         {/* Nav Links */}
         <ul className="mt-8 space-y-4">
-          <li className="p-4 cursor-pointer hover:text-primaryblue">View Events</li>
-          <li className="p-4 cursor-pointer hover:text-primaryblue">Create Event</li>
-          <li className="p-4 cursor-pointer hover:text-primaryblue">Clubs</li>
-          <li className="p-4 cursor-pointer hover:text-primaryblue">Scholarships</li>
+          <li className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue">View Events</li>
+          <li className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue">Create Event</li>
+          <li className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue">Clubs</li>
+          <li className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue">Scholarships</li>
         </ul>
 
         {/* Login/Logout button */}

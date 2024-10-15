@@ -53,3 +53,14 @@ export const EventCategory = [
     value: "paid"
   }
 ]
+
+export const EventType = [
+  {
+    title: "Tech",
+    value: "tech"
+  },
+  {
+    title: "Nontech",
+    value: "nontech"
+  }
+]

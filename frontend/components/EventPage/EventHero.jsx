@@ -1,3 +1,4 @@
+import { formattedDate, formattedTime } from "@/utils";
 import Image from "next/image";
 
 export default function EventHero({ item }) {
@@ -37,17 +38,17 @@ export default function EventHero({ item }) {
             {/* book event */}
             <div className="items-center justify-center hidden w-1/2 shadow-lg lg:flex">
               <div className="items-center justify-center p-8 bg-white w-96 rounded-xl">
-                <h3 className="mb-4 font-sans text-3xl font-bold">
-                  Date & Time
-                </h3>
-                <p className="mb-2 text-lg text-gray">
-                  {item.startDate}, {item.startTime}
-                </p>
-                <p className="mb-4 text-lg text-primaryblue">
-                  {item.locations}
-                </p>
-                <button className="w-full mb-2 custom-btn hover:bg-primarydarkblue">
-                  Book Now
+                  <h3 className="mb-4 font-sans text-3xl font-bold">
+                    Date & Time
+                  </h3>
+                  <p className="mb-2 text-lg text-gray">
+                    {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
+                  </p>
+                  <p className="mb-4 text-lg text-primaryblue">
+                    {item.locations}
+                  </p>
+                  <button className="w-full mb-2 custom-btn hover:bg-primarydarkblue">
+                    Book Now
                 </button>
                 <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full">
                   More Info

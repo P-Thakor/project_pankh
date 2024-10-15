@@ -20,7 +20,7 @@ const AddNewEventTab = () => {
             <p className="mt-2 mb-4 text-md">
               Wanna create an event? Let's do it!
             </p>
-            <Link href="/">
+            <Link href="/create-event">
               <button className="py-4 font-semibold rounded-md bg-primaryblue px-14 hover:bg-primarydarkblue">
                 Create Event
               </button>

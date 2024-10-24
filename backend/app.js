@@ -8,6 +8,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
 
 const reviewRouter = require('./Routes/reviewRouter');
 const eventRouter = require('./Routes/eventRouter');
@@ -18,14 +20,21 @@ const authRouter = require('./Routes/authRoutes');
 const User = require('./Models/userModel');
 const globalErrorHandler = require('./Controller/errorController');
 
+dotenv.config({ path: './config.env' });
+
 const app = express();
+app.use(cookieParser('process.env.SESSION_SECRET'));
 app.use(bodyParser.json());
 
 app.use(
   session({
-    secret: 'your-secret-key',
+    secret: 'process.env.SESSION_SECRET',
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      maxAge: 3600000,
+    },
   }),
 );
 app.use(passport.initialize());

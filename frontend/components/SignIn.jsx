@@ -27,6 +27,9 @@ const [password, setPassword] = useState('');
       if (response.status === 200) {
         alert('Login successfull.')
       }
+      else {
+        alert('Login failed.')
+      }
     setUsername('');
     // setEmail('');
     setPassword('');

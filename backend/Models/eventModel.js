@@ -62,11 +62,20 @@ const eventSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid Email'],
   },
-  participants: [String],
+  participants: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User', // Reference to the User model
+    },
+  ],
   // {
   //   type: mongoose.Schema.ObjectId,
   //   ref: 'User',
   // },
+  clubOrganiser: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Club',
+  },
   creator: {
     type: String,
     required: [true, "An Event must have organiser's name"],

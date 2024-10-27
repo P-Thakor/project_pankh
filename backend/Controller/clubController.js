@@ -1,6 +1,7 @@
 const Club = require('../Models/clubModel');
 const catchAsync = require('../Utils/catchAsync');
 const AppError = require('../Utils/appError');
+const User = require('../Models/userModel');
 
 exports.createClub = catchAsync(async (req, res, next) => {
   const newClub = await Club.create(req.body);
@@ -13,7 +14,10 @@ exports.createClub = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllClubs = catchAsync(async (req, res, next) => {
-  const clubs = await Club.find();
+  const clubs = await Club.find().populate({
+    path: 'clubMembers', // Populating the members
+    select: 'email',
+  });
   res.status(200).json({
     status: 'success',
     results: clubs.length,
@@ -24,7 +28,10 @@ exports.getAllClubs = catchAsync(async (req, res, next) => {
 });
 
 exports.getClubById = catchAsync(async (req, res, next) => {
-  const club = await Club.findById(req.params.id);
+  const club = await Club.findById(req.params.id).populate({
+    path: 'clubMembers', // Populating the members
+    select: 'email',
+  });
   if (!club) {
     return next(new AppError('Club not found', 404));
   }
@@ -60,5 +67,40 @@ exports.deleteClub = catchAsync(async (req, res, next) => {
   res.status(204).json({
     status: 'success',
     data: null,
+  });
+});
+
+exports.addMember = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  const club = await Club.findById(req.params.id);
+  if (!club) {
+    return next(new AppError('Club not found', 404));
+  }
+  if (!club.clubMembers) {
+    club.clubMembers = []; // Initialize if it doesn't exist
+  }
+  club.clubMembers.push(user._id);
+  await club.save();
+  res.status(200).json({
+    status: 'success',
+    data: {
+      club,
+    },
+  });
+});
+
+exports.getMembersOfClub = catchAsync(async (req, res, next) => {
+  const club = await Club.findById(req.params.id).populate({
+    path: 'clubMembers', // Populating the members
+    select: 'email',
+  });
+  if (!club) {
+    return next(new AppError('Club not found', 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      club,
+    },
   });
 });

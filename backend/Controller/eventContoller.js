@@ -95,7 +95,16 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
 
 exports.getAllEvents = catchAsync(async (req, res, next) => {
   // console.log(req.user.role);
-  const events = await Event.find();
+  const events = await Event.find()
+    .populate({
+      path: 'reviews',
+      populate: { path: 'author' },
+    })
+    .populate({
+      path: 'participants', // Populating the participants
+      select: 'email', // Only select the 'email' field from participants
+    });
+
   res.status(200).json({
     status: 'success',
     results: events.length,
@@ -104,10 +113,15 @@ exports.getAllEvents = catchAsync(async (req, res, next) => {
 });
 
 exports.getOneEvent = catchAsync(async (req, res, next) => {
-  const event = await Event.findById(req.params.id).populate({
-    path: 'reviews',
-    populate: { path: 'author' },
-  });
+  const event = await Event.findById(req.params.id)
+    .populate({
+      path: 'reviews',
+      populate: { path: 'author' },
+    })
+    .populate({
+      path: 'participants', // Populating the participants
+      select: 'email', // Only select the 'email' field from participants
+    });
   if (!event) {
     return next(new AppError(404, 'Event not found'));
   }
@@ -119,6 +133,15 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
 
 exports.createEvent = catchAsync(async (req, res, next) => {
   const newEvent = await Event.create(req.body);
+  res.status(201).json({
+    status: 'success',
+    data: newEvent,
+  });
+});
+
+exports.createEventByClub = catchAsync(async (req, res, next) => {
+  const newEvent = await Event.create(req.body);
+  newEvent.clubOrganiser = req.params.id;
   res.status(201).json({
     status: 'success',
     data: newEvent,
@@ -180,9 +203,16 @@ exports.registerEventForUser = catchAsync(async (req, res, next) => {
       new AppError('You have already registered for this event', 400),
     );
   }
+
+  if (!event.participants) {
+    event.participants = []; // Initialize if it doesn't exist
+  }
+
   // console.log(user);
   user.eventsParticipated.push(req.params.id);
+  event.participants.push(user._id);
   await user.save();
+  await event.save();
   res.status(200).json({
     status: 'success',
     data: user,

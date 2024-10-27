@@ -13,4 +13,8 @@ router.route('/updateClub/:id').put(clubController.updateClub);
 
 router.route('/deleteClub/:id').delete(clubController.deleteClub);
 
+router.route('/addMember/:id').patch(clubController.addMember);
+
+router.route('/getAllMembers/:id').get(clubController.getMembersOfClub);
+
 module.exports = router;

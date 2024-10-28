@@ -13,6 +13,7 @@ const [password, setPassword] = useState('');
     const response = await fetch("http://localhost:8000/api/v1/auth/login",
       {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },

@@ -23,12 +23,12 @@ const globalErrorHandler = require('./Controller/errorController');
 dotenv.config({ path: './config.env' });
 
 const app = express();
-app.use(cookieParser('process.env.SESSION_SECRET'));
+app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(bodyParser.json());
 
 app.use(
   session({
-    secret: 'process.env.SESSION_SECRET',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -65,7 +65,12 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use(cors());
+app.use(cors(
+  {
+    origin: 'http://localhost:3000', // Specify your frontend domain here
+    credentials: true,
+  }
+));
 
 app.use('/api/v1/event', eventRouter);
 app.use('/api/v1/club', clubRouter);

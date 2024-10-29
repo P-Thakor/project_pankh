@@ -9,11 +9,12 @@ import {
   Sidebar,
   ClubHero,
   ClubDetails,
-} from '@/components';
-import List from '@/components/EventsList/List';
-import SignIn from '@/components/SignIn';
-import { Days, EventCategory, EventMode } from '@/constants';
-import { fetchClubs, fetchEvents } from '@/utils';
+  DashboardSidebar,
+} from "@/components";
+import List from "@/components/EventsList/List";
+import SignIn from "@/components/SignIn";
+import { Days, EventCategory, EventMode } from "@/constants";
+import { fetchClubs, fetchEvents } from "@/utils";
 
 export default async function Home() {
   const eventData = await fetchEvents();
@@ -22,6 +23,7 @@ export default async function Home() {
   console.log(clubs);
   return (
     <main className="flex flex-col items-center justify-between min-h-screen px-0">
+      <DashboardSidebar/>
       <Hero />
       {/* <EventHero item={eventData[0]}/> */}
       {/* <EventDescription event={eventData[0]} /> */}

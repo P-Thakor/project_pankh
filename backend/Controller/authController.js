@@ -18,6 +18,15 @@ exports.signup = catchAsync(async (req, res, next) => {
   // Optionally: Log the user in after signup
   req.login(newUser, (err) => {
     if (err) return next(err);
+
+    res.cookie('userId', newUser._id.toString(), {
+      httpOnly: true,
+      maxAge: 3600000, // 1 hour
+      // secure: process.env.NODE_ENV === 'production',
+      secure: false,
+      sameSite: 'lax',
+    });
+
     res.status(201).json({
       status: 'success',
       data: {
@@ -35,6 +44,15 @@ exports.login = (req, res, next) => {
 
     req.login(user, (err) => {
       if (err) return next(err);
+
+      res.cookie('userId', user._id.toString(), {
+        httpOnly: true,
+        maxAge: 3600000, // 1 hour
+        // secure: process.env.NODE_ENV === 'production',
+        secure: false,
+        sameSite: 'lax',
+      });
+
       res.status(200).json({
         status: 'success',
         message: 'Logged in successfully',

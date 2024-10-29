@@ -8,7 +8,6 @@ const eventController = require('../Controller/eventContoller');
 router.get(
   '/getAllEvents',
   // authController.restrictTo('admin'),
-  isAuthenticated,
   eventController.getAllEvents,
 );
 

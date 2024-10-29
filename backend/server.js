@@ -14,7 +14,8 @@ dotenv.config({ path: './config.env' });
 app.use(
   cors({
     origin: '*',
-    // origin: disable,
+    // origin: disable
+    credentials: true,
   }),
 );
 

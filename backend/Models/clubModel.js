@@ -20,6 +20,12 @@ const clubSchema = new mongoose.Schema({
     required: [true, 'A Club must have a founded date'],
   },
   image: [String],
+  clubMembers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User', // Reference to the User model
+    },
+  ],
 });
 
 const Club = mongoose.model('Club', clubSchema);

@@ -3,16 +3,19 @@ const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../Utils/middleware');
 const eventController = require('../Controller/eventContoller');
-const authController = require('../Controller/authController');
+// const authController = require('../Controller/authController');
 
 router.get(
   '/getAllEvents',
   // authController.restrictTo('admin'),
-  isAuthenticated,
   eventController.getAllEvents,
 );
 
 router.route('/createEvent').post(isAuthenticated, eventController.createEvent);
+
+router
+  .route('/createEventByClub/:id')
+  .post(isAuthenticated, eventController.createEventByClub);
 // router.post(
 //   '/createEvent',
 //   // eventController.uploadEventImages,

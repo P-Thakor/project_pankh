@@ -1,33 +1,36 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState } from "react";
+import Link from 'next/link';
+import { useState } from 'react';
 
 const SignUp = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const handleSignUp = async (e) => {
     console.log(username);
     e.preventDefault();
-    const response = await fetch("http://localhost:8000/api/v1/auth/signup",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          email,
-          password,
-        })
-      })
+    const response = await fetch('http://localhost:8000/api/v1/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+      }),
+    });
 
-      // const data = await response.json();
-      console.log(response.status);
-      if (response.status === 201) {
-        alert('Sign Up successfull.')
+    // const data = await response.json();
+    console.log(response.status);
+    if (response.status === 201) {
+      if (email.endsWith('ac.in')) {
+        alert('Teacher Sign Up successfull.');
+      } else {
+        alert('Student Sign Up successfull.');
       }
+    }
 
     setUsername('');
     setEmail('');
@@ -40,9 +43,9 @@ const SignUp = () => {
         <h4 className="text-sm mb-6">Sign In to continue your journey</h4>
         <div>
           <Link href="/sign-in">
-          <button className="bg-gray-300 bg-opacity-60 text-sm h-10 w-24 rounded-sm">
-            Sign In
-          </button>
+            <button className="bg-gray-300 bg-opacity-60 text-sm h-10 w-24 rounded-sm">
+              Sign In
+            </button>
           </Link>
         </div>
       </div>
@@ -91,8 +94,7 @@ const SignUp = () => {
           <div className="flex w-full justify-between px-10">
             <button
               type="submit"
-              className="bg-primaryblue h-12 w-1/3 text-white rounded-md hover:bg-primarydarkblue"
-            >
+              className="bg-primaryblue h-12 w-1/3 text-white rounded-md hover:bg-primarydarkblue">
               Sign Up
             </button>
           </div>
@@ -100,7 +102,7 @@ const SignUp = () => {
 
         <div className=" mt-10 lg:hidden">
           <p className="text-center text-sm mt-4">
-            Already have an account?{" "}
+            Already have an account?{' '}
             <a href="#" className="text-primaryblue hover:text-primarydarkblue">
               Sign In
             </a>

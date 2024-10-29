@@ -13,6 +13,7 @@ const [password, setPassword] = useState('');
     const response = await fetch("http://localhost:8000/api/v1/auth/login",
       {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -26,6 +27,9 @@ const [password, setPassword] = useState('');
       console.log(response.status);
       if (response.status === 200) {
         alert('Login successfull.')
+      }
+      else {
+        alert('Login failed.')
       }
     setUsername('');
     // setEmail('');

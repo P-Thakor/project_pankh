@@ -11,25 +11,25 @@ module.exports = class Email {
   }
 
   newTransport() {
-    console.log('Sending Email');
-    return nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-    });
-
+    // console.log('Sending Email');
     // return nodemailer.createTransport({
-    //   host: 'in-v3.mailjet.com',
-    //   port: 587,
-    //   secure: false,
+    //   host: process.env.EMAIL_HOST,
+    //   port: process.env.EMAIL_PORT,
     //   auth: {
-    //     user: '930888698701f02121ecec03da2bc761',
-    //     pass: '5b04b9ae86efc318cd62e2087239e37e',
+    //     user: process.env.EMAIL_USERNAME,
+    //     pass: process.env.EMAIL_PASSWORD,
     //   },
     // });
+
+    return nodemailer.createTransport({
+      host: process.env.MAILJET_HOST,
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.MAILJET_EMAIL,
+        pass: process.env.MAILJET_PASSWORD,
+      },
+    });
 
     // return nodemailer.createTransport({
     //   host: 'smtp.mailgun.org',

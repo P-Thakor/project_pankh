@@ -1,8 +1,19 @@
-import { AddNewEventTab, Hero, EventHero, EventDescription, CustomFilter, CreateEvent, SignUp, Sidebar, ClubHero,ClubDetails } from "@/components";
-import List from "@/components/EventsList/List";
-import SignIn from "@/components/SignIn";
-import { Days, EventCategory, EventMode } from "@/constants";
-import { fetchClubs, fetchEvents } from "@/utils";
+import {
+  AddNewEventTab,
+  Hero,
+  EventHero,
+  EventDescription,
+  CustomFilter,
+  CreateEvent,
+  SignUp,
+  Sidebar,
+  ClubHero,
+  ClubDetails,
+} from '@/components';
+import List from '@/components/EventsList/List';
+import SignIn from '@/components/SignIn';
+import { Days, EventCategory, EventMode } from '@/constants';
+import { fetchClubs, fetchEvents } from '@/utils';
 
 export default async function Home() {
   const eventData = await fetchEvents();
@@ -13,7 +24,7 @@ export default async function Home() {
     <main className="flex flex-col items-center justify-between min-h-screen px-0">
       <Hero />
       {/* <EventHero item={eventData[0]}/> */}
-      <EventDescription event={eventData[0]} />
+      {/* <EventDescription event={eventData[0]} /> */}
       <List list={eventData} />
       <AddNewEventTab />
       <div className="flex flex-col w-full px-20 sm:flex-row">
@@ -30,7 +41,7 @@ export default async function Home() {
       <SignIn />
       <CreateEvent/> */}
       <ClubHero />
-      <ClubDetails club={clubs[0]}/>
+      <ClubDetails club={clubs[0]} />
     </main>
   );
 }

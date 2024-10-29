@@ -16,6 +16,7 @@ const eventRouter = require('./Routes/eventRouter');
 const userRouter = require('./Routes/userRoutes');
 const clubRouter = require('./Routes/clubRoutes');
 const authRouter = require('./Routes/authRoutes');
+const sessionRoutes = require('./Routes/sessionRoutes');
 // const { isAuthenticated } = require('./Utils/middleware');
 const User = require('./Models/userModel');
 const globalErrorHandler = require('./Controller/errorController');
@@ -34,7 +35,9 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 3600000,
-      secure: process.env.NODE_ENV === 'production',
+      // secure: process.env.NODE_ENV === 'production',
+      secure: false,
+      samesite: 'lax',
     },
   }),
 );
@@ -65,18 +68,18 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use(cors(
-  {
+app.use(
+  cors({
     origin: 'http://localhost:3000', // Specify your frontend domain here
     credentials: true,
-  }
-));
+  }),
+);
 
 app.use('/api/v1/event', eventRouter);
 app.use('/api/v1/club', clubRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/auth', authRouter);
-
+app.use('/api/v1/session', sessionRoutes);
 app.use(globalErrorHandler);
 
 module.exports = app;

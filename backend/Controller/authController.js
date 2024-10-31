@@ -65,21 +65,23 @@ exports.login = (req, res, next) => {
 };
 
 // Logout
-exports.logout = (req, res, next) => {
-  req.logout((err) => {
-    if (err) return next(err);
+exports.logout = async (req, res, next) => {
+  try {
+    await req.logout();
     res.status(200).json({
       status: 'success',
       message: 'Logged out successfully',
     });
-  });
+  } catch (err) {
+    return next(err);
+  }
 };
 
 exports.restrictTo = function (...roles) {
   return function (req, res, next) {
     // console.log(roles);
     // roles ['admin', 'club-leader']. role='user'
-    if (!roles.includes(req.user.role)) {
+    if (!req.user || !roles.includes(req.user.role)) {
       return next(
         new AppError('You do not have permission to perform this action', 403),
       );

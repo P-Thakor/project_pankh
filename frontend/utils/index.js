@@ -37,3 +37,11 @@ export async function fetchClubs() {
     const data = await res.json();
     return data.data.clubs;
 }
+
+export async function fetchCurrentUser() {
+    const res = await fetch('http://localhost:8000/api/v1/user/me', {
+        credentials: 'include',
+    });
+    const data = await res.json();
+    return data.data;
+}

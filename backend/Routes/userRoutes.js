@@ -21,4 +21,6 @@ router
 
 router.route('/registerEvent/:id').patch(eventContoller.registerEventForUser);
 
+router.route('/me').get(userController.getMe);
+
 module.exports = router;

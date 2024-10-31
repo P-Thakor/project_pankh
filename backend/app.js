@@ -37,7 +37,7 @@ app.use(
       maxAge: 3600000,
       // secure: process.env.NODE_ENV === 'production',
       secure: false,
-      samesite: 'lax',
+      samesite: 'none',
     },
   }),
 );

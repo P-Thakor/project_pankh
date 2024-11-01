@@ -34,7 +34,9 @@ export default function Sidebar() {
         if (response.ok) {
           setIsLoggedIn(false);
           setUser(null);
-          console.log(response.json());
+          response.json().then((data) => {
+            console.log(data);
+          });
         }
       })
       .then((response) => {
@@ -46,8 +48,9 @@ export default function Sidebar() {
   }
   else {
     if (router) {
-      router.push('/signin');
+      router.push('/sign-in');
     }
+    setIsOpen(false);
   }    
   };
 

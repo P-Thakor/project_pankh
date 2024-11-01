@@ -1,17 +1,54 @@
 "use client";
 
-import { useState } from 'react';
+import { fetchCurrentUser } from '@/utils';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Mock login state
+  const [user, setUser] = useState(null);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    fetchCurrentUser().then((data) => {
+      setUser(data);
+    });
+  },[]);
+
+  useEffect(() => {
+    user ? setIsLoggedIn(true) : setIsLoggedIn(false);
+  },[user]);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
   const handleLoginLogout = () => {
-    setIsLoggedIn(!isLoggedIn);
+  if (isLoggedIn) {
+    fetch('http://localhost:8000/api/v1/auth/logout', {
+      method: 'GET',
+    })
+      .then((response) => {
+        if (response.ok) {
+          setIsLoggedIn(false);
+          setUser(null);
+          console.log(response.json());
+        }
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+  else {
+    if (router) {
+      router.push('/signin');
+    }
+  }    
   };
 
   return (

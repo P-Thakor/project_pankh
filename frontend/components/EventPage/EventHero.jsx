@@ -1,7 +1,51 @@
-import { formattedDate, formattedTime } from "@/utils";
+"use client";
+
+import { fetchCurrentUser, formattedDate, formattedTime } from "@/utils";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function EventHero({ item }) {
+  const [user, setUser] = useState(null);
+  const [registered, setRegistered] = useState(false);
+  useEffect(() => {
+    fetchCurrentUser().then((data) => {
+      setUser(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (user && user.eventsParticipated.includes(`${item._id}`)) {
+      setRegistered(true);
+    }
+  }, [user, item._id]);
+
+  const handleRegisterForEvent = () => {
+    fetch(`/api/v1/user/registerEvent/${item._id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user: user }),
+    })
+      .then((response) => {
+        response.json().then((data) => {
+          if (response.ok) {
+            alert("Registered for event successfully");
+          } else {
+            alert(data.message);
+          }
+          console.log(data);
+          return data;
+        });
+      })
+      .then((newUserData) => {
+        newUserData ? console.log(newUserData) : console.log(user);;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   return (
     <>
       <section className="relative m-5 lg:mx-10 lg:my-5 ">
@@ -38,18 +82,33 @@ export default function EventHero({ item }) {
             {/* book event */}
             <div className="items-center justify-center hidden w-1/2 shadow-lg lg:flex">
               <div className="items-center justify-center p-8 bg-white w-96 rounded-xl">
-                  <h3 className="mb-4 font-sans text-3xl font-bold">
-                    Date & Time
-                  </h3>
-                  <p className="mb-2 text-lg text-gray">
-                    {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
-                  </p>
-                  <p className="mb-4 text-lg text-primaryblue">
-                    {item.locations}
-                  </p>
-                  <button className="w-full mb-2 custom-btn hover:bg-primarydarkblue">
-                    Book Now
-                </button>
+                <h3 className="mb-4 font-sans text-3xl font-bold">
+                  Date & Time
+                </h3>
+                <p className="mb-2 text-lg text-gray">
+                  {formattedDate(item.startDate)},{" "}
+                  {formattedTime(item.startTime)}
+                </p>
+                <p className="mb-4 text-lg text-primaryblue">
+                  {item.locations}
+                </p>
+                {
+                  registered ? (
+                    <button
+                      className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
+                      disabled
+                    >
+                      Registered
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleRegisterForEvent}
+                      className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+                    >
+                      Register Now
+                    </button>
+                  )
+                }
                 <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full">
                   More Info
                 </button>
@@ -68,7 +127,7 @@ export default function EventHero({ item }) {
             </p>
             <p className="mb-4 text-lg text-primaryblue">{item.locations}</p>
             <button className="w-full mb-2 custom-btn hover:bg-primarydarkblue">
-              Book Now
+              Register Now
             </button>
             <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full">
               More Info

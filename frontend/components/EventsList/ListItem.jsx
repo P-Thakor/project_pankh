@@ -11,7 +11,7 @@ export default function ListItem({ item }) {
       </div>
       <div className="object-contain">
         <Image
-          src={"/Event.png"}
+          src={item.photo[0].startsWith("http") ? item.photo[0].replace("/upload/", "/upload/c_crop,w_350,h_238/") : "/Event.png"}
           width={350}
           height={350}
           alt="event image"

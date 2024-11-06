@@ -6,9 +6,9 @@ const SendEmail = require('../Utils/email');
 
 // Sign-up
 exports.signup = catchAsync(async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { email, password } = req.body;
 
-  const newUser = new User({ username, email });
+  const newUser = new User({ email });
   await User.register(newUser, password);
 
   const url = `${req.protocol}://${req.get('host')}/me`;
@@ -90,3 +90,51 @@ exports.restrictTo = function (...roles) {
     next();
   };
 };
+
+// forgotpassword
+// exports.forgotPassword = catchAsync(async (req, res, next) => {
+//   const user = await User.findOne({ email: req.body.email });
+//   if (!user) {
+//     return next(new AppError('There is no user with that email address.', 404));
+//   }
+
+//   // Generate reset token
+//   const resetToken = user.createPasswordResetToken();
+//   await user.save({ validateBeforeSave: false });
+
+//   // Send OTP via email
+//   const resetURL = `${req.protocol}://${req.get('host')}/api/v1/auth/resetPassword/${resetToken}`;
+//   await new SendEmail(user, resetURL).sendPasswordReset();
+
+//   res.status(200).json({
+//     status: 'success',
+//     message: 'Token sent to email!',
+//   });
+// });
+
+// exports.resetPassword = catchAsync(async (req, res, next) => {
+//   // 1) Get user by reset token
+//   const user = await User.findOne({ email: req.body.email });
+//   if (!user || !user.verifyPasswordResetToken(req.body.token)) {
+//     return next(new AppError('Token is invalid or has expired', 400));
+//   }
+
+//   // 2) Set the new password
+//   user.setPassword(req.body.password, async (err) => {
+//     if (err) return next(new AppError('Error setting new password', 500));
+
+//     // 3) Clear the reset token and expiration fields
+//     user.passwordResetToken = undefined;
+//     user.passwordResetExpires = undefined;
+//     await user.save();
+
+//     // 4) Log the user in after password reset
+//     req.login(user, (err) => {
+//       if (err) return next(err);
+//       res.status(200).json({
+//         status: 'success',
+//         message: 'Password reset successfully',
+//       });
+//     });
+//   });
+// });

@@ -67,4 +67,9 @@ module.exports = class Email {
   async sendWelcome() {
     await this.send('welcome', 'Welcome to the PANKH!');
   }
+  // async sendPasswordReset() {
+  //   const message = `Hello ${this.firstName},\n\nPlease reset your password by clicking on the link: ${this.url}\n\nIf you didn't request a password reset, please ignore this email.`;
+
+  //   await this.send('Password Reset Request', message);
+  // }
 };

@@ -25,9 +25,6 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'faculty-member', 'club-leader', 'admin'],
     default: 'user',
   },
-  // passwordChangedAt: Date,
-  // resetPasswordToken: String,
-  // resetPasswordExpire: Date,
   active: {
     type: Boolean,
     default: true,
@@ -39,8 +36,19 @@ const userSchema = new mongoose.Schema({
       ref: 'Event',
     },
   ],
+  passwordChangedAt: Date,
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
 });
 userSchema.plugin(passportLocalMongoose); // Use email for authentication instead of username;
+
+userSchema.methods.createPasswordResetToken = function () {
+  const OTP = Math.floor(100000 + Math.random() * 900000);
+  this.resetPasswordToken = OTP;
+  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+
+  return OTP;
+};
 
 const User = mongoose.model('User', userSchema);
 

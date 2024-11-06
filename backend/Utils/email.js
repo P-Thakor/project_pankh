@@ -64,7 +64,14 @@ module.exports = class Email {
     await this.newTransport().sendMail(mailOptions);
   }
 
-  async sendWelcome() {
-    await this.send('welcome', 'Welcome to the PANKH!');
+  // async sendWelcome() {
+  //   await this.send('welcome', 'Welcome to the PANKH!');
+  // }
+
+  async sendPasswordReset() {
+    await this.send(
+      'passwordReset',
+      `Your password reset token (valid for only 10 minutes)}`,
+    );
   }
 };

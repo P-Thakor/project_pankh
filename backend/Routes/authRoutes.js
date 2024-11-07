@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const authController = require('../Controller/authController');
 
@@ -16,5 +17,12 @@ router.route('/forgotPassword').post(authController.forgotPassword);
 
 // Reset Password Route
 router.route('/resetPassword/:Otp').patch(authController.resetPassword);
+
+// Verify Email Route
+router
+  .route('/send-verification-email')
+  .post(authController.sendVerificationEmail);
+
+router.route('/verify-email').get(authController.verifyEmail);
 
 module.exports = router;

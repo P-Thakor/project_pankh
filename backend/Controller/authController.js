@@ -1,4 +1,5 @@
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const User = require('../Models/userModel');
 const catchAsync = require('../Utils/catchAsync');
 const AppError = require('../Utils/appError');
@@ -7,14 +8,12 @@ const SendEmail = require('../Utils/email');
 // Sign-up
 exports.signup = catchAsync(async (req, res, next) => {
   const { username, email, password } = req.body;
-  const generateOtp = Math.floor(100000 + Math.random() * 900000);
   const newUser = new User({ username, email });
 
   await User.register(newUser, password);
 
   // console.log(newUser);
-  // await new SendEmail(newUser, url).sendWelcome();
-  await new SendEmail(newUser, generateOtp).sendPasswordReset();
+  await new SendEmail(newUser, '').sendWelcome();
 
   // Optionally: Log the user in after signup
   req.login(newUser, (err) => {
@@ -147,5 +146,57 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     });
   } catch (err) {
     return next(new AppError('Error setting new password', 500));
+  }
+});
+
+exports.sendVerificationEmail = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+  const user = await User.findOne({
+    email,
+  });
+
+  if (!user) {
+    return next(new AppError('Email not found', 404));
+  }
+
+  const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+    expiresIn: '1h',
+  });
+  const verificationUrl = `http://localhost:8000/api/v1/auth/verify-email?token=${token}`;
+
+  try {
+    await new SendEmail(user, verificationUrl).sendVerificationEmail();
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Verification email sent!',
+    });
+  } catch (err) {
+    return next(
+      new AppError('There was an error sending the email. Try again later!'),
+      500,
+    );
+  }
+});
+
+// Endpoint to verify the email
+exports.verifyEmail = catchAsync(async (req, res) => {
+  const { token } = req.query;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findOne({ email: decoded.email });
+
+    if (!user) {
+      return res.status(404).send('User not found.');
+    }
+
+    user.isVerifiedEmail = true;
+    await user.save();
+
+    res.send(`Email verified successfully for ${decoded.email}!`);
+  } catch (error) {
+    console.error('Verification failed:', error);
+    res.status(400).send('Invalid or expired verification link.');
   }
 });

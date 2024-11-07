@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const passportLocalMongoose = require('passport-local-mongoose');
-const crypto = require('crypto');
+// const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema({
   // username: {
@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid Email'],
+  },
+  isVerifiedEmail: {
+    type: Boolean,
+    default: false,
   },
   photo: {
     type: String,

@@ -64,9 +64,9 @@ module.exports = class Email {
     await this.newTransport().sendMail(mailOptions);
   }
 
-  // async sendWelcome() {
-  //   await this.send('welcome', 'Welcome to the PANKH!');
-  // }
+  async sendWelcome() {
+    await this.send('welcome', 'Welcome to the PANKH!');
+  }
 
   async sendPasswordReset() {
     await this.send(
@@ -74,9 +74,8 @@ module.exports = class Email {
       `Your password reset token (valid for only 10 minutes)}`,
     );
   }
-  // async sendPasswordReset() {
-  //   const message = `Hello ${this.firstName},\n\nPlease reset your password by clicking on the link: ${this.url}\n\nIf you didn't request a password reset, please ignore this email.`;
 
-  //   await this.send('Password Reset Request', message);
-  // }
+  async sendVerificationEmail() {
+    await this.send('verifyEmail', `Verify your email address`);
+  }
 };

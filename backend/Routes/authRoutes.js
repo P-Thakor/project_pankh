@@ -11,10 +11,10 @@ router.route('/login').post(authController.login);
 // Logout Route
 router.route('/logout').get(authController.logout);
 
-// forgotpassword route
-// router.route('/forgotPassword').post(authController.forgotPassword);
+// Forgot Password Route
+router.route('/forgotPassword').post(authController.forgotPassword);
 
-// resetpassword
-// router.route('/resetPassword').patch(authController.resetPassword);
+// Reset Password Route
+router.route('/resetPassword/:Otp').patch(authController.resetPassword);
 
 module.exports = router;

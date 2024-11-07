@@ -1,7 +1,7 @@
 const User = require('../Models/userModel');
 const catchAsync = require('../Utils/catchAsync');
 const AppError = require('../Utils/appError');
-const Email = require('../Utils/email');
+// const Email = require('../Utils/email');
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   // console.log(req.headers);
@@ -36,7 +36,8 @@ exports.createUser = catchAsync(async (req, res, next) => {
   const url = `${req.protocol}://${req.get('host')}/me`;
   console.log(url);
 
-  await new Email(newUser, url).sendWelcome();
+  // await new Email(newUser, url).sendWelcome();
+  // await new Email(newUser, url).sendPasswordReset();
 
   res.status(201).json({
     status: 'success',

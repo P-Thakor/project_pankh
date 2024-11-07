@@ -43,33 +43,6 @@ const userSchema = new mongoose.Schema({
 });
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' }); // Use email for authentication instead of username;
 
-// // 2) Generate Password Reset Token
-// userSchema.methods.createPasswordResetToken = function () {
-//   // Generate OTP
-//   const resetToken = crypto.randomBytes(32).toString('hex');
-
-//   // Hash the token and save it to user document
-//   this.passwordResetToken = crypto
-//     .createHash('sha256')
-//     .update(resetToken)
-//     .digest('hex');
-
-//   // 10min expiration time
-//   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
-
-//   // Return plain token to be sent to user via email
-//   return resetToken;
-// };
-
-// // 3) Check if the reset token is valid
-// userSchema.methods.verifyPasswordResetToken = function (token) {
-//   const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-//   return (
-//     hashedToken === this.passwordResetToken &&
-//     this.passwordResetExpires > Date.now()
-//   );
-// };
-
 userSchema.methods.createPasswordResetToken = function () {
   const OTP = Math.floor(100000 + Math.random() * 900000);
   this.resetPasswordToken = OTP;

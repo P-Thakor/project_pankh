@@ -1,38 +1,36 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState } from "react";
+import Link from 'next/link';
+import { useState } from 'react';
 
 const SignIn = () => {
-const [username, setUsername] = useState('');
-// const [email, setEmail] = useState('');
-const [password, setPassword] = useState('');
+  // const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:8000/api/v1/auth/login",
-      {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          // email,
-          password,
-        })
-      })
+    const response = await fetch('http://localhost:8000/api/v1/auth/login', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        // username,
+        email,
+        password,
+      }),
+    });
 
-      console.log(response.status);
-      if (response.status === 200) {
-        alert('Login successfull.')
-      }
-      else {
-        alert('Login failed.')
-      }
-    setUsername('');
-    // setEmail('');
+    console.log(response.status);
+    if (response.status === 200) {
+      alert('Login successfull.');
+    } else {
+      alert('Login failed.');
+    }
+    // setUsername('');
+    setEmail('');
     setPassword('');
   };
 
@@ -48,9 +46,9 @@ const [password, setPassword] = useState('');
             type="text"
             placeholder="Enter username"
             className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
-            value={username}
+            value={email}
             onChange={(e) => {
-              setUsername(e.target.value);
+              setEmail(e.target.value);
             }}
           />
           <label>Password</label>
@@ -61,29 +59,26 @@ const [password, setPassword] = useState('');
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
-            }
-            }
+            }}
           />
           <div className="flex w-full justify-between px-10">
-          <button
-            type="submit"
-            className="bg-primaryblue h-12 w-1/3 text-white rounded-md hover:bg-primarydarkblue"
-          >
-            Sign In
-          </button>
-          <button
-            
-            className="text-primaryblue text-sm hover:text-primarydarkblue"
-          >
-            Forgot Password?
-          </button>
-        </div>
+            <button
+              type="submit"
+              className="bg-primaryblue h-12 w-1/3 text-white rounded-md hover:bg-primarydarkblue">
+              Sign In
+            </button>
+            <button className="text-primaryblue text-sm hover:text-primarydarkblue">
+              Forgot Password?
+            </button>
+          </div>
         </form>
-        
+
         <div className=" mt-10 lg:hidden">
           <p className="text-center text-sm mt-4">
-            New to PANKH?{" "}
-            <a href="/sign-up" className="text-primaryblue hover:text-primarydarkblue">
+            New to PANKH?{' '}
+            <a
+              href="/sign-up"
+              className="text-primaryblue hover:text-primarydarkblue">
               Sign Up
             </a>
           </p>
@@ -97,9 +92,7 @@ const [password, setPassword] = useState('');
           </h4>
           <div>
             <button className="bg-gray-300 bg-opacity-60 text-sm h-10 w-24 rounded-sm">
-              <Link href="/sign-up">
-              Sign Up
-              </Link>
+              <Link href="/sign-up">Sign Up</Link>
             </button>
           </div>
         </div>

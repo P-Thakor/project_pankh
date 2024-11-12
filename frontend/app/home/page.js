@@ -1,10 +1,33 @@
+"use client";
+
 import { AddNewEventTab, CustomFilter, Hero } from "@/components";
 import List from "@/components/EventsList/List";
 import { Days, EventCategory, EventMode, EventType } from "@/constants";
-import { fetchEvents } from "@/utils";
+import { fetchCurrentUser, fetchEvents } from "@/utils";
+import { useEffect, useState } from "react";
 
-const page = async () => {
-  const events = await fetchEvents();
+const page = () => {
+  const [events, setEvents] = useState([]);
+  const [user, setUser] = useState({});
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
+  useEffect(() => {
+    fetchEvents().then((data) => setEvents(data));
+  }, []);
+  useEffect(() => {
+    fetchCurrentUser().then((data) => {
+      setUser(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (user.role === "user") {
+      setIsAuthorized(true);
+    }
+  },[]);
+
+  console.log(isAuthorized);
+  console.log(user.role);
   return (
     <main className="overflow-hidden">
       <Hero />
@@ -21,7 +44,7 @@ const page = async () => {
         </div>
       </div>
       <List list={events} />
-      <AddNewEventTab />
+      {isAuthorized && <AddNewEventTab />}
     </main>
   );
 };

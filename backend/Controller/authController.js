@@ -66,15 +66,15 @@ exports.login = (req, res, next) => {
 
 // Logout
 exports.logout = (req, res, next) => {
-  try {
-    req.logout();
+  req.logout((err) => {
+    if (err) {
+      return next(err); // Passes any error to the global error handler
+    }
     res.status(200).json({
       status: 'success',
       message: 'Logged out successfully',
     });
-  } catch (err) {
-    return next(err);
-  }
+  });
 };
 
 exports.restrictTo = function (...roles) {

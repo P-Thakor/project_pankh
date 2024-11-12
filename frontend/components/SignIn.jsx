@@ -1,20 +1,23 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState } from 'react';
+import Link from "next/link";
+import { useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 
 const SignIn = () => {
   // const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignIn = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
-    const response = await fetch('http://localhost:8000/api/v1/auth/login', {
-      method: 'POST',
-      credentials: 'include',
+    const response = await fetch("http://localhost:8000/api/v1/auth/login", {
+      method: "POST",
+      credentials: "include",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         // username,
@@ -25,13 +28,14 @@ const SignIn = () => {
 
     console.log(response.status);
     if (response.status === 200) {
-      alert('Login successfull.');
+      alert("Login successfull.");
     } else {
-      alert('Login failed.');
+      alert("Login failed.");
     }
     // setUsername('');
-    setEmail('');
-    setPassword('');
+    setEmail("");
+    setPassword("");
+    setIsLoading(false);
   };
 
   return (
@@ -62,11 +66,16 @@ const SignIn = () => {
             }}
           />
           <div className="flex w-full justify-between px-10">
-            <button
-              type="submit"
-              className="bg-primaryblue h-12 w-1/3 text-white rounded-md hover:bg-primarydarkblue">
-              Sign In
-            </button>
+            {isLoading ? (
+              <TailSpin type="Tailspin" color="#00BFFF" height={50} width={50} />
+            ) : (
+              <button
+                type="submit"
+                className="bg-primaryblue h-12 w-1/3 text-white rounded-md hover:bg-primarydarkblue"
+              >
+                Sign In
+              </button>
+            )}
             <button className="text-primaryblue text-sm hover:text-primarydarkblue">
               Forgot Password?
             </button>
@@ -75,10 +84,12 @@ const SignIn = () => {
 
         <div className=" mt-10 lg:hidden">
           <p className="text-center text-sm mt-4">
-            New to PANKH?{' '}
+            New to PANKH?{" "}
             <a
               href="/sign-up"
-              className="text-primaryblue hover:text-primarydarkblue">
+              className="text-primaryblue hover:text-primarydarkblue"
+              onClick={() => {setIsLoading(true)}}
+            >
               Sign Up
             </a>
           </p>
@@ -92,7 +103,7 @@ const SignIn = () => {
           </h4>
           <div>
             <button className="bg-gray-300 bg-opacity-60 text-sm h-10 w-24 rounded-sm">
-              <Link href="/sign-up">Sign Up</Link>
+              <Link href="/sign-up" onClick={()=>{setIsLoading(true)}}>Sign Up</Link>
             </button>
           </div>
         </div>

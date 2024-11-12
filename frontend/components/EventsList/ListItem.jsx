@@ -3,7 +3,7 @@
 import { formattedDate, formattedTime } from "@/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function ListItem({ item }) {
   const router = useRouter();

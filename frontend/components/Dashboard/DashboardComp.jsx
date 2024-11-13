@@ -3,7 +3,7 @@
 import { useState } from "react";
 import List from "@/components/EventsList/List";
 
-export default function Dashboard({ user,eventData }) {
+export default function DashboardComp({ user,eventData }) {
   const [activeSection, setActiveSection] = useState("Profile"); // Default to Profile section
 
   return (
@@ -37,7 +37,7 @@ export default function Dashboard({ user,eventData }) {
       {/* Content Area */}
       <div className="flex-1 p-8 bg-gray-100">
         {activeSection === "Profile" && (
-          <div className="max-w-md p-8 rounded-lg">
+          <div className="max-w-md rounded-lg">
             <h1 className="text-2xl font-bold text-primaryblue">Profile</h1>
             <div className="flex flex-col">
               {/* User Info Card */}

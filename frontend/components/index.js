@@ -12,7 +12,7 @@ import Sidebar from "./Sidebar";
 import SearchBar from "./SearchBar";
 import ClubHero from "./ClubPage/ClubHero";
 import ClubDetails from "./ClubPage/ClubDetails";
-import Dashboard from "./Dashboard/Dashboard";
+import DashboardComp from "./Dashboard/DashboardComp";
 
 export {
   Navbar,
@@ -29,5 +29,5 @@ export {
   SearchBar,
   ClubHero,
   ClubDetails,
-  Dashboard,
+  DashboardComp,
 };

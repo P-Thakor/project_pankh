@@ -1,8 +1,8 @@
-import { DashboardSidebar } from "@/components"
+import { DashboardComp } from "@/components"
 export default function Dashboard() {
     return (
         <main>
-            <DashboardSidebar/>
+            <DashboardComp/>
         </main>
     )
 }

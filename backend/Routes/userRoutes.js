@@ -21,6 +21,6 @@ router
 
 router.route('/registerEvent/:id').patch(eventContoller.registerEventForUser);
 
-router.route('/me').get(userController.getMe);
+router.route('/me').get(isAuthenticated, userController.getMe);
 
 module.exports = router;

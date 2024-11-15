@@ -27,11 +27,11 @@ const page = () => {
   },[]);
 
   console.log(isAuthorized);
-  console.log(user.role);
+  // console.log(user.role);
   return (
     <main className="overflow-hidden">
       <Hero />
-      <div className="flex flex-col w-full px-20 sm:flex-row justify-between items-center mb-10">
+      <div className="flex flex-col w-full sm:px-20 sm:flex-row justify-between items-center mb-10">
         <div className="w-1/2 flex mb-4 sm:mb-0">
           <h1 className="text-4xl font-semibold mr-3">Upcoming</h1>
           <h1 className="text-4xl font-semibold text-primaryblue">Events</h1>
@@ -43,7 +43,9 @@ const page = () => {
           <CustomFilter title="Type" options={EventType} />
         </div>
       </div>
+      <div className="lg:ml-20 pb-10">
       <List list={events} />
+      </div>
       {isAuthorized && <AddNewEventTab />}
     </main>
   );

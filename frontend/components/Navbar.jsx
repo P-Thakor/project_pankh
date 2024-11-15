@@ -16,14 +16,14 @@ const Navbar = async() => {
               alt="PANKH logo"
               width={170}
               height={25}
-              className="object-contain"
+              className="object-contain hidden sm:flex"
             />
           </Link>
         </div>
         <div className="flex justify-center items-center">
           <SearchBar events={events}/>
         </div>
-        <div className="flex items-center justify-items-end">
+        <div className="sm:flex items-center justify-items-end hidden">
           <Link href="/sign-in">
             <button className="mx-10">Sign In</button>
           </Link>

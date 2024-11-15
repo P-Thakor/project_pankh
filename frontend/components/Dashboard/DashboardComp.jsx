@@ -1,10 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import List from "@/components/EventsList/List";
+import { fetchCurrentUser, fetchEventById } from "@/utils";
 
-export default function DashboardComp({ user,eventData }) {
+export default function DashboardComp() {
   const [activeSection, setActiveSection] = useState("Profile"); // Default to Profile section
+  const [user, setUser] = useState({});
+  const [eventList, setEventList] = useState([]);
+
+  useEffect(() => {
+    fetchCurrentUser()
+      .then((data) => {
+        console.log(data);
+        setUser(data);
+        return data;
+      })
+      .then((data) => {
+        if (user) {
+          let templist = [];
+          console.log(data);
+          data.eventsParticipated.forEach((event) => {
+            fetchEventById(event).then((data) => {
+              templist.push(data);
+            });
+          });
+          console.log(templist);
+          setEventList(templist);
+        }
+      });
+  }, []);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     let templist = [];
+  //     user.eventsParticipated.forEach((event) => {
+  //       fetchEventById(event).then((data)=>{
+  //         templist.push(data);
+  //       })
+  //     })
+  //     console.log(templist);
+  //     setEventList(templist);
+  //   }
+  // }, []);
+
+  if (user) {
+    var { username = "", email = "" } = user;
+  } else {
+    var username = (email = "");
+  }
 
   return (
     <div className="flex h-screen">
@@ -12,7 +56,7 @@ export default function DashboardComp({ user,eventData }) {
       <div className="w-64 bg-white border-r border-gray-200 shadow-lg">
         <div className="p-4 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-primaryblue">Dashboard</h2>
-          <p className="mt-1 text-gray-700">abc xyz {/*{user.name}*/}</p>{" "}
+          <p className="mt-1 text-gray-700">{username}</p>{" "}
           {/* Display Username */}
         </div>
 
@@ -46,31 +90,31 @@ export default function DashboardComp({ user,eventData }) {
                   {/* User Initial as Avatar */}
 
                   <div className="flex items-center justify-center w-24 h-24 mb-4 text-4xl font-bold text-white rounded-full bg-primaryblue">
-                    {/*{user.name.charAt(0)}*/}
-                    {"abc".charAt(0)}
+                    {username.charAt(0) || "a"}
+                    {/* {"abc".charAt(0)} */}
                   </div>
                   <div className="flex items-center justify-between pb-4 border-b">
                     <span className="text-sm font-semibold text-gray-500">
                       Full Name:
                     </span>
                     <span className="text-lg font-medium text-primaryblue">
-                      abc xyz{/*{user.name}*/}
+                      {username}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between pb-4 border-b">
+                  {/* <div className="flex items-center justify-between pb-4 border-b">
                     <span className="text-sm font-semibold text-gray-500">
                       User ID:
                     </span>
                     <span className="text-lg font-medium text-primaryblue">
-                      22DCE069{/*{user.id}*/}
+                      22DCE069{/*{user.id}*4/}
                     </span>
-                  </div>
+                  </div> */}
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-semibold text-gray-500">
                       Email:
                     </span>
                     <span className="text-lg font-medium text-primaryblue">
-                      abc@xyz.com{/*{user.email}*/}
+                      {email}
                     </span>
                   </div>
                 </div>
@@ -85,7 +129,11 @@ export default function DashboardComp({ user,eventData }) {
               Events Participated
             </h1>
             {/* Add event details here */}
-            <List list={eventData} />
+            {eventList.length > 0 ? (
+              <List list={eventList} />
+            ) : (
+              <p className="mt-4 text-gray-500">No events participated yet!</p>
+            )}
           </div>
         )}
       </div>

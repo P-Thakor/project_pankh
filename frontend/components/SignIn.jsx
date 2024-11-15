@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 
@@ -9,6 +10,8 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleSignIn = async (e) => {
     setIsLoading(true);
@@ -29,6 +32,7 @@ const SignIn = () => {
     console.log(response.status);
     if (response.status === 200) {
       alert("Login successfull.");
+      router.push("/home");
     } else {
       alert("Login failed.");
     }

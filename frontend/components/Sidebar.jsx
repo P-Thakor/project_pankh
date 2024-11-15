@@ -37,6 +37,7 @@ export default function Sidebar() {
           response.json().then((data) => {
             console.log(data);
           });
+          router.push('/home');
         }
       })
       .then((response) => {

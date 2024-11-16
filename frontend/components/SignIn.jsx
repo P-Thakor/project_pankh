@@ -49,10 +49,10 @@ const SignIn = () => {
           Sign In to PANKH
         </h1>
         <form className="w-full p-8" onSubmit={handleSignIn}>
-          <label>Username</label>
+          <label>Email</label>
           <input
             type="text"
-            placeholder="Enter username"
+            placeholder="Enter email"
             className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
             value={email}
             onChange={(e) => {

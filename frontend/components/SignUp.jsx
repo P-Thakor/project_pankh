@@ -1,15 +1,26 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { TailSpin } from 'react-loader-spinner';
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
+
   const handleSignUp = async (e) => {
-    console.log(username);
+    setIsLoading(true);
     e.preventDefault();
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
     const response = await fetch('http://localhost:8000/api/v1/auth/signup', {
       method: 'POST',
       headers: {
@@ -30,11 +41,13 @@ const SignUp = () => {
       } else {
         alert('Student Sign Up successfull.');
       }
+      router.push('/sign-in');
     }
-
+    setIsLoading(false);
     setUsername('');
     setEmail('');
     setPassword('');
+    setConfirmPassword('');
   };
   return (
     <div className="flex w-full p-0">
@@ -90,13 +103,21 @@ const SignUp = () => {
             type="password"
             placeholder="Re-type password"
             className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
+            value={confirmPassword}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+            }}
           />
           <div className="flex w-full justify-between px-10">
-            <button
-              type="submit"
-              className="bg-primaryblue h-12 w-1/3 text-white rounded-md hover:bg-primarydarkblue">
-              Sign Up
-            </button>
+            {
+              isLoading ? (
+                <TailSpin type="Tailspin" color="#00BFFF" height={50} width={50} />
+              ):(<button
+                type="submit"
+                className="bg-primaryblue h-12 w-1/3 text-white rounded-md hover:bg-primarydarkblue">
+                Sign Up
+              </button>)
+            }
           </div>
         </form>
 

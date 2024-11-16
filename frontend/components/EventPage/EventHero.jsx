@@ -32,7 +32,7 @@ export default function EventHero({ item }) {
           if (response.ok) {
             alert("Registered for event successfully");
           } else {
-            alert(data.message);
+            alert("Failed to register for this event");
           }
           console.log(data);
           return data;

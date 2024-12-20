@@ -3,10 +3,12 @@
 import { fetchCurrentUser, formattedDate, formattedTime } from "@/utils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import SuccessModal from "../successModal";
 
 export default function EventHero({ item }) {
   const [user, setUser] = useState(null);
   const [registered, setRegistered] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   useEffect(() => {
     fetchCurrentUser().then((data) => {
       setUser(data);
@@ -30,7 +32,7 @@ export default function EventHero({ item }) {
       .then((response) => {
         response.json().then((data) => {
           if (response.ok) {
-            alert("Registered for event successfully");
+            setIsModalVisible(true);
           } else {
             alert("Failed to register for this event");
           }
@@ -39,7 +41,7 @@ export default function EventHero({ item }) {
         });
       })
       .then((newUserData) => {
-        newUserData ? console.log(newUserData) : console.log(user);;
+        newUserData ? console.log(newUserData) : console.log(user);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -92,23 +94,21 @@ export default function EventHero({ item }) {
                 <p className="mb-4 text-lg text-primaryblue">
                   {item.locations}
                 </p>
-                {
-                  registered ? (
-                    <button
-                      className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
-                      disabled
-                    >
-                      Registered
-                    </button>
-                  ) : (
-                    <button
-                      onClick={handleRegisterForEvent}
-                      className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
-                    >
-                      Register Now
-                    </button>
-                  )
-                }
+                {registered ? (
+                  <button
+                    className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
+                    disabled
+                  >
+                    Registered
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleRegisterForEvent}
+                    className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+                  >
+                    Register Now
+                  </button>
+                )}
                 <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full">
                   More Info
                 </button>
@@ -135,6 +135,11 @@ export default function EventHero({ item }) {
           </div>
         </div>
       </section>
+      <SuccessModal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+      />
+      ;
     </>
   );
 }

@@ -26,7 +26,7 @@ const page = () => {
     }
   },[]);
 
-  console.log(isAuthorized);
+  // console.log(isAuthorized);
   // console.log(user.role);
   return (
     <main className="overflow-hidden">

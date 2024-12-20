@@ -13,6 +13,8 @@ import SearchBar from "./SearchBar";
 import ClubHero from "./ClubPage/ClubHero";
 import ClubDetails from "./ClubPage/ClubDetails";
 import DashboardComp from "./Dashboard/DashboardComp";
+import successModal from "./successModal";
+import AuthModal from "./AuthModal";
 
 export {
   Navbar,
@@ -30,4 +32,6 @@ export {
   ClubHero,
   ClubDetails,
   DashboardComp,
+  successModal,
+  AuthModal,
 };

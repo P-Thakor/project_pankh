@@ -41,7 +41,7 @@ const SignUp = () => {
       } else {
         alert('Student Sign Up successfull.');
       }
-      router.push('/sign-in');
+      router.push('/dashboard');
     }
     setIsLoading(false);
     setUsername('');

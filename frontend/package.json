@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^2.1.2",
     "cropperjs": "^1.6.2",
+    "framer-motion": "^11.14.4",
     "next": "^14.2.15",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

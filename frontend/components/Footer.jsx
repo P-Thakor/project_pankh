@@ -16,7 +16,7 @@ const Footer = () => {
             </div>
             ))}
         </div>
-        <div>
+        <div className="hidden sm:flex">
             <p>© 2024 PANKH. All rights reserved</p>
         </div>
     </footer>

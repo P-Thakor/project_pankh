@@ -9,7 +9,7 @@ import {
   Sidebar,
   ClubHero,
   ClubDetails,
-  DashboardSidebar,
+  DashboardComp,
 } from "@/components";
 import List from "@/components/EventsList/List";
 import SignIn from "@/components/SignIn";
@@ -23,7 +23,7 @@ export default async function Home() {
   console.log(clubs);
   return (
     <main className="flex flex-col items-center justify-between min-h-screen px-0">
-      <DashboardSidebar/>
+      <DashboardComp/>
       <Hero />
       {/* <EventHero item={eventData[0]}/> */}
       {/* <EventDescription event={eventData[0]} /> */}

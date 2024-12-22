@@ -52,6 +52,12 @@ exports.login = (req, res, next) => {
         secure: false,
         sameSite: 'lax',
       });
+      res.clearCookie('userId', {
+        httpOnly: true,
+        // secure: process.env.NODE_ENV === 'production',
+        secure: false,
+        sameSite: 'lax',
+      });
 
       res.status(200).json({
         status: 'success',

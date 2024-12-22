@@ -4,12 +4,12 @@ const passportLocalMongoose = require('passport-local-mongoose');
 // const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema({
-  // username: {
-  //   type: String,
-  //   required: [true, 'User should have a Name'],
-  //   trim: true,
-  //   unique: true,
-  // },
+  username: {
+    type: String,
+    required: [true, 'User should have a Name'],
+    trim: true,
+    unique: true,
+  },
   email: {
     type: String,
     required: [true, 'User should have an Email'],
@@ -17,6 +17,11 @@ const userSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid Email'],
+  },
+  collegeId: {
+    type: String,
+    unique: true,
+    trim: true,
   },
   isVerifiedEmail: {
     type: Boolean,

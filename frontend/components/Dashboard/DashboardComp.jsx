@@ -28,7 +28,13 @@ export default function DashboardComp() {
           console.log(templist);
           setEventList(templist);
         }
-      });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setUser({});
+        setEventList([]);
+      })
+      ;
   }, []);
 
   // useEffect(() => {
@@ -48,6 +54,8 @@ export default function DashboardComp() {
     var { username = "", email = "" } = user;
   } else {
     var username = (email = "");
+    setUser({});
+    setEventList([]);
   }
 
   return (
@@ -80,7 +88,7 @@ export default function DashboardComp() {
 
       {/* Content Area */}
       <div className="flex-1 p-8 bg-gray-100">
-        {activeSection === "Profile" && (
+        {activeSection === "Profile" && user && (
           <div className="max-w-md rounded-lg">
             <h1 className="text-2xl font-bold text-primaryblue">Profile</h1>
             <div className="flex flex-col">
@@ -123,7 +131,7 @@ export default function DashboardComp() {
           </div>
         )}
 
-        {activeSection === "Events" && (
+        {activeSection === "Events" && user && (
           <div>
             <h1 className="text-2xl font-bold text-primaryblue">
               Events Participated

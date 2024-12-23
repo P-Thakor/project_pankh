@@ -46,6 +46,7 @@ const SignIn = () => {
     setEmail("");
     setPassword("");
     setIsLoading(false);
+    router.push("/home");
   };
 
   return (

@@ -3,11 +3,23 @@ import { motion, AnimatePresence } from "framer-motion";
 const AuthModal = ({ type, isVisible, onClose }) => {
   const getModalContent = () => {
     switch (type) {
-      case "success-registration":
+      case "success-event-registration":
         return {
           title: "Registration Successful!",
           message: "Thank you for registering for our event. We look forward to seeing you there!",
           iconColor: "bg-green-500",
+        };
+        case "success-user-signup":
+        return {
+          title: "Registration Successful!",
+          message: "Welcome! You have successfully registered as a user.",
+          iconColor: "bg-blue-500",
+        };
+        case "success-faculty-signup":
+        return {
+          title: "Registration Successful!",
+          message: "Welcome! You have successfully registered as a faculty.",
+          iconColor: "bg-blue-500",
         };
       case "success-login":
         return {

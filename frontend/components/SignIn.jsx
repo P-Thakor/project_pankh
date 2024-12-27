@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { AuthModal } from ".";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
 const SignIn = () => {
   // const [username, setUsername] = useState('');
@@ -13,6 +14,7 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [isvisible, setIsvisible] = useState(false);
+  const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
 
   const router = useRouter();
 
@@ -46,7 +48,7 @@ const SignIn = () => {
     setEmail("");
     setPassword("");
     setIsLoading(false);
-    router.push("/home");
+    // router.push("/home");
   };
 
   return (
@@ -93,7 +95,11 @@ const SignIn = () => {
                   Sign In
                 </button>
               )}
-              <button className="text-primaryblue text-sm hover:text-primarydarkblue">
+              <button
+                className="text-primaryblue text-sm hover:text-primarydarkblue"
+                type="button"
+                onClick={() => setForgotPasswordModalOpen(true)}
+              >
                 Forgot Password?
               </button>
             </div>
@@ -137,7 +143,16 @@ const SignIn = () => {
           </div>
         </div>
       </div>
-      <AuthModal isVisible={isvisible} type={modalType} onClose={() => setIsvisible(false)} />
+      <AuthModal
+        isVisible={isvisible}
+        type={modalType}
+        onClose={() => setIsvisible(false)}
+      />
+      {forgotPasswordModalOpen && (
+        <ForgotPasswordModal
+          onClose={() => setForgotPasswordModalOpen(false)}
+        />
+      )}
     </>
   );
 };

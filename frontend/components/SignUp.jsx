@@ -14,6 +14,7 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [isvisible, setIsvisible] = useState(false);
+  const [collegeId, setCollegeId] = useState("");
 
   const router = useRouter();
 
@@ -24,6 +25,9 @@ const SignUp = () => {
       alert("Passwords do not match");
       return;
     }
+    if (email.endsWith("@charusat.edu.in")) {
+      setCollegeId(email.substring(0, email.indexOf("@")));
+    }
     const response = await fetch("http://localhost:8000/api/v1/auth/signup", {
       method: "POST",
       headers: {
@@ -33,6 +37,7 @@ const SignUp = () => {
         username,
         email,
         password,
+        collegeId,
       }),
     });
 
@@ -45,7 +50,7 @@ const SignUp = () => {
         setIsvisible(true);
       } else {
         // alert('Student Sign Up successfull.');
-        setModalType("success-faculty-signup");
+        setModalType("success-user-signup");
         setIsvisible(true);
       }
       setTimeout(() => {

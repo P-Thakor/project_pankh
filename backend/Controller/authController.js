@@ -7,7 +7,9 @@ const SendEmail = require('../Utils/email');
 
 // Sign-up
 exports.signup = catchAsync(async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, collegeId } = req.body;
+  console.log(collegeId);
+
   const newUser = new User({ username, email });
 
   await User.register(newUser, password);

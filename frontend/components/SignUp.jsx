@@ -26,7 +26,9 @@ const SignUp = () => {
       return;
     }
     if (email.endsWith("@charusat.edu.in")) {
-      setCollegeId(email.substring(0, email.indexOf("@")));
+      const id = email.split("@")[0];
+      setCollegeId(id);
+      // console.log(id);
     }
     const response = await fetch("http://localhost:8000/api/v1/auth/signup", {
       method: "POST",

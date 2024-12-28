@@ -16,7 +16,7 @@ export default function ListItem({ item }) {
   };
   const date = new Date();
   const isPast = new Date(item.startDate) < date;
-  console.log(isPast);
+  // console.log(isPast);
 
   // if (isPast) {
   //   return null;

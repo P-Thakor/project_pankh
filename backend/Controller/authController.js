@@ -119,7 +119,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   console.log('Generated OTP: ', resetToken);
   // 3) Send it to user's email
   try {
-    // await new SendEmail(user, resetToken).sendPasswordReset();
+    await new SendEmail(user, resetToken).sendPasswordReset();
 
     res.status(200).json({
       status: 'success',

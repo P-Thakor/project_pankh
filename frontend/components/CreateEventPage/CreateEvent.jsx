@@ -64,7 +64,7 @@ const CreateEvent = () => {
                 <input
                   type="text"
                   placeholder="Enter Event Title"
-                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -77,7 +77,7 @@ const CreateEvent = () => {
                 <input
                   type="text"
                   placeholder="Enter Event Venue"
-                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                 />
@@ -126,7 +126,7 @@ const CreateEvent = () => {
                   type="date"
                   value={startDate}
                   onChange={handleDateChange}
-                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded"
                 />
               </div>
 
@@ -139,7 +139,7 @@ const CreateEvent = () => {
                     type="date"
                     value={endDate}
                     onChange={handleEndDateChange}
-                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded"
                   />
                 </div>
               )}
@@ -152,7 +152,7 @@ const CreateEvent = () => {
                   type="time"
                   value={startTime}
                   onChange={(e) => setStartTime(e.target.value)}
-                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded"
                 />
               </div>
 
@@ -164,7 +164,7 @@ const CreateEvent = () => {
                   type="time"
                   value={endTime}
                   onChange={(e) => setEndTime(e.target.value)}
-                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded"
                 />
               </div>
             </div>
@@ -177,16 +177,16 @@ const CreateEvent = () => {
                 </label>
                 <input
                   type="file"
-                  className="block w-full mt-1 text-sm text-gray-900 border-gray-300 rounded-md cursor-pointer bg-gray-50 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded"
                 />
               </div>
               <div className="mt-4">
                 <label className="block text-sm font-medium text-gray-700">
                   Event Description
                 </label>
-                <textarea
+                <input
                   placeholder="Cognizance is a tech fest organized by the students of CHARUSAT"
-                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded"
                 />
               </div>
             </div>

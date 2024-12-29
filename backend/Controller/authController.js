@@ -105,6 +105,13 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     return next(new AppError('There is no user with email address.', 404));
   }
 
+  // store user email in cookie
+  res.cookie('email', req.body.email, {
+    httpOnly: true,
+    maxAge: 3600000, // 1 hour
+    secure: false,
+  });
+
   // 2) Generate the random reset token
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
@@ -112,7 +119,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   console.log('Generated OTP: ', resetToken);
   // 3) Send it to user's email
   try {
-    await new SendEmail(user, resetToken).sendPasswordReset();
+    // await new SendEmail(user, resetToken).sendPasswordReset();
 
     res.status(200).json({
       status: 'success',
@@ -130,31 +137,51 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 });
 
-exports.resetPassword = catchAsync(async (req, res, next) => {
+exports.verifyOtp = catchAsync(async (req, res, next) => {
   // 1) Get user based on the OTP
   const inputOtp = req.params.Otp;
 
-  const user = await User.findOne({
-    resetPasswordToken: inputOtp,
-    resetPasswordExpire: { $gt: Date.now() },
-  });
-  // 2) If OTP has not expired, and there is user, set the new password
-  if (!user) {
-    return next(new AppError('Token is invalid or has expired', 400));
-  }
-
   try {
-    await user.setPassword(req.body.password);
+    const user = await User.findOne({
+      resetPasswordToken: inputOtp,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
+    // 2) If OTP has not expired, and there is user, set the new password
+    if (!user) {
+      return next(new AppError('Token is invalid or has expired', 400));
+    }
 
-    await user.save();
-
+    // await user.setPassword(req.body.password);
+    // await user.save();
     res.status(200).json({
-      status: 'success',
-      message: 'Password reset successful',
+      status: true,
+      message: 'Token verified successfully!',
     });
   } catch (err) {
     return next(new AppError('Error setting new password', 500));
   }
+});
+
+exports.changePassword = catchAsync(async (req, res, next) => {
+  // 1) Get user from collection
+  const email = decodeURIComponent(req.cookies.email);
+  console.log(email);
+  const user = await User.findOne({
+    email,
+  });
+  // 2) Check if user has password set
+  if (!user) {
+    return next(new AppError('User not found', 404));
+  }
+  // 3) If so, update password
+  await user.setPassword(req.body.password);
+  // disable validation
+  await user.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Password changed successfully!',
+  });
 });
 
 exports.sendVerificationEmail = catchAsync(async (req, res, next) => {

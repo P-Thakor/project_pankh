@@ -16,7 +16,10 @@ router.route('/logout').get(authController.logout);
 router.route('/forgotPassword').post(authController.forgotPassword);
 
 // Reset Password Route
-router.route('/resetPassword/:Otp').patch(authController.resetPassword);
+router.route('/resetPassword/:Otp').get(authController.verifyOtp);
+
+// Change Password Route
+router.route('/changePassword').patch(authController.changePassword);
 
 // Verify Email Route
 router

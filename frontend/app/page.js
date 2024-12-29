@@ -12,9 +12,10 @@ import {
   ClubHero,
   ClubDetails,
   DashboardComp,
+  ForgotPasswordModal,
+  ReviewCardModal,
 } from "@/components";
 import List from "@/components/EventsList/List";
-import ForgotPasswordModal from "@/components/ForgotPasswordModal";
 import SignIn from "@/components/SignIn";
 import { Days, EventCategory, EventMode } from "@/constants";
 import { fetchClubs, fetchEvents } from "@/utils";
@@ -33,11 +34,25 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center justify-between min-h-screen px-0">
       {/* <DashboardComp/> */}
+
+      
+      
       <Hero />
       {/* <EventHero item={eventData[0]}/> */}
       {/* <EventDescription event={eventData[0]} /> */}
       {/* <List list={eventData} /> */}
       <AddNewEventTab />
+
+      <button
+        onClick={() => setModalOpen(true)}
+        className="px-4 py-2 text-white bg-blue-500 rounded"
+      >
+        Review
+      </button>
+      {modalOpen && (
+        <ReviewCardModal onClose={() => setModalOpen(false)} />
+      )}
+
       <div className="flex flex-col w-full px-20 sm:flex-row">
         <div className="w-1/2">
           <h1 className="text-3xl font-semibold">Upcoming Events</h1>
@@ -54,15 +69,17 @@ export default function Home() {
       {/* <ClubHero />
       <ClubDetails club={clubs[0]} /> */}
       
-      <button
+      {/* <button
         onClick={() => setModalOpen(true)}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className="px-4 py-2 text-white bg-blue-500 rounded"
       >
         Open Modal
       </button>
       {modalOpen && (
         <ForgotPasswordModal onClose={() => setModalOpen(false)} />
-      )}
+      )} */}
+
+
     </main>
   );
 }

@@ -15,6 +15,8 @@ import ClubDetails from "./ClubPage/ClubDetails";
 import DashboardComp from "./Dashboard/DashboardComp";
 import successModal from "./successModal";
 import AuthModal from "./AuthModal";
+import ForgotPasswordModal from "./ForgotPasswordModal";
+import ReviewCardModal from "./ReviewCardModal";
 
 export {
   Navbar,
@@ -34,4 +36,6 @@ export {
   DashboardComp,
   successModal,
   AuthModal,
+  ForgotPasswordModal,
+  ReviewCardModal,
 };

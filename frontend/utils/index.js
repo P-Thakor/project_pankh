@@ -49,6 +49,7 @@ export async function fetchCurrentUser() {
 export async function forgotPassword(email) {
     const res = await fetch('http://localhost:8000/api/v1/auth/forgotPassword', {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -57,9 +58,9 @@ export async function forgotPassword(email) {
     return await res.json();
 }
 
-export async function resetPassword(otp) {
-    const res = await fetch(`http://localhost:8000/api/v1/auth/resetPassword/${otp}`, {
-        method: 'PATCH',
+export async function resetPassword(Otp) {
+    const res = await fetch(`http://localhost:8000/api/v1/auth/resetPassword/${Otp}`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },

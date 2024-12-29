@@ -23,59 +23,57 @@ const ForgotPasswordModal = ({ onClose }) => {
   const handleSendOtp = () => {
     setLoading(true);
 
-    // forgotPassword(email)
-    //   .then(() => {
-    //     setMessage("OTP sent successfully to your email.");
-    //     setMessageType("success");
-    //     // setTimeout(() => {
-    //     //   setStep(2)
-    //     // }, 1500
-    //     // );
-    //     setStep(2);
-    //   })
-    //   .catch((err) => {
-    //     setMessage(err.message || "There is no user with email address.");
-    //     setMessageType("error");
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
+    forgotPassword(email)
+      .then(() => {
+        setMessage("OTP sent successfully to your email.");
+        setMessageType("success");
+        // setTimeout(() => {
+        //   setStep(2)
+        // }, 1500
+        // );
+        setStep(2);
+      })
+      .catch((err) => {
+        setMessage(err.message || "There is no user with email address.");
+        setMessageType("error");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
 
     // Simulating an API call
-    setTimeout(() => {
-      setLoading(false);
-      setMessage("OTP sent successfully to your email.");
-      setMessageType("success");
-      setStep(2);
-    }, 1000);
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   setMessage("OTP sent successfully to your email.");
+    //   setMessageType("success");
+    //   setStep(2);
+    // }, 1000);
   };
 
   const handleVerifyOtp = () => {
     setLoading(true);
 
-    // resetPassword(otp)
-    //   .then((res) => {
-    //     if (res.status === "success") {
-    //       setMessage("OTP verified successfully.");
-    //       setMessageType("success");
-    //       setStep(3);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     setMessage(err.message || "Invalid OTP.");
-    //     setMessageType("error");
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
+    resetPassword(otp)
+      .then(() => {
+        setMessage("OTP verified successfully.");
+        setMessageType("success");
+        setStep(3);
+      })
+      .catch((err) => {
+        setMessage(err.message || "Invalid OTP.");
+        setMessageType("error");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
 
     // Simulating OTP verification
-    setTimeout(() => {
-      setLoading(false);
-      setMessage("OTP verified successfully.");
-      setMessageType("success");
-      setStep(3);
-    }, 1000);
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   setMessage("OTP verified successfully.");
+    //   setMessageType("success");
+    //   setStep(3);
+    // }, 1000);
   };
 
   const handleResetPassword = () => {
@@ -86,13 +84,32 @@ const ForgotPasswordModal = ({ onClose }) => {
     }
 
     setLoading(true);
+
+    fetch("http://localhost:8000/api/v1/auth/changePassword", {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ password: newPassword }),
+    })
+      .then((res) => {
+        setMessage("Password reset successful!");
+        setMessageType("success");
+        setTimeout(onClose, 1500); // Close modal after a short delay
+      })
+      .catch((err) => {
+        setMessage(err.message || "Failed to reset password.");
+        setMessageType("error");
+      });
+
     // Simulating password reset
-    setTimeout(() => {
-      setLoading(false);
-      setMessage("Password reset successful!");
-      setMessageType("success");
-      setTimeout(onClose, 1500); // Close modal after a short delay
-    }, 1000);
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   setMessage("Password reset successful!");
+    //   setMessageType("success");
+    //   setTimeout(onClose, 1500); // Close modal after a short delay
+    // }, 1000);
   };
 
   useEffect(() => {

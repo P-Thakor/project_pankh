@@ -51,7 +51,7 @@ export default function DashboardComp() {
   // }, []);
 
   if (user) {
-    var { username = "", email = "" } = user;
+    var { username = "", email = "", collegeId = "" } = user;
   } else {
     var username = (email = "");
     setUser({});
@@ -125,6 +125,16 @@ export default function DashboardComp() {
                       {email}
                     </span>
                   </div>
+                  {
+                    collegeId !== "" &&
+                    <div className="flex items-center justify-between">
+                    <span className="text-sm font-semibold text-gray-500">
+                      Student ID:
+                    </span>
+                    <span className="text-lg font-medium text-primaryblue">
+                      {collegeId}
+                    </span>
+                  </div>}
                 </div>
               </div>
             </div>

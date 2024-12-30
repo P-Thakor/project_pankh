@@ -10,7 +10,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const { username, email, password, collegeId } = req.body;
   console.log(collegeId);
 
-  const newUser = new User({ username, email });
+  const newUser = new User({ username, email, collegeId });
 
   await User.register(newUser, password);
 

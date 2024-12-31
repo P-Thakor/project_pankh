@@ -10,6 +10,7 @@ const session = require('express-session');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
+const cron = require('node-cron');
 
 const reviewRouter = require('./Routes/reviewRouter');
 const eventRouter = require('./Routes/eventRouter');
@@ -20,6 +21,7 @@ const sessionRoutes = require('./Routes/sessionRoutes');
 // const { isAuthenticated } = require('./Utils/middleware');
 const User = require('./Models/userModel');
 const globalErrorHandler = require('./Controller/errorController');
+const sendReminderEmails = require('./Controller/remainderController');
 
 dotenv.config({ path: './config.env' });
 
@@ -47,6 +49,12 @@ passport.use(User.createStrategy());
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// Schedule task to run every day at 8 AM
+cron.schedule('0 8 * * *', () => {
+  console.log('Running daily reminder email job...');
+  sendReminderEmails();
+});
 
 app.use(
   express.json({

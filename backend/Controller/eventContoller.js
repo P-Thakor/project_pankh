@@ -8,9 +8,9 @@ const User = require('../Models/userModel');
 
 // Configure Cloudinary
 cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME, // Your Cloudinary cloud name
-  api_key: process.env.API_KEY, // Your Cloudinary API key
-  api_secret: process.env.API_SECRET, // Your Cloudinary API secret
+  cloud_name: 'dosqfitt3', // Your Cloudinary cloud name
+  api_key: '248321553526181', // Your Cloudinary API key
+  api_secret: 'J25-nWU8vBFI3bZQDyIX4AIER1o', // Your Cloudinary API secret
 });
 
 const multerStorage = multer.memoryStorage();
@@ -36,8 +36,6 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
   try {
     // Helper function to upload image to Cloudinary
     const uploadImageToCloudinary = function (file, filename) {
-      console.log(file);
-      if (!file) return next();
       return new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
           {
@@ -47,15 +45,14 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
           },
           (error, result) => {
             if (error) {
-              next();
-              // reject(new AppError('Error uploading image to Cloudinary', 500));
+              console.error('Cloudinary Upload Error:', error);
+              reject(new AppError('Error uploading image to Cloudinary', 500));
             } else {
               resolve(result.secure_url);
             }
           },
         );
 
-        // Make sure the buffer is correctly passed to Cloudinary
         if (file && file.buffer) {
           stream.end(file.buffer);
         } else {
@@ -64,32 +61,44 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
       });
     };
 
-    // Upload coverImage and photos
-    const coverImageUrl = await uploadImageToCloudinary(
-      req.files.coverImage[0],
-      `coverImage_${Date.now()}`,
-    );
+    // Upload coverImage if it exists
+    if (req.files.coverImage) {
+      const coverImageUrl = await uploadImageToCloudinary(
+        req.files.coverImage[0],
+        `coverImage_${Date.now()}`,
+      );
+      const updatedEvent = await Event.findByIdAndUpdate(
+        req.params.id,
+        { coverImage: coverImageUrl },
+        { new: true },
+      );
+      console.log('Updated Event with Cover Image:', updatedEvent);
+    }
 
-    const photoUrls = await Promise.all(
-      req.files.photo.map((file, index) =>
-        uploadImageToCloudinary(file, `Event_photo_${index}_${Date.now()}`),
-      ),
-    );
+    // Upload photos if they exist
+    if (req.files.photo) {
+      const photoUrls = await Promise.all(
+        req.files.photo.map((file, index) =>
+          uploadImageToCloudinary(file, `Event_photo_${index}_${Date.now()}`),
+        ),
+      );
 
-    const eventId = req.params.id;
-    // const event = await Event.findById(eventId);
-    // req.body.photo.push(...photoUrls, event.photo);
+      // Await the database update to ensure it completes
+      const updatedEvent = await Event.findByIdAndUpdate(
+        req.params.id,
+        {
+          $push: { photo: { $each: photoUrls } },
+        },
+        { new: true },
+      );
+      console.log('Updated Event with Photos:', updatedEvent);
+    }
 
-    await Event.findByIdAndUpdate(eventId, {
-      $push: { photo: { $each: photoUrls } },
-      coverImage: coverImageUrl,
-    });
-
-    // Send success response
+    // Proceed to the next middleware
     next();
   } catch (error) {
-    // Handle any errors that occur during the upload process
-    return next();
+    console.error('Error in uploadImage:', error);
+    next(new AppError('Error uploading images', 500));
   }
 });
 

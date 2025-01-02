@@ -78,4 +78,8 @@ module.exports = class Email {
   async sendVerificationEmail() {
     await this.send('verifyEmail', `Verify your email address`);
   }
+
+  async sendEventReminder(event) {
+    await this.send('eventReminder', `Reminder: ${event.name} is today!`);
+  }
 };

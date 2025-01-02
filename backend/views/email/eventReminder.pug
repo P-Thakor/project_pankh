@@ -1,0 +1,20 @@
+extends baseEmail
+
+block header
+  h1 Reminder: #{eventName} is Today!
+
+block content
+  h2 Hi #{userName}!
+  p We're excited to remind you about the event you're attending. Here are the details:
+  .event-details(style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;")
+    ul
+      li 
+        strong Date: 
+        | #{eventDate}
+      li 
+        strong Time: 
+        | #{eventTime}
+      li 
+        strong Location: 
+        | #{eventLocation}
+  p We can't wait to see you there!

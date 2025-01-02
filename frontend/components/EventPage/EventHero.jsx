@@ -22,6 +22,9 @@ export default function EventHero({ item }) {
   }, [user, item._id]);
 
   const handleRegisterForEvent = () => {
+    if (item.externalLink) {
+      window.open(item.link, "_blank");
+    } else {
     fetch(`/api/v1/user/registerEvent/${item._id}`, {
       method: "PATCH",
       headers: {
@@ -46,7 +49,7 @@ export default function EventHero({ item }) {
       .catch((error) => {
         console.error("Error:", error);
       });
-  };
+  }};
 
   return (
     <>
@@ -75,7 +78,7 @@ export default function EventHero({ item }) {
                 className="mb-6 font-bold text-white md:mb-12"
                 style={{ fontSize: "2vw" }}
               >
-                CLUB NAME{/* {item.clubname} */}
+                {/* CLUB NAME{item.clubname} */}
               </h3>
               <p className="text-white " style={{ fontSize: "1.3vw" }}>
                 {item.description}

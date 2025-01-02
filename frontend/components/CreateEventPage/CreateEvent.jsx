@@ -10,6 +10,10 @@ const CreateEvent = () => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [location, setLocation] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+  const [email, setEmail] = useState("");
+  const [creator, setCreator] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
 
   const handleDateChange = (e) => {
     setStartDate(e.target.value);
@@ -38,6 +42,10 @@ const CreateEvent = () => {
         endDate: endDate,
         startTime: startTime,
         endTime: endTime,
+        summary: eventDescription,
+        contactEmail: email,
+        creator: creator,
+        contactNumber: contactNumber,
       }),
     }).then((response) => {
       if (response.ok) {
@@ -187,6 +195,8 @@ const CreateEvent = () => {
                 <input
                   placeholder="Cognizance is a tech fest organized by the students of CHARUSAT"
                   className="w-full px-4 py-2 border border-gray-300 rounded"
+                  value={eventDescription}
+                  onChange={(e) => setEventDescription(e.target.value)}
                 />
               </div>
             </div>

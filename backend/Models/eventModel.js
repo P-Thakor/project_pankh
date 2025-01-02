@@ -9,7 +9,7 @@ const eventSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     maxlength: [
-      20,
+      200,
       'An Event name must be less than or equal to 20 characters',
     ],
     minlength: [1, 'An Event name must be less than or equal to 1 character'],
@@ -84,6 +84,9 @@ const eventSchema = new mongoose.Schema({
   endDate: Date,
   startTime: Date,
   endTime: Date,
+  externalLink: {
+    type: String
+  },
   reviews: [
     {
       type: mongoose.Schema.Types.ObjectId,

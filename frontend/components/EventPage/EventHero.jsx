@@ -2,18 +2,21 @@
 
 import { fetchCurrentUser, formattedDate, formattedTime } from "@/utils";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SuccessModal from "../successModal";
+import UserContext from "@/context/UserContext";
 
 export default function EventHero({ item }) {
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [registered, setRegistered] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  useEffect(() => {
-    fetchCurrentUser().then((data) => {
-      setUser(data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetchCurrentUser().then((data) => {
+  //     setUser(data);
+  //   });
+  // }, []);
+
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     if (user && user.eventsParticipated.includes(`${item._id}`)) {

@@ -2,18 +2,21 @@
 
 import { fetchCurrentUser, formattedDate, formattedTime } from "@/utils";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SuccessModal from "../successModal";
+import UserContext from "@/context/UserContext";
 
 export default function EventHero({ item }) {
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [registered, setRegistered] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  useEffect(() => {
-    fetchCurrentUser().then((data) => {
-      setUser(data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetchCurrentUser().then((data) => {
+  //     setUser(data);
+  //   });
+  // }, []);
+
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     if (user && user.eventsParticipated.includes(`${item._id}`)) {
@@ -22,6 +25,9 @@ export default function EventHero({ item }) {
   }, [user, item._id]);
 
   const handleRegisterForEvent = () => {
+    if (item.externalLink) {
+      window.open(item.link, "_blank");
+    } else {
     fetch(`/api/v1/user/registerEvent/${item._id}`, {
       method: "PATCH",
       headers: {
@@ -46,7 +52,7 @@ export default function EventHero({ item }) {
       .catch((error) => {
         console.error("Error:", error);
       });
-  };
+  }};
 
   return (
     <>
@@ -75,7 +81,7 @@ export default function EventHero({ item }) {
                 className="mb-6 font-bold text-white md:mb-12"
                 style={{ fontSize: "2vw" }}
               >
-                CLUB NAME{/* {item.clubname} */}
+                {/* CLUB NAME{item.clubname} */}
               </h3>
               <p className="text-white " style={{ fontSize: "1.3vw" }}>
                 {item.description}

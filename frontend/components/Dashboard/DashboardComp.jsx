@@ -1,41 +1,44 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import List from "@/components/EventsList/List";
 import { fetchCurrentUser, fetchEventById } from "@/utils";
+import UserContext from "@/context/UserContext";
 
 export default function DashboardComp() {
   const [activeSection, setActiveSection] = useState("Profile"); // Default to Profile section
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const [eventList, setEventList] = useState([]);
 
-  useEffect(() => {
-    fetchCurrentUser()
-      .then((data) => {
-        console.log(data);
-        setUser(data);
-        return data;
-      })
-      .then((data) => {
-        if (user) {
-          let templist = [];
-          console.log(data);
-          data.eventsParticipated.forEach((event) => {
-            fetchEventById(event).then((data) => {
-              templist.push(data);
-            });
-          });
-          console.log(templist);
-          setEventList(templist);
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setUser({});
-        setEventList([]);
-      })
-      ;
-  }, []);
+  const { user } = useContext(UserContext);
+
+  // useEffect(() => {
+  //   fetchCurrentUser()
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUser(data);
+  //       return data;
+  //     })
+  //     .then((data) => {
+  //       if (user) {
+  //         let templist = [];
+  //         console.log(data);
+  //         data.eventsParticipated.forEach((event) => {
+  //           fetchEventById(event).then((data) => {
+  //             templist.push(data);
+  //           });
+  //         });
+  //         console.log(templist);
+  //         setEventList(templist);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //       setUser({});
+  //       setEventList([]);
+  //     })
+  //     ;
+  // }, []);
 
   // useEffect(() => {
   //   if (user) {
@@ -49,6 +52,10 @@ export default function DashboardComp() {
   //     setEventList(templist);
   //   }
   // }, []);
+
+  if(!user) {
+    return <div>Loading...</div>
+  }
 
   if (user) {
     var { username = "", email = "", collegeId = "" } = user;

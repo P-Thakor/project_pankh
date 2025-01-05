@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { AuthModal } from ".";
 import ForgotPasswordModal from "./ForgotPasswordModal";
+import UserContext from "@/context/UserContext";
 
 const SignIn = () => {
   // const [username, setUsername] = useState('');
@@ -17,6 +18,7 @@ const SignIn = () => {
   const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
 
   const router = useRouter();
+  const { setUser } = useContext(UserContext);
 
   const handleSignIn = async (e) => {
     setIsLoading(true);
@@ -34,9 +36,10 @@ const SignIn = () => {
       }),
     });
 
-    console.log(response.status);
     if (response.status === 200) {
       // alert("Login successfull.");
+      const res = await response.json();
+      setUser(res.data.user);
       setModalType("success-login");
       setIsvisible(true);
     } else {

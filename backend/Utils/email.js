@@ -82,4 +82,8 @@ module.exports = class Email {
   async sendEventReminder(event) {
     await this.send('eventReminder', `Reminder: ${event.name} is today!`);
   }
+
+  async sendNewEventAlert(event) {
+    await this.send('newEventAlert', `New Event Alert: ${event.name}`);
+  }
 };

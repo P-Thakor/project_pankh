@@ -5,6 +5,7 @@ const Event = require('../Models/eventModel');
 const catchAsync = require('../Utils/catchAsync');
 const AppError = require('../Utils/appError');
 const User = require('../Models/userModel');
+const sendEmail = require('../Utils/email');
 
 // Configure Cloudinary
 cloudinary.config({
@@ -142,6 +143,14 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
 
 exports.createEvent = catchAsync(async (req, res, next) => {
   const newEvent = await Event.create(req.body);
+  const users = await User.find(); // Fetch all users or specific users
+
+  await Promise.all(
+    users.map((user) => {
+      const email = new sendEmail(user, 'eventCreated'); // Instantiate the class with `new`
+      return email.sendNewEventAlert(newEvent); // Call the method on the instance
+    }),
+  );
   res.status(201).json({
     status: 'success',
     data: newEvent,

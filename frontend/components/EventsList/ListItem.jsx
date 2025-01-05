@@ -40,7 +40,7 @@ export default function ListItem({ item }) {
           <div className="object-contain">
             <Image
               src={
-                item.photo[0]?.startsWith("http")
+                item.photo[0]?.startsWith("https://res.cloudinary.com/")
                   ? item.photo[0].replace(
                       "/upload/",
                       "/upload/c_crop,w_350,h_238/"

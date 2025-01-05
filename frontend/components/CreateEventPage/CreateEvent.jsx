@@ -36,8 +36,8 @@ const CreateEvent = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: e.target[0].value,
-        locations: e.target[1].value,
+        name: name,
+        locations: location,
         startDate: startDate,
         endDate: endDate,
         startTime: startTime,

@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import UserContext from "@/context/UserContext";
+import { convertToISO } from "@/utils";
+import { DivideIcon } from "@heroicons/react/24/solid";
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
 
 const CreateEvent = () => {
   const [isMultipleDays, setIsMultipleDays] = useState(false);
@@ -11,9 +15,19 @@ const CreateEvent = () => {
   const [endTime, setEndTime] = useState("");
   const [location, setLocation] = useState("");
   const [eventDescription, setEventDescription] = useState("");
-  const [email, setEmail] = useState("");
-  const [creator, setCreator] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
+  // const [email, setEmail] = useState("x@y.com");
+  // const [creator, setCreator] = useState("x");
+  const [contactNumber, setContactNumber] = useState("1234567890");
+  const [eventPoster, setEventPoster] = useState(null);
+  const [externalLink, setExternalLink] = useState("");
+
+  const router = useRouter();
+
+  const {user} = useContext(UserContext);
+  if (!user) {
+    router.push("/sign-in");
+    return;
+  }
 
   const handleDateChange = (e) => {
     setStartDate(e.target.value);
@@ -30,6 +44,12 @@ const CreateEvent = () => {
 
   const handleCreateEvent = (e) => {
     e.preventDefault();
+
+    const beginEvent = convertToISO(startDate, startTime);
+    const endEvent = convertToISO(endDate, endTime);
+
+    console.log(beginEvent, endEvent);
+
     fetch("http://localhost:8000/api/v1/event/createEvent", {
       method: "POST",
       headers: {
@@ -38,14 +58,16 @@ const CreateEvent = () => {
       body: JSON.stringify({
         name: name,
         locations: location,
-        startDate: startDate,
-        endDate: endDate,
-        startTime: startTime,
-        endTime: endTime,
-        summary: eventDescription,
-        contactEmail: email,
-        creator: creator,
+        startDate: beginEvent,
+        endDate: endEvent,
+        startTime: beginEvent,
+        endTime: endEvent,
+        description: eventDescription,
+        contactEmail: user.email,
+        creator: user._id,
         contactNumber: contactNumber,
+        photo: eventPoster || "x",
+        externalLink: externalLink,
       }),
     }).then((response) => {
       if (response.ok) {
@@ -185,6 +207,7 @@ const CreateEvent = () => {
                 </label>
                 <input
                   type="file"
+                  onChange={(e) => setEventPoster(e.target.files[0])}
                   className="w-full px-4 py-2 border border-gray-300 rounded"
                 />
               </div>

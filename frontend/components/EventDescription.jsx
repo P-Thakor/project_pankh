@@ -10,7 +10,7 @@ const EventDescription = ({ event }) => {
       <div className="w-1/2 flex-left">
         <div className="mb-12">
           <h2 className="text-2xl font-bold">Description</h2>
-          <p className="text-gray-500 mt-4">{eventData.summary}</p>
+          <p className="text-gray-500 mt-4">{eventData.description}</p>
         </div>
 
         <div className="mb-4">
@@ -29,10 +29,10 @@ const EventDescription = ({ event }) => {
           <p className="text-gray-500">{eventData.locations}</p>
         </div>
 
-        <div className="mb-12">
+        {eventData.summary && <div className="mb-12">
           <h4 className="text-xl font-semibold mb-2">{eventData.name}</h4>
           <p className="text-gray-500">{eventData.summary}</p>
-        </div>
+        </div>}
       </div>
     </div>
   );

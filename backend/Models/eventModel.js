@@ -18,10 +18,11 @@ const eventSchema = new mongoose.Schema({
   description: {
     type: String,
     trim: true,
+    required: [true, 'An Event must have a Description'],
   },
   summary: {
     type: String,
-    required: [true, 'An Event must have a Summary'],
+    // required: [true, 'An Event must have a Summary'],
     trim: true,
   },
   locations: {
@@ -58,7 +59,6 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: [true, 'User should have an Email'],
     trim: true,
-    unique: true,
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid Email'],
   },

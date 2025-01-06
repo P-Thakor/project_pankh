@@ -142,19 +142,24 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
 });
 
 exports.createEvent = catchAsync(async (req, res, next) => {
-  const newEvent = await Event.create(req.body);
-  const users = await User.find(); // Fetch all users or specific users
-
-  await Promise.all(
-    users.map((user) => {
-      const email = new sendEmail(user, 'eventCreated'); // Instantiate the class with `new`
-      return email.sendNewEventAlert(newEvent); // Call the method on the instance
-    }),
-  );
-  res.status(201).json({
-    status: 'success',
-    data: newEvent,
-  });
+  try {
+    const newEvent = await Event.create(req.body);
+    // const users = await User.find(); // Fetch all users or specific users
+  
+    // await Promise.all(
+    //   users.map((user) => {
+    //     const email = new sendEmail(user, 'eventCreated'); // Instantiate the class with `new`
+    //     return email.sendNewEventAlert(newEvent); // Call the method on the instance
+    //   }),
+    // );
+    res.status(201).json({
+      status: 'success',
+      data: newEvent,
+    });
+  } catch (error) {
+    console.error('Error in createEvent:', error);
+    next(new AppError('Error creating event', 500));
+  }
 });
 
 exports.createEventByClub = catchAsync(async (req, res, next) => {

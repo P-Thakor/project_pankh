@@ -38,7 +38,7 @@ export default function DashboardComp() {
   }
 
   return (
-    <div className="flex h-screen overflow-clip">
+    <div className="flex min-h-screen overflow-clip">
       {/* Sidebar */}
       <div className="w-64 bg-white border-r border-gray-200 shadow-lg">
         <div className="p-4 border-b border-gray-200">
@@ -127,7 +127,7 @@ export default function DashboardComp() {
             </h1>
             {/* Add event details here */}
             {eventList.length > 0 ? (
-              <List list={eventList} />
+              <List list={eventList} style = "ml-2" />
             ) : (
               <p className="mt-4 text-gray-500">No events participated yet!</p>
             )}

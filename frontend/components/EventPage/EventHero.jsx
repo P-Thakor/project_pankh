@@ -3,13 +3,17 @@
 import { fetchCurrentUser, formattedDate, formattedTime } from "@/utils";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
-import SuccessModal from "../successModal";
+// import SuccessModal from "../successModal";
 import UserContext from "@/context/UserContext";
+import { AuthModal } from "..";
 
 export default function EventHero({ item }) {
   // const [user, setUser] = useState(null);
   const [registered, setRegistered] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalIconColor, setModalIconColor] = useState("");
   // useEffect(() => {
   //   fetchCurrentUser().then((data) => {
   //     setUser(data);
@@ -38,9 +42,17 @@ export default function EventHero({ item }) {
       .then((response) => {
         response.json().then((data) => {
           if (response.ok) {
+            setRegistered(true);
+            setModalTitle("Registration Successful");
+            setModalMessage("Thank you for registering for our event. We look forward to seeing you there!");
+            setModalIconColor("bg-green-500");
             setIsModalVisible(true);
           } else {
-            alert("Failed to register for this event");
+            // alert("Failed to register for this event");
+            setModalTitle("Registration Unsuccessful");
+            setModalMessage("Failed to register for this event. Please try again.");
+            setModalIconColor("bg-red-500");
+            setIsModalVisible(true);
           }
           console.log(data);
           return data;
@@ -141,8 +153,11 @@ export default function EventHero({ item }) {
           </div>
         </div>
       </section>
-      <SuccessModal
+      <AuthModal
         isVisible={isModalVisible}
+        title={modalTitle}
+        message={modalMessage}
+        iconColor={modalIconColor}
         onClose={() => setIsModalVisible(false)}
       />
       ;

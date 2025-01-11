@@ -13,8 +13,11 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [modalType, setModalType] = useState(null);
+  // const [modalType, setModalType] = useState(null);
   const [isvisible, setIsvisible] = useState(false);
+  const [ modalTitle, setModalTitle ] = useState('');
+  const [ modalMessage, setModalMessage ] = useState('');
+  const [ modalIconColor, setModalIconColor ] = useState('');
   const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
 
   const router = useRouter();
@@ -40,10 +43,16 @@ const SignIn = () => {
       // alert("Login successfull.");
       const res = await response.json();
       setUser(res.data.user);
-      setModalType("success-login");
+      // setModalType("success-login");
+      setModalTitle("Login Successful!");
+      setModalMessage("Welcome back! You have successfully logged in.");
+      setModalIconColor("bg-blue-500");
       setIsvisible(true);
     } else {
-      setModalType("error-login");
+      // setModalType("error-login");
+      setModalTitle("Login Unsuccessful");
+      setModalMessage("Invalid credentials. Please try again.");
+      setModalIconColor("bg-red-500");
       setIsvisible(true);
       // alert("Login failed.");
     }
@@ -148,8 +157,11 @@ const SignIn = () => {
       </div>
       <AuthModal
         isVisible={isvisible}
-        type={modalType}
-        onClose={() => setIsvisible(false)}
+        title={modalTitle}
+        message={modalMessage}
+        iconColor={modalIconColor}
+        onClose={() => setIsvisible(false)
+        }
       />
       {forgotPasswordModalOpen && (
         <ForgotPasswordModal

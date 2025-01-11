@@ -18,7 +18,7 @@ const eventSchema = new mongoose.Schema({
   description: {
     type: String,
     trim: true,
-    required: [true, 'An Event must have a Description'],
+    // required: [true, 'An Event must have a Description'],
   },
   summary: {
     type: String,
@@ -77,15 +77,16 @@ const eventSchema = new mongoose.Schema({
     ref: 'Club',
   },
   creator: {
-    type: String,
-    required: [true, "An Event must have organiser's name"],
+    // type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
   },
   startDate: Date,
   endDate: Date,
   startTime: Date,
   endTime: Date,
   externalLink: {
-    type: String
+    type: String,
   },
   reviews: [
     {

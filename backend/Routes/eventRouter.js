@@ -11,7 +11,7 @@ router.get(
   eventController.getAllEvents,
 );
 
-router.route('/createEvent').post( eventController.createEvent);
+router.route('/createEvent').post(isAuthenticated, eventController.createEvent);
 
 router
   .route('/createEventByClub/:id')

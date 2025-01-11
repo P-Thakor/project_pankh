@@ -143,9 +143,11 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
 
 exports.createEvent = catchAsync(async (req, res, next) => {
   try {
-    const newEvent = await Event.create(req.body);
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const newEvent = await Event.create({ ...req.body, creator: req.user.id });
+
     // const users = await User.find(); // Fetch all users or specific users
-  
+
     // await Promise.all(
     //   users.map((user) => {
     //     const email = new sendEmail(user, 'eventCreated'); // Instantiate the class with `new`
@@ -232,10 +234,13 @@ exports.registerEventForUser = catchAsync(async (req, res, next) => {
   }
 
   // console.log(user);
+  const email = new sendEmail(user, 'eventRegistered');
+  await email.sendRegistrationConfirmation(event);
   user.eventsParticipated.push(req.params.id);
   event.participants.push(user._id);
   await user.save();
   await event.save();
+
   res.status(200).json({
     status: 'success',
     data: user,

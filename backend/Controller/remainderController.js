@@ -5,7 +5,7 @@ const sendEmail = require('../Utils/email');
 const sendReminderEmails = async () => {
   try {
     const today = moment().format('YYYY-MM-DD'); // Format date as YYYY-MM-DD
-    const eventsToday = await EventModel.find({ date: today }).populate(
+    const eventsToday = await EventModel.find({ startDate: today }).populate(
       'participants',
     );
 

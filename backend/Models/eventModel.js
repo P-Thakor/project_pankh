@@ -80,6 +80,7 @@ const eventSchema = new mongoose.Schema({
     // type: String,
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: [true, 'An Event must have a Creator'],
   },
   startDate: Date,
   endDate: Date,

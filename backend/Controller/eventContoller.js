@@ -144,7 +144,7 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
 exports.createEvent = catchAsync(async (req, res, next) => {
   try {
     // eslint-disable-next-line node/no-unsupported-features/es-syntax
-    const newEvent = await Event.create({ ...req.body, creator: req.user.id });
+    const newEvent = await Event.create({ ...req.body, creator: req.user.id, contactEmail: req.body.email || req.user.email });
 
     // const users = await User.find(); // Fetch all users or specific users
 

@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const { isAuthenticated } = require('../Utils/middleware');
+const { isAuthenticated, userRole } = require('../Utils/middleware');
 const eventController = require('../Controller/eventContoller');
 // const authController = require('../Controller/authController');
 
@@ -11,7 +11,9 @@ router.get(
   eventController.getAllEvents,
 );
 
-router.route('/createEvent').post(isAuthenticated, eventController.createEvent);
+router
+  .route('/createEvent')
+  .post(isAuthenticated, userRole, eventController.createEvent);
 
 router
   .route('/createEventByClub/:id')
@@ -29,7 +31,7 @@ router.patch(
   '/updateEvent/:id',
   eventController.uploadEventImages,
   eventController.uploadImage,
-  // eventController.resizeEventImage,
+  //eventController.resizeEventImage,
   eventController.updateEvent,
 );
 router

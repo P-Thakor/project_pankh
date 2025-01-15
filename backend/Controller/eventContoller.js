@@ -5,6 +5,7 @@ const Event = require('../Models/eventModel');
 const catchAsync = require('../Utils/catchAsync');
 const AppError = require('../Utils/appError');
 const User = require('../Models/userModel');
+const sendEmail = require('../Utils/email');
 
 // Configure Cloudinary
 cloudinary.config({
@@ -141,11 +142,26 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
 });
 
 exports.createEvent = catchAsync(async (req, res, next) => {
-  const newEvent = await Event.create(req.body);
-  res.status(201).json({
-    status: 'success',
-    data: newEvent,
-  });
+  try {
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const newEvent = await Event.create({ ...req.body, creator: req.user.id, contactEmail: req.body.email || req.user.email });
+
+    // const users = await User.find(); // Fetch all users or specific users
+
+    // await Promise.all(
+    //   users.map((user) => {
+    //     const email = new sendEmail(user, 'eventCreated'); // Instantiate the class with `new`
+    //     return email.sendNewEventAlert(newEvent); // Call the method on the instance
+    //   }),
+    // );
+    res.status(201).json({
+      status: 'success',
+      data: newEvent,
+    });
+  } catch (error) {
+    console.error('Error in createEvent:', error);
+    next(new AppError('Error creating event', 500));
+  }
 });
 
 exports.createEventByClub = catchAsync(async (req, res, next) => {
@@ -218,10 +234,13 @@ exports.registerEventForUser = catchAsync(async (req, res, next) => {
   }
 
   // console.log(user);
+  const email = new sendEmail(user, 'eventRegistered');
+  await email.sendRegistrationConfirmation(event);
   user.eventsParticipated.push(req.params.id);
   event.participants.push(user._id);
   await user.save();
   await event.save();
+
   res.status(200).json({
     status: 'success',
     data: user,

@@ -1,0 +1,17 @@
+extends baseEmail
+
+block content
+  - const readableDate = new Date(event.startDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  - const readableTime = new Date(event.startDate).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+  h1 Event Registration Confirmation
+  p Hello #{firstName},
+  p Thank you for registering for the event "#{event.name}".
+  p Here are the details of the event:
+  ul
+    li Date: #{readableDate}
+    li Time: #{readableTime}
+    li Location: #{event.locations}
+  p We look forward to seeing you there!
+  p Best regards,
+  p The Event Team

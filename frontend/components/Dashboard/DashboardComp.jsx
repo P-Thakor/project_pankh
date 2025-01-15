@@ -1,57 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import List from "@/components/EventsList/List";
 import { fetchCurrentUser, fetchEventById } from "@/utils";
+import UserContext from "@/context/UserContext";
 
 export default function DashboardComp() {
   const [activeSection, setActiveSection] = useState("Profile"); // Default to Profile section
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const [eventList, setEventList] = useState([]);
 
-  useEffect(() => {
-    fetchCurrentUser()
-      .then((data) => {
-        console.log(data);
-        setUser(data);
-        return data;
-      })
-      .then((data) => {
-        if (user) {
-          let templist = [];
-          console.log(data);
-          data.eventsParticipated.forEach((event) => {
-            fetchEventById(event).then((data) => {
-              templist.push(data);
-            });
-          });
-          console.log(templist);
-          setEventList(templist);
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setUser({});
-        setEventList([]);
-      })
-      ;
-  }, []);
+  const { user } = useContext(UserContext);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     let templist = [];
-  //     user.eventsParticipated.forEach((event) => {
-  //       fetchEventById(event).then((data)=>{
-  //         templist.push(data);
-  //       })
-  //     })
-  //     console.log(templist);
-  //     setEventList(templist);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (user) {
+      let templist = [];
+      user.eventsParticipated.forEach((event) => {
+        fetchEventById(event).then((data)=>{
+          templist.push(data);
+        })
+      })
+      setEventList(templist);
+    }
+  }, [user]);
+
+  if(!user) {
+    return <div>Loading...</div>
+  }
 
   if (user) {
     var { username = "", email = "", collegeId = "" } = user;
+    let templist = [];
   } else {
     var username = (email = "");
     setUser({});
@@ -59,7 +38,7 @@ export default function DashboardComp() {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex min-h-screen overflow-clip">
       {/* Sidebar */}
       <div className="w-64 bg-white border-r border-gray-200 shadow-lg">
         <div className="p-4 border-b border-gray-200">
@@ -142,13 +121,13 @@ export default function DashboardComp() {
         )}
 
         {activeSection === "Events" && user && (
-          <div>
+          <div className="">
             <h1 className="text-2xl font-bold text-primaryblue">
               Events Participated
             </h1>
             {/* Add event details here */}
             {eventList.length > 0 ? (
-              <List list={eventList} />
+              <List list={eventList} style = "ml-2" />
             ) : (
               <p className="mt-4 text-gray-500">No events participated yet!</p>
             )}

@@ -30,25 +30,16 @@ module.exports = class Email {
         pass: process.env.MAILJET_PASSWORD,
       },
     });
-
-    // return nodemailer.createTransport({
-    //   host: 'smtp.mailgun.org',
-    //   port: 587,
-    //   secure: false,
-    //   auth: {
-    //     user: 'postmaster@sandbox2b88f563dd0b4f2ea66018c110271c81.mailgun.org',
-    //     pass: 'SendMail',
-    //   },
-    // });
   }
 
   // Send the actual email
-  async send(template, subject) {
+  async send(template, subject, data = {}) {
     // 1) Render HTML based on a pug template
     const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
       firstName: this.firstName,
       url: this.url,
       subject,
+      ...data,
     });
 
     // 2) Define email options
@@ -77,5 +68,21 @@ module.exports = class Email {
 
   async sendVerificationEmail() {
     await this.send('verifyEmail', `Verify your email address`);
+  }
+
+  async sendEventReminder(event) {
+    await this.send('eventReminder', `Reminder: ${event.name} is today!`);
+  }
+
+  async sendNewEventAlert(event) {
+    await this.send('newEventAlert', `New Event Alert: ${event.name}`);
+  }
+
+  async sendRegistrationConfirmation(event) {
+    await this.send(
+      'registrationConfirmation',
+      `Registration Confirmation: ${event.name}`,
+      { event },
+    );
   }
 };

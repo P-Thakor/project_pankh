@@ -12,9 +12,13 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [modalType, setModalType] = useState(null);
+  // const [modalType, setModalType] = useState(null);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalIconColor, setModalIconColor] = useState("");
   const [isvisible, setIsvisible] = useState(false);
   const [collegeId, setCollegeId] = useState("");
+  const [role, setRole] = useState("user");
 
   const router = useRouter();
 
@@ -22,13 +26,21 @@ const SignUp = () => {
     setIsLoading(true);
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      // alert("Passwords do not match");
+      setModalTitle("Sign Up Unsuccessful");
+      setModalMessage("Passwords do not match. Please try again.");
+      setModalIconColor("bg-red-500");
+      setIsvisible(true);
       return;
     }
     if (email.endsWith("@charusat.edu.in")) {
       const id = email.split("@")[0];
       setCollegeId(id);
+      setRole("student");
       // console.log(id);
+    }
+    else if (email.endsWith("@charusat.ac.in")) {
+      setRole("faculty");
     }
     const response = await fetch("http://localhost:8000/api/v1/auth/signup", {
       method: "POST",
@@ -40,24 +52,39 @@ const SignUp = () => {
         email,
         password,
         collegeId,
+        role,
       }),
     });
 
     // const data = await response.json();
     console.log(response.status);
     if (response.status === 201) {
-      if (email.endsWith("ac.in")) {
-        // alert('Teacher Sign Up successfull.');
-        setModalType("success-faculty-signup");
-        setIsvisible(true);
-      } else {
-        // alert('Student Sign Up successfull.');
-        setModalType("success-user-signup");
-        setIsvisible(true);
+      setModalTitle("Registration Successful!");
+      switch (role) {
+        case "faculty":
+          setModalMessage("Welcome! You have successfully registered as a faculty.");
+          setModalIconColor("bg-green-500");
+          break;
+        case "student":
+          setModalMessage("Welcome! You have successfully registered as a student.");
+          setModalIconColor("bg-green-500");
+          break;
+      
+        default:
+          setModalMessage("Welcome! You have successfully registered as a user.");
+          setModalIconColor("bg-blue-500");
+          break;
       }
+      setIsvisible(true);
       setTimeout(() => {
         router.push("/sign-in");
       }, 2000);
+    }
+    else {
+      setModalTitle("Registration Unsuccessful");
+      setModalMessage("Registration failed. Please try again.");
+      setModalIconColor("bg-red-500");
+      setIsvisible(true);
     }
     setIsLoading(false);
     setUsername("");
@@ -154,7 +181,9 @@ const SignUp = () => {
       </div>
       <AuthModal
         isVisible={isvisible}
-        type={modalType}
+        title={modalTitle}
+        message={modalMessage}
+        iconColor={modalIconColor}
         onClose={() => setIsvisible(false)}
       />
     </div>

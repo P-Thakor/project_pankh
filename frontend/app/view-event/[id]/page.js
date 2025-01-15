@@ -1,5 +1,6 @@
 import { EventDescription, EventHero } from "@/components";
 import List from "@/components/EventsList/List";
+import UserContextProvider from "@/context/UserContextProvider";
 import { fetchEventById, fetchEvents } from "@/utils";
 
 const EventPage = async ({ params }) => {
@@ -7,6 +8,7 @@ const EventPage = async ({ params }) => {
   const events = await fetchEvents();
 
   return (
+    <UserContextProvider>
     <main className="overflow-hidden">
       <EventHero item={eventData} />
       <EventDescription event={eventData} />
@@ -16,6 +18,7 @@ const EventPage = async ({ params }) => {
       </div>
       <List list={events.filter((item) => item._id != params.id)} />
     </main>
+    </UserContextProvider>
   );
 };
 

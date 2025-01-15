@@ -9,7 +9,7 @@ const eventSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     maxlength: [
-      20,
+      200,
       'An Event name must be less than or equal to 20 characters',
     ],
     minlength: [1, 'An Event name must be less than or equal to 1 character'],
@@ -18,10 +18,11 @@ const eventSchema = new mongoose.Schema({
   description: {
     type: String,
     trim: true,
+    // required: [true, 'An Event must have a Description'],
   },
   summary: {
     type: String,
-    required: [true, 'An Event must have a Summary'],
+    // required: [true, 'An Event must have a Summary'],
     trim: true,
   },
   locations: {
@@ -58,7 +59,6 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: [true, 'User should have an Email'],
     trim: true,
-    unique: true,
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid Email'],
   },
@@ -77,13 +77,18 @@ const eventSchema = new mongoose.Schema({
     ref: 'Club',
   },
   creator: {
-    type: String,
-    required: [true, "An Event must have organiser's name"],
+    // type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'An Event must have a Creator'],
   },
   startDate: Date,
   endDate: Date,
   startTime: Date,
   endTime: Date,
+  externalLink: {
+    type: String,
+  },
   reviews: [
     {
       type: mongoose.Schema.Types.ObjectId,

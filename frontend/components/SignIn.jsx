@@ -2,21 +2,26 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { AuthModal } from ".";
 import ForgotPasswordModal from "./ForgotPasswordModal";
+import UserContext from "@/context/UserContext";
 
 const SignIn = () => {
   // const [username, setUsername] = useState('');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [modalType, setModalType] = useState(null);
+  // const [modalType, setModalType] = useState(null);
   const [isvisible, setIsvisible] = useState(false);
+  const [ modalTitle, setModalTitle ] = useState('');
+  const [ modalMessage, setModalMessage ] = useState('');
+  const [ modalIconColor, setModalIconColor ] = useState('');
   const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
 
   const router = useRouter();
+  const { setUser } = useContext(UserContext);
 
   const handleSignIn = async (e) => {
     setIsLoading(true);
@@ -34,13 +39,20 @@ const SignIn = () => {
       }),
     });
 
-    console.log(response.status);
     if (response.status === 200) {
       // alert("Login successfull.");
-      setModalType("success-login");
+      const res = await response.json();
+      setUser(res.data.user);
+      // setModalType("success-login");
+      setModalTitle("Login Successful!");
+      setModalMessage("Welcome back! You have successfully logged in.");
+      setModalIconColor("bg-blue-500");
       setIsvisible(true);
     } else {
-      setModalType("error-login");
+      // setModalType("error-login");
+      setModalTitle("Login Unsuccessful");
+      setModalMessage("Invalid credentials. Please try again.");
+      setModalIconColor("bg-red-500");
       setIsvisible(true);
       // alert("Login failed.");
     }
@@ -145,8 +157,11 @@ const SignIn = () => {
       </div>
       <AuthModal
         isVisible={isvisible}
-        type={modalType}
-        onClose={() => setIsvisible(false)}
+        title={modalTitle}
+        message={modalMessage}
+        iconColor={modalIconColor}
+        onClose={() => setIsvisible(false)
+        }
       />
       {forgotPasswordModalOpen && (
         <ForgotPasswordModal

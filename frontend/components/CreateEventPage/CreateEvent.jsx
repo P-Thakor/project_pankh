@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import UserContext from "@/context/UserContext";
+import { convertToISO } from "@/utils";
+import { DivideIcon } from "@heroicons/react/24/solid";
+import { useRouter } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 
 const CreateEvent = () => {
   const [isMultipleDays, setIsMultipleDays] = useState(false);
@@ -10,6 +14,14 @@ const CreateEvent = () => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [location, setLocation] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+  const [email, setEmail] = useState("");
+  // const [creator, setCreator] = useState("x");
+  const [contactNumber, setContactNumber] = useState("");
+  const [eventPoster, setEventPoster] = useState(null);
+  const [externalLink, setExternalLink] = useState("");
+
+  const router = useRouter();
 
   const handleDateChange = (e) => {
     setStartDate(e.target.value);
@@ -26,26 +38,42 @@ const CreateEvent = () => {
 
   const handleCreateEvent = (e) => {
     e.preventDefault();
+
+    const beginEvent = convertToISO(startDate, startTime);
+    const endEvent = convertToISO(endDate, endTime);
+
+    console.log(beginEvent, endEvent);
+
     fetch("http://localhost:8000/api/v1/event/createEvent", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: e.target[0].value,
-        locations: e.target[1].value,
-        startDate: startDate,
-        endDate: endDate,
-        startTime: startTime,
-        endTime: endTime,
+        name: name,
+        locations: location,
+        startDate: beginEvent,
+        endDate: endEvent,
+        startTime: beginEvent,
+        endTime: endEvent,
+        description: eventDescription,
+        email: email,
+        contactNumber: contactNumber,
+        photo: eventPoster || "x",
+        externalLink: externalLink,
       }),
-    }).then((response) => {
-      if (response.ok) {
-        alert("Event created successfully.");
-      } else {
-        alert("Event creation failed.");
-      }
-    });
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("Event created successfully.");
+        } else {
+          alert("Event creation failed.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
@@ -177,6 +205,7 @@ const CreateEvent = () => {
                 </label>
                 <input
                   type="file"
+                  onChange={(e) => setEventPoster(e.target.files[0])}
                   className="w-full px-4 py-2 border border-gray-300 rounded"
                 />
               </div>
@@ -187,8 +216,34 @@ const CreateEvent = () => {
                 <input
                   placeholder="Cognizance is a tech fest organized by the students of CHARUSAT"
                   className="w-full px-4 py-2 border border-gray-300 rounded"
+                  value={eventDescription}
+                  onChange={(e) => setEventDescription(e.target.value)}
                 />
               </div>
+            </div>
+
+            <div className="mt-10">
+              <h2 className="mb-4 text-xl font-semibold">Contact</h2>
+              <label className="block text-sm font-medium text-gray-700">
+                Contact Number
+              </label>
+              <input
+                type="text"
+                placeholder="Enter Contact Number"
+                className="w-full px-4 py-2 border border-gray-300 rounded mb-4"
+                value={contactNumber}
+                onChange={(e) => setContactNumber(e.target.value)}
+              />
+              <label className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="text"
+                placeholder="Enter Contact Number"
+                className="w-full px-4 py-2 border border-gray-300 rounded mb-4"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
 
             <button

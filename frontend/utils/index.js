@@ -67,3 +67,9 @@ export async function resetPassword(Otp) {
     });
     return await res.json();
 }
+
+export function convertToISO(date, time) {
+    const [year, month, day] = date.split('-');
+    const [hours, minutes] = time.split(':');
+    return new Date(year, month - 1, day, hours, minutes).toISOString();
+}

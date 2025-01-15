@@ -20,7 +20,7 @@ exports.getAllClubs = catchAsync(async (req, res, next) => {
   });
   res.status(200).json({
     status: 'success',
-    results: clubs.length,
+    // results: clubs.length,
     data: {
       clubs,
     },
@@ -67,6 +67,7 @@ exports.deleteClub = catchAsync(async (req, res, next) => {
   res.status(204).json({
     status: 'success',
     data: null,
+    message: 'club has been delete Successfully',
   });
 });
 
@@ -86,6 +87,7 @@ exports.addMember = catchAsync(async (req, res, next) => {
     data: {
       club,
     },
+    message: 'New Member added Successfully',
   });
 });
 

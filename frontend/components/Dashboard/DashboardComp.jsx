@@ -9,6 +9,7 @@ export default function DashboardComp() {
   const [activeSection, setActiveSection] = useState("Profile"); // Default to Profile section
   // const [user, setUser] = useState({});
   const [eventList, setEventList] = useState([]);
+  const [createdEvents, setCreatedEvents] = useState([]);
 
   const { user } = useContext(UserContext);
 
@@ -16,21 +17,30 @@ export default function DashboardComp() {
     if (user) {
       let templist = [];
       user.eventsParticipated.forEach((event) => {
-        fetchEventById(event).then((data)=>{
+        fetchEventById(event).then((data) => {
           templist.push(data);
-        })
-      })
+        });
+      });
       setEventList(templist);
     }
+
+    console.log(user);
+
+    if(user?.role === "admin" || user?.role === "faculty-member") {
+      let tempcreatedlist = [];
+      eventList.forEach((event) => {
+        event.creator === user._id && tempcreatedlist.push(event);
+        });
+        setCreatedEvents(tempcreatedlist);
+      };
   }, [user]);
 
-  if(!user) {
-    return <div>Loading...</div>
+  if (!user) {
+    return <div>Loading...</div>;
   }
 
   if (user) {
     var { username = "", email = "", collegeId = "" } = user;
-    let templist = [];
   } else {
     var username = (email = "");
     setUser({});
@@ -62,6 +72,20 @@ export default function DashboardComp() {
               {item}
             </li>
           ))}
+          {user.role === "admin" ||
+            ("faculty" && (
+              <li
+                key="Your Events"
+                onClick={() => setActiveSection("Your Events")}
+                className={`p-4 cursor-pointer transition-colors ${
+                  activeSection === "Your Events"
+                    ? "text-primaryblue font-semibold" // Active item style
+                    : "hover:text-primaryblue" // Hover style
+                }`}
+              >
+                Your Events
+              </li>
+            ))}
         </ul>
       </div>
 
@@ -104,16 +128,16 @@ export default function DashboardComp() {
                       {email}
                     </span>
                   </div>
-                  {
-                    collegeId !== "" &&
+                  {collegeId !== "" && (
                     <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-gray-500">
-                      Student ID:
-                    </span>
-                    <span className="text-lg font-medium text-primaryblue">
-                      {collegeId}
-                    </span>
-                  </div>}
+                      <span className="text-sm font-semibold text-gray-500">
+                        Student ID:
+                      </span>
+                      <span className="text-lg font-medium text-primaryblue">
+                        {collegeId}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -127,9 +151,23 @@ export default function DashboardComp() {
             </h1>
             {/* Add event details here */}
             {eventList.length > 0 ? (
-              <List list={eventList} style = "ml-2" />
+              <List list={eventList} style="ml-2" />
             ) : (
               <p className="mt-4 text-gray-500">No events participated yet!</p>
+            )}
+          </div>
+        )}
+
+        {activeSection === "Your Events" && user && (
+          <div className="">
+            <h1 className="text-2xl font-bold text-primaryblue">
+              Events Created by You
+            </h1>
+            {/* Add event details here */}
+            {eventList.length > 0 ? (
+              <List list={createdEvents} style="ml-2" />
+            ) : (
+              <p className="mt-4 text-gray-500">No events organized yet!</p>
             )}
           </div>
         )}

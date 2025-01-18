@@ -9,7 +9,7 @@ router.route('/createClub').post(clubController.createClub);
 
 router.route('/club/:id').get(clubController.getClubById);
 
-router.route('/updateClub/:id').put(clubController.updateClub);
+router.route('/updateClub/:id').patch(clubController.updateClub);
 
 router.route('/deleteClub/:id').delete(clubController.deleteClub);
 

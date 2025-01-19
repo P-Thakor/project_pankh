@@ -29,9 +29,6 @@ export default function EventHero({ item }) {
   }, [user, item._id]);
 
   const handleRegisterForEvent = () => {
-    if (item.externalLink) {
-      window.open(item.link, "_blank");
-    } else {
     fetch(`/api/v1/user/registerEvent/${item._id}`, {
       method: "PATCH",
       headers: {
@@ -44,13 +41,17 @@ export default function EventHero({ item }) {
           if (response.ok) {
             setRegistered(true);
             setModalTitle("Registration Successful");
-            setModalMessage("Thank you for registering for our event. We look forward to seeing you there!");
+            setModalMessage(
+              "Thank you for registering for our event. We look forward to seeing you there!"
+            );
             setModalIconColor("bg-green-500");
             setIsModalVisible(true);
           } else {
             // alert("Failed to register for this event");
             setModalTitle("Registration Unsuccessful");
-            setModalMessage("Failed to register for this event. Please try again.");
+            setModalMessage(
+              "Failed to register for this event. Please try again."
+            );
             setModalIconColor("bg-red-500");
             setIsModalVisible(true);
           }
@@ -64,7 +65,7 @@ export default function EventHero({ item }) {
       .catch((error) => {
         console.error("Error:", error);
       });
-  }};
+  };
 
   return (
     <>

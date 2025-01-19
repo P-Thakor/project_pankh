@@ -1,21 +1,18 @@
 "use client";
 
+import UserContext from "@/context/UserContext";
 import { fetchCurrentUser } from "@/utils";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Mock login state
-  const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  // const [user, setUser] = useState(null);
+
+  const { user, logoutUser } = useContext(UserContext);
 
   const router = useRouter();
-
-  useEffect(() => {
-    fetchCurrentUser().then((data) => {
-      setUser(data);
-    });
-  }, []);
 
   useEffect(() => {
     user ? setIsLoggedIn(true) : setIsLoggedIn(false);
@@ -33,7 +30,7 @@ export default function Sidebar() {
         .then((response) => {
           if (response.ok) {
             setIsLoggedIn(false);
-            setUser(null);
+            logoutUser();
             response.json().then((data) => {
               console.log(data);
             });

@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { AuthModal } from ".";
 import ForgotPasswordModal from "./ForgotPasswordModal";
-import UserContext from "@/context/UserContext";
+import UserContext from "../context/UserContext";
 
 const SignIn = () => {
   // const [username, setUsername] = useState('');
@@ -21,7 +21,7 @@ const SignIn = () => {
   const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
 
   const router = useRouter();
-  const { setUser } = useContext(UserContext);
+  const { loginUser } = useContext(UserContext);
 
   const handleSignIn = async (e) => {
     setIsLoading(true);
@@ -42,7 +42,7 @@ const SignIn = () => {
     if (response.status === 200) {
       // alert("Login successfull.");
       const res = await response.json();
-      setUser(res.data.user);
+      loginUser(res.data.user);
       // setModalType("success-login");
       setModalTitle("Login Successful!");
       setModalMessage("Welcome back! You have successfully logged in.");

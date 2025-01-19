@@ -1,12 +1,7 @@
-import SignIn from "@/components/SignIn"
-import UserContextProvider from "@/context/UserContextProvider";
+import SignIn from "@/components/SignIn";
 
 const SignInPage = () => {
-  return (
-    <UserContextProvider>
-      <SignIn />
-    </UserContextProvider>
-  )
-}
+  return <SignIn />;
+};
 
 export default SignInPage;

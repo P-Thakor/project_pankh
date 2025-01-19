@@ -3,7 +3,7 @@
 import { useContext, useEffect, useState } from "react";
 import List from "@/components/EventsList/List";
 import { fetchCurrentUser, fetchEventById } from "@/utils";
-import UserContext from "@/context/UserContext";
+import UserContext from "../../context/UserContext";
 
 export default function DashboardComp() {
   const [activeSection, setActiveSection] = useState("Profile"); // Default to Profile section

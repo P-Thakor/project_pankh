@@ -24,13 +24,14 @@ const UserContextProvider = ({ children }) => {
 
   const loginUser = (userData) => {
     setUser(userData);
-    setTimeout(() => {
-      console.log(user);
-    }, 2000);
+  }
+
+  const logoutUser = () => {
+    setUser(null);
   }
 
   return (
-    <UserContext.Provider value={{ user, setUser, loginUser }}>
+    <UserContext.Provider value={{ user, loginUser, logoutUser }}>
       {children}
     </UserContext.Provider>
   );

@@ -6,7 +6,7 @@ const EventDescription = ({ event }) => {
   const eventData = event;
   console.log(eventData);
   return (
-    <div className="flex gap-20 p-10 items-center">
+    <div className="flex gap-20 py-10 items-center px-20">
       <div className="w-1/2 flex-left">
         <div className="mb-12">
           <h2 className="text-2xl font-bold">Description</h2>

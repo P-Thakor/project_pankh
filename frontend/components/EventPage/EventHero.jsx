@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 // import SuccessModal from "../successModal";
 import UserContext from "@/context/UserContext";
 import { AuthModal } from "..";
+import { TailSpin } from "react-loader-spinner";
 
 export default function EventHero({ item }) {
   // const [user, setUser] = useState(null);
@@ -14,6 +15,7 @@ export default function EventHero({ item }) {
   const [modalTitle, setModalTitle] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const [modalIconColor, setModalIconColor] = useState("");
+  const [loading, setLoading] = useState(false);
   // useEffect(() => {
   //   fetchCurrentUser().then((data) => {
   //     setUser(data);
@@ -29,6 +31,7 @@ export default function EventHero({ item }) {
   }, [user, item._id]);
 
   const handleRegisterForEvent = () => {
+    setLoading(true);
     fetch(`/api/v1/user/registerEvent/${item._id}`, {
       method: "PATCH",
       headers: {
@@ -64,6 +67,9 @@ export default function EventHero({ item }) {
       })
       .catch((error) => {
         console.error("Error:", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -125,7 +131,16 @@ export default function EventHero({ item }) {
                     onClick={handleRegisterForEvent}
                     className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
                   >
-                    Register Now
+                    {loading ? (
+                      <TailSpin
+                        type="Tailspin"
+                        color="#FFFFFF"
+                        height={25}
+                        width={25}
+                      />
+                    ) : (
+                      "Register Now"
+                    )}
                   </button>
                 )}
                 <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full">

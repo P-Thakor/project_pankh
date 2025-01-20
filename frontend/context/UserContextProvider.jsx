@@ -10,7 +10,7 @@ const UserContextProvider = ({ children }) => {
   // useEffect(() => {
   //   const fetchUser = async () => {
   //     try {
-  //       const response = await fetchCurrentUser() 
+  //       const response = await fetchCurrentUser()
   //       // if (response.ok) {
   //         setUser(response);
   //       // }
@@ -22,13 +22,22 @@ const UserContextProvider = ({ children }) => {
   //   fetchUser();
   // }, []);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("isLoggedIn");
+    if (storedUser) {
+      fetchCurrentUser().then((data) => setUser(data));
+    }
+  }, []);
+
   const loginUser = (userData) => {
     setUser(userData);
-  }
+    localStorage.setItem("isLoggedIn", "1");
+  };
 
   const logoutUser = () => {
     setUser(null);
-  }
+    localStorage.removeItem("user");
+  };
 
   return (
     <UserContext.Provider value={{ user, loginUser, logoutUser }}>

@@ -161,7 +161,6 @@ export default function EventHero({ item }) {
         iconColor={modalIconColor}
         onClose={() => setIsModalVisible(false)}
       />
-      ;
     </>
   );
 }

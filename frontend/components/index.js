@@ -17,6 +17,7 @@ import successModal from "./successModal";
 import AuthModal from "./AuthModal";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import ReviewCardModal from "./ReviewCardModal";
+import EventParticipants from "./EventParticipants";
 
 export {
   Navbar,
@@ -38,4 +39,5 @@ export {
   AuthModal,
   ForgotPasswordModal,
   ReviewCardModal,
+  EventParticipants,
 };

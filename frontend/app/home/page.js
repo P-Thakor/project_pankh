@@ -3,27 +3,31 @@
 import { AddNewEventTab, CustomFilter, Hero} from "@/components";
 import List from "@/components/EventsList/List";
 import { Days, EventCategory, EventMode, EventType } from "@/constants";
+import UserContext from "@/context/UserContext";
 import { fetchCurrentUser, fetchEvents } from "@/utils";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const page = () => {
   const [events, setEvents] = useState([]);
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
     fetchEvents().then((data) => setEvents(data));
   }, []);
-  useEffect(() => {
-    fetchCurrentUser().then((data) => {
-      setUser(data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetchCurrentUser().then((data) => {
+  //     setUser(data);
+  //   });
+  // }, []);
+
+  const {user} = useContext(UserContext);
 
   useEffect(() => {
-    if (user.role === "user") {
+    if (user?.role === "faculty-member" || user?.role === "admin") {
       setIsAuthorized(true);
     }
+    console.log(user);
   },[]);
 
   // console.log(isAuthorized);

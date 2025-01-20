@@ -14,7 +14,9 @@ const EventPage = async ({ params }) => {
         <h1 className="text-4xl font-semibold mr-3">Other </h1>
         <h1 className="text-4xl font-semibold text-primaryblue">Events</h1>
       </div>
+      <div className="sm:ml-12">
       <List list={events.filter((item) => item._id != params.id)} />
+        </div>
     </main>
   );
 };

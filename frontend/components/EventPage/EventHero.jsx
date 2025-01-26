@@ -32,7 +32,7 @@ export default function EventHero({ item }) {
 
   const handleRegisterForEvent = () => {
     setLoading(true);
-    fetch(`/api/v1/user/registerEvent/${item._id}`, {
+    fetch(`http://localhost:3000/api/v1/user/registerEvent/${item._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

@@ -5,7 +5,7 @@ import List from "@/components/EventsList/List";
 import { fetchCurrentUser, fetchEventById } from "@/utils";
 import UserContext from "../../context/UserContext";
 
-export default function DashboardComp() {
+export default function DashboardComp({events = []}) {
   const [activeSection, setActiveSection] = useState("Profile"); // Default to Profile section
   // const [user, setUser] = useState({});
   const [eventList, setEventList] = useState([]);
@@ -15,16 +15,19 @@ export default function DashboardComp() {
 
   useEffect(() => {
     if (user) {
-      let templist = [];
-      user.eventsParticipated.forEach((event) => {
-        fetchEventById(event).then((data) => {
-          templist.push(data);
-        });
-      });
+      // let templist = [];
+      // user.eventsParticipated.forEach((event) => {
+      //   fetchEventById(event).then((data) => {
+      //     templist.push(data);
+      //   });
+      // });
+
+      let templist = events.filter(event=>user.eventsParticipated.includes(event._id))
       setEventList(templist);
     }
 
     console.log(user);
+    console.log(eventList);
 
     if(user?.role === "admin" || user?.role === "faculty-member") {
       let tempcreatedlist = [];
@@ -72,8 +75,8 @@ export default function DashboardComp() {
               {item}
             </li>
           ))}
-          {user.role === "admin" ||
-            ("faculty" && (
+          {
+            user.role === "faculty-member" && (
               <li
                 key="Your Events"
                 onClick={() => setActiveSection("Your Events")}
@@ -85,7 +88,7 @@ export default function DashboardComp() {
               >
                 Your Events
               </li>
-            ))}
+            )}
         </ul>
       </div>
 
@@ -165,7 +168,7 @@ export default function DashboardComp() {
             </h1>
             {/* Add event details here */}
             {eventList.length > 0 ? (
-              <List list={createdEvents} style="ml-2" />
+              <List list={createdEvents} style="ml-2" isCreator={true}/>
             ) : (
               <p className="mt-4 text-gray-500">No events organized yet!</p>
             )}

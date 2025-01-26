@@ -2,47 +2,47 @@
 
 import { useEffect, useState } from "react";
 
-export default function EventParticipants({ eventData }) {
-  const [participants, setParticipants] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function EventParticipants({ participants = [] }) {
+  // const [participants, setParticipants] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function fetchParticipants() {
-      try {
-        // // Fetch event details to get participants array
-        // const eventRes = await fetch(`/api/v1/event/getEvent/${eventId}`);
-        // const eventData = await eventRes.json();
-        // console.log(eventData);
+  // useEffect(() => {
+  //   async function fetchParticipants() {
+  //     try {
+  //       // // Fetch event details to get participants array
+  //       // const eventRes = await fetch(`/api/v1/event/getEvent/${eventId}`);
+  //       // const eventData = await eventRes.json();
+  //       // console.log(eventData);
         
-        // if (!eventData?.data?.participants || eventData.data.participants.length === 0) {
-        //   setParticipants([]);
-        //   setLoading(false);
-        //   return;
-        // }
+  //       // if (!eventData?.data?.participants || eventData.data.participants.length === 0) {
+  //       //   setParticipants([]);
+  //       //   setLoading(false);
+  //       //   return;
+  //       // }
 
-        // Fetch user details for each participant
-        const users = await Promise.all(
-          eventData.participants.map(async (participantId) => {
-            const userRes = await fetch(`http://localhost:8000/api/v1/user/getUser/${participantId}`);
-            const userData = await userRes.json();
-            console.log(userData);
-            return userData.data ? { username: userData.data.username, collegeId: userData.data.collegeId } : null;
-          })
-        );
+  //       // Fetch user details for each participant
+  //       const users = await Promise.all(
+  //         eventData.participants.map(async (participantId) => {
+  //           const userRes = await fetch(`http://localhost:8000/api/v1/user/getUser/${participantId}`);
+  //           const userData = await userRes.json();
+  //           console.log(userData);
+  //           return userData.data ? { username: userData.data.username, collegeId: userData.data.collegeId } : null;
+  //         })
+  //       );
 
-        // Filter out any failed requests (null values)
-        setParticipants(users.filter((user) => user !== null));
-      } catch (error) {
-        console.error("Error fetching participants:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
+  //       // Filter out any failed requests (null values)
+  //       setParticipants(users.filter((user) => user !== null));
+  //     } catch (error) {
+  //       console.error("Error fetching participants:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
 
-    if (eventData) {
-      fetchParticipants();
-    }
-  }, [eventData]);
+  //   if (eventData) {
+  //     fetchParticipants();
+  //   }
+  // }, [eventData]);
 
   return (
     <section className="p-4">

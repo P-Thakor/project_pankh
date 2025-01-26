@@ -1,9 +1,13 @@
 import { DashboardComp } from "@/components";
 import UserContextProvider from "@/context/UserContextProvider";
-export default function Dashboard() {
+import { fetchEvents } from "@/utils";
+export default async function Dashboard() {
+
+  const events = await fetchEvents();
+
   return (
     <main>
-      <DashboardComp />
+      <DashboardComp events = {events}/>
     </main>
   );
 }

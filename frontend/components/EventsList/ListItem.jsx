@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 
-export default function ListItem({ item }) {
+export default function ListItem({ item, isCreator }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,7 +20,11 @@ export default function ListItem({ item }) {
 
   // if (isPast) {
   //   return null;
-  // } 
+  // }
+
+  const handleViewParticipants = () => {
+    router.push(`/event-participants/${item._id}`);
+  }
   return (
     <>
       {isLoading ? (
@@ -32,12 +36,12 @@ export default function ListItem({ item }) {
       ) : (
         <div
           className="p-4 w-100 items-center justify-center shadow-xl rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
-          onClick={() => handleRedirect(`/view-event/${item._id}`)}
+          
         >
           {/* <div className="bg-white text-purple-600 rounded-xl px-2 py-1 absolute text-xs m-2">
             {item.price !== 0 ? "PAID" : "FREE"}
           </div> */}
-          <div className="object-contain">
+          <div className="object-contain" onClick={() => handleRedirect(`/view-event/${item._id}`)}>
             <Image
               src={
                 item.photo[0]?.startsWith("https://res.cloudinary.com/")
@@ -53,14 +57,21 @@ export default function ListItem({ item }) {
               className="rounded-md"
             />
           </div>
-          <div className="max-w-[350px] text-wrap">
-            <h3 className="font-semibold text-lg font-sans my-4">
-              {item.name}
-            </h3>
-            <p className="text-sm text-primaryblue">
-              {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
-            </p>
-            <p className="text-gray-500 mt-4">{item.locations}</p>
+          <div className="flex justify-between items-center mt-4">
+            <div className="max-w-[350px] text-wrap" onClick={() => handleRedirect(`/view-event/${item._id}`)}>
+              <h3 className="font-semibold text-lg font-sans my-4">
+                {item.name}
+              </h3>
+              <p className="text-sm text-primaryblue">
+                {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
+              </p>
+              <p className="text-gray-500 mt-4">{item.locations}</p>
+            </div>
+            { isCreator &&
+              <div>
+                <button className="bg-primaryblue text-white px-2 py-2 rounded-md z-10 hover:bg-primarydarkblue" onClick={handleViewParticipants}>View Participants</button>
+              </div>
+            }
           </div>
         </div>
       )}

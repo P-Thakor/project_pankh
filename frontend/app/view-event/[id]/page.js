@@ -9,7 +9,7 @@ const EventPage = async ({ params }) => {
   return (
     <main className="overflow-hidden">
       <EventHero item={eventData} />
-      <EventParticipants event={eventData} />
+      <EventParticipants eventData={eventData} />
       <EventDescription event={eventData} />
       <div className="flex w-1/2 mb-4 sm:ml-24 sm:mb-0 ">
         <h1 className="mr-3 text-4xl font-semibold">Other </h1>

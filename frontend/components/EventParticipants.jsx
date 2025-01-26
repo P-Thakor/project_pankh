@@ -2,28 +2,28 @@
 
 import { useEffect, useState } from "react";
 
-export default function EventParticipants({ eventId }) {
+export default function EventParticipants({ eventData }) {
   const [participants, setParticipants] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchParticipants() {
       try {
-        // Fetch event details to get participants array
-        const eventRes = await fetch(`/api/v1/event/getEvent/${eventId}`);
-        const eventData = await eventRes.json();
-        console.log(eventData);
+        // // Fetch event details to get participants array
+        // const eventRes = await fetch(`/api/v1/event/getEvent/${eventId}`);
+        // const eventData = await eventRes.json();
+        // console.log(eventData);
         
-        if (!eventData?.data?.participants || eventData.data.participants.length === 0) {
-          setParticipants([]);
-          setLoading(false);
-          return;
-        }
+        // if (!eventData?.data?.participants || eventData.data.participants.length === 0) {
+        //   setParticipants([]);
+        //   setLoading(false);
+        //   return;
+        // }
 
         // Fetch user details for each participant
         const users = await Promise.all(
-          eventData.data.participants.map(async (participantId) => {
-            const userRes = await fetch(`/api/v1/user/getUser/${participantId}`);
+          eventData.participants.map(async (participantId) => {
+            const userRes = await fetch(`http://localhost:8000/api/v1/user/getUser/${participantId}`);
             const userData = await userRes.json();
             console.log(userData);
             return userData.data ? { username: userData.data.username, collegeId: userData.data.collegeId } : null;
@@ -39,10 +39,10 @@ export default function EventParticipants({ eventId }) {
       }
     }
 
-    if (eventId) {
+    if (eventData) {
       fetchParticipants();
     }
-  }, [eventId]);
+  }, [eventData]);
 
   return (
     <section className="p-4">

@@ -234,7 +234,7 @@ exports.registerEventForUser = catchAsync(async (req, res, next) => {
   }
 
   // console.log(user);
-  const email = new sendEmail(user, 'eventRegistered');
+  // const email = new sendEmail(user, 'eventRegistered');
   await email.sendRegistrationConfirmation(event);
   user.eventsParticipated.push(req.params.id);
   event.participants.push(user._id);

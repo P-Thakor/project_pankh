@@ -17,22 +17,25 @@ const SignUp = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [modalIconColor, setModalIconColor] = useState("");
   const [isvisible, setIsvisible] = useState(false);
-  const [collegeId, setCollegeId] = useState("");
-  const [role, setRole] = useState("other");
+  // const [collegeId, setCollegeId] = useState("");
+  // const [role, setRole] = useState("other");
 
   const router = useRouter();
 
   const handleSignUp = async (e) => {
     setIsLoading(true);
     e.preventDefault();
+    let collegeId = "";
+    let role = "other";
     if (email.endsWith("@charusat.edu.in")) {
-      const id = email.split("@")[0];
-      setCollegeId(id);
-      setRole("user");
-      // console.log(id);
+      collegeId = email.split("@")[0];
+      role = "user";
+      // setCollegeId(id);
+      // setRole("user");
     }
     else if (email.endsWith("@charusat.ac.in")) {
-      setRole("faculty-member");
+      // setRole("faculty-member");
+      role = "faculty-member";
     }
     if (password !== confirmPassword) {
       // alert("Passwords do not match");
@@ -40,6 +43,7 @@ const SignUp = () => {
       setModalMessage("Passwords do not match. Please try again.");
       setModalIconColor("bg-red-500");
       setIsvisible(true);
+      setIsLoading(false);
       return;
     }
     const response = await fetch("http://localhost:8000/api/v1/auth/signup", {
@@ -57,7 +61,7 @@ const SignUp = () => {
     });
 
     // const data = await response.json();
-    console.log(response.status);
+    console.log(response);
     if (response.status === 201) {
       setModalTitle("Registration Successful!");
       switch (role) {

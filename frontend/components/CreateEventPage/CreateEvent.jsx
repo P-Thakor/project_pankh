@@ -5,6 +5,7 @@ import { convertToISO } from "@/utils";
 import { DivideIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import { AuthModal } from "..";
 
 const CreateEvent = () => {
   const [isMultipleDays, setIsMultipleDays] = useState(false);
@@ -16,10 +17,13 @@ const CreateEvent = () => {
   const [location, setLocation] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [email, setEmail] = useState("");
-  // const [creator, setCreator] = useState("x");
   const [contactNumber, setContactNumber] = useState("");
   const [eventPoster, setEventPoster] = useState(null);
   const [externalLink, setExternalLink] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [message, setMessage] = useState("");
+  const [iconColor, setIconColor] = useState("bg-blue-500");
 
   const router = useRouter();
 
@@ -66,13 +70,21 @@ const CreateEvent = () => {
     })
       .then((response) => {
         if (response.ok) {
-          alert("Event created successfully.");
-        } else {
-          alert("Event creation failed.");
+          // alert("Event created successfully.");
+          setModalTitle("Event Created Unsuccessful.");
+          setMessage("Looking forward to the experience!");
+          setIsModalVisible(true);
+        }
+        else {
+          // alert("Event creation failed.");
+          setModalTitle("Event Creation Unsuccessful.");
+        // setMessage(error);
+        setIconColor("bg-red-500");
+        setIsModalVisible(true);
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.log("Error:", error);
       });
   };
 
@@ -95,6 +107,7 @@ const CreateEvent = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  required
                 />
               </div>
 
@@ -155,6 +168,7 @@ const CreateEvent = () => {
                   value={startDate}
                   onChange={handleDateChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded"
+                  required
                 />
               </div>
 
@@ -181,6 +195,7 @@ const CreateEvent = () => {
                   value={startTime}
                   onChange={(e) => setStartTime(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded"
+                  required
                 />
               </div>
 
@@ -218,6 +233,7 @@ const CreateEvent = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded"
                   value={eventDescription}
                   onChange={(e) => setEventDescription(e.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -233,6 +249,7 @@ const CreateEvent = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded mb-4"
                 value={contactNumber}
                 onChange={(e) => setContactNumber(e.target.value)}
+                required
               />
               <label className="block text-sm font-medium text-gray-700">
                 Email
@@ -255,6 +272,13 @@ const CreateEvent = () => {
           </form>
         </div>
       </section>
+      <AuthModal
+        isVisible={isModalVisible}
+        title={modalTitle}
+        message={message}
+        iconColor={iconColor}
+        onClose={() => setIsModalVisible(false)}
+      />
     </>
   );
 };

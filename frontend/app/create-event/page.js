@@ -1,11 +1,8 @@
-import { CreateEvent } from "@/components"
-import UserContextProvider from "@/context/UserContextProvider"
+import { CreateEvent } from "@/components";
 export default function CreateEventPage() {
-    return (
-        <UserContextProvider>
-        <main>
-            <CreateEvent />
-        </main>
-        </UserContextProvider>
-    )
+  return (
+    <main>
+      <CreateEvent />
+    </main>
+  );
 }

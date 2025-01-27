@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 // import SuccessModal from "../successModal";
 import UserContext from "@/context/UserContext";
 import { AuthModal } from "..";
+import { TailSpin } from "react-loader-spinner";
 
 export default function EventHero({ item }) {
   // const [user, setUser] = useState(null);
@@ -14,6 +15,7 @@ export default function EventHero({ item }) {
   const [modalTitle, setModalTitle] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const [modalIconColor, setModalIconColor] = useState("");
+  const [loading, setLoading] = useState(false);
   // useEffect(() => {
   //   fetchCurrentUser().then((data) => {
   //     setUser(data);
@@ -29,10 +31,8 @@ export default function EventHero({ item }) {
   }, [user, item._id]);
 
   const handleRegisterForEvent = () => {
-    if (item.externalLink) {
-      window.open(item.link, "_blank");
-    } else {
-    fetch(`/api/v1/user/registerEvent/${item._id}`, {
+    setLoading(true);
+    fetch(`http://localhost:3000/api/v1/user/registerEvent/${item._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -44,13 +44,17 @@ export default function EventHero({ item }) {
           if (response.ok) {
             setRegistered(true);
             setModalTitle("Registration Successful");
-            setModalMessage("Thank you for registering for our event. We look forward to seeing you there!");
+            setModalMessage(
+              "Thank you for registering for our event. We look forward to seeing you there!"
+            );
             setModalIconColor("bg-green-500");
             setIsModalVisible(true);
           } else {
             // alert("Failed to register for this event");
             setModalTitle("Registration Unsuccessful");
-            setModalMessage("Failed to register for this event. Please try again.");
+            setModalMessage(
+              "Failed to register for this event. Please try again."
+            );
             setModalIconColor("bg-red-500");
             setIsModalVisible(true);
           }
@@ -63,8 +67,11 @@ export default function EventHero({ item }) {
       })
       .catch((error) => {
         console.error("Error:", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-  }};
+  };
 
   return (
     <>
@@ -124,7 +131,16 @@ export default function EventHero({ item }) {
                     onClick={handleRegisterForEvent}
                     className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
                   >
-                    Register Now
+                    {loading ? (
+                      <TailSpin
+                        type="Tailspin"
+                        color="#FFFFFF"
+                        height={25}
+                        width={25}
+                      />
+                    ) : (
+                      "Register Now"
+                    )}
                   </button>
                 )}
                 <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full">
@@ -160,7 +176,6 @@ export default function EventHero({ item }) {
         iconColor={modalIconColor}
         onClose={() => setIsModalVisible(false)}
       />
-      ;
     </>
   );
 }

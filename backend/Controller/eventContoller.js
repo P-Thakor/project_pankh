@@ -112,7 +112,7 @@ exports.getAllEvents = catchAsync(async (req, res, next) => {
     })
     .populate({
       path: 'participants', // Populating the participants
-      select: 'email', // Only select the 'email' field from participants
+      select: 'username collegeId email', // Only select the 'email' field from participants
     });
 
   res.status(200).json({
@@ -130,7 +130,7 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
     })
     .populate({
       path: 'participants', // Populating the participants
-      select: 'email', // Only select the 'email' field from participants
+      select: 'username collegeId email', // Only select the 'email' field from participants
     });
   if (!event) {
     return next(new AppError(404, 'Event not found'));
@@ -218,7 +218,7 @@ exports.deleteEvent = catchAsync(async (req, res, next) => {
 // });
 
 exports.registerEventForUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
+  const user = await User.findById(req.user._id);
   const event = await Event.findById(req.params.id);
   if (!event) {
     return next(new AppError('Event not found', 404));
@@ -229,13 +229,13 @@ exports.registerEventForUser = catchAsync(async (req, res, next) => {
     );
   }
 
-  if (!event.participants) {
-    event.participants = []; // Initialize if it doesn't exist
-  }
+  // if (!event.participants) {
+  //   event.participants = []; // Initialize if it doesn't exist
+  // }
 
   // console.log(user);
-  const email = new sendEmail(user, 'eventRegistered');
-  await email.sendRegistrationConfirmation(event);
+  // const email = new sendEmail(user, 'eventRegistered');
+  // await email.sendRegistrationConfirmation(event);
   user.eventsParticipated.push(req.params.id);
   event.participants.push(user._id);
   await user.save();

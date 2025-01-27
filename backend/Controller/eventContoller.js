@@ -63,7 +63,7 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
     };
 
     // Upload coverImage if it exists
-    if (req.files.coverImage) {
+    if (req.files?.coverImage) {
       const coverImageUrl = await uploadImageToCloudinary(
         req.files.coverImage[0],
         `coverImage_${Date.now()}`,
@@ -82,7 +82,7 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
     }
 
     // Upload photos if they exist
-    if (req.files.photo) {
+    if (req.files?.photo) {
       const photoUrls = await Promise.all(
         req.files.photo.map((file, index) =>
           uploadImageToCloudinary(file, `Event_photo_${index}_${Date.now()}`),

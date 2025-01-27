@@ -15,7 +15,7 @@ router.route('/createEvent').post(
   isAuthenticated,
   eventController.uploadEventImages,
   eventController.uploadImage,
-  // userRole,
+  userRole,
   eventController.createEvent,
 );
 

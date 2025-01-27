@@ -18,7 +18,7 @@ const CreateEvent = () => {
   const [eventDescription, setEventDescription] = useState("");
   const [email, setEmail] = useState("");
   const [contactNumber, setContactNumber] = useState("");
-  const [eventPoster, setEventPoster] = useState(null);
+  const [eventPoster, setEventPoster] = useState("");
   const [externalLink, setExternalLink] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
@@ -48,39 +48,37 @@ const CreateEvent = () => {
 
     console.log(beginEvent, endEvent);
 
+    const formData = new FormData();
+    formData.append("coverImage", eventPoster);
+    formData.append("name", name);
+    formData.append("locations", location);
+    formData.append("startDate", beginEvent);
+    formData.append("endDate", endEvent);
+    formData.append("startTime", beginEvent);
+    formData.append("endTime", endEvent);
+    formData.append("description", eventDescription);
+    formData.append("email", email);
+    formData.append("contactNumber", contactNumber);
+    // formData.append("externalLink", externalLink);
+
     fetch("http://localhost:8000/api/v1/event/createEvent", {
       method: "POST",
       credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        locations: location,
-        startDate: beginEvent,
-        endDate: endEvent,
-        startTime: beginEvent,
-        endTime: endEvent,
-        description: eventDescription,
-        email: email,
-        contactNumber: contactNumber,
-        photo: eventPoster || "x",
-        externalLink: externalLink,
-      }),
+      body: formData,
     })
       .then((response) => {
         if (response.ok) {
           // alert("Event created successfully.");
-          setModalTitle("Event Created Unsuccessful.");
+          setModalTitle("Event Created Successfully.");
           setMessage("Looking forward to the experience!");
           setIsModalVisible(true);
-        }
-        else {
+        } else {
           // alert("Event creation failed.");
           setModalTitle("Event Creation Unsuccessful.");
-        // setMessage(error);
-        setIconColor("bg-red-500");
-        setIsModalVisible(true);
+          // setMessage(error);
+          setIconColor("bg-red-500");
+          setIsModalVisible(true);
+          console.log("Error:", response);
         }
       })
       .catch((error) => {
@@ -220,6 +218,7 @@ const CreateEvent = () => {
                 </label>
                 <input
                   type="file"
+                  accept="image/*"
                   onChange={(e) => setEventPoster(e.target.files[0])}
                   className="w-full px-4 py-2 border border-gray-300 rounded"
                 />

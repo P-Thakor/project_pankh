@@ -15,7 +15,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   await User.register(newUser, password);
 
   console.log(newUser);
-  await new SendEmail(newUser, '').sendWelcome();
+  // await new SendEmail(newUser, '').sendWelcome();
 
   // Optionally: Log the user in after signup
   req.login(newUser, (err) => {
@@ -54,12 +54,6 @@ exports.login = (req, res, next) => {
         secure: false,
         sameSite: 'lax',
       });
-      res.clearCookie('userId', {
-        httpOnly: true,
-        // secure: process.env.NODE_ENV === 'production',
-        secure: false,
-        sameSite: 'lax',
-      });
 
       res.status(200).json({
         status: 'success',
@@ -78,6 +72,12 @@ exports.logout = (req, res, next) => {
     if (err) {
       return next(err); // Passes any error to the global error handler
     }
+    res.clearCookie('userId', {
+      httpOnly: true,
+      // secure: process.env.NODE_ENV === 'production',
+      secure: false,
+      sameSite: 'lax',
+    });
     res.status(200).json({
       status: 'success',
       message: 'Logged out successfully',

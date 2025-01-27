@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 
-const AuthModal = ({ isVisible, onClose, title, message, iconColor }) => {
+const AuthModal = ({ isVisible, onClose, title, message, iconColor="bg-blue-500" }) => {
 
   return (
     <AnimatePresence>

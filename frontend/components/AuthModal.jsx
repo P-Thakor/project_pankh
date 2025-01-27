@@ -1,46 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 
 const AuthModal = ({ isVisible, onClose, title, message, iconColor }) => {
-  // const getModalContent = () => {
-  //   switch (type) {
-  //     case "success-event-registration":
-  //       return {
-  //         title: "Registration Successful!",
-  //         message: "Thank you for registering for our event. We look forward to seeing you there!",
-  //         iconColor: "bg-green-500",
-  //       };
-  //       case "success-user-signup":
-  //       return {
-  //         title: "Registration Successful!",
-  //         message: "Welcome! You have successfully registered as a user.",
-  //         iconColor: "bg-blue-500",
-  //       };
-  //       case "success-faculty-signup":
-  //       return {
-  //         title: "Registration Successful!",
-  //         message: "Welcome! You have successfully registered as a faculty.",
-  //         iconColor: "bg-blue-500",
-  //       };
-  //     case "success-login":
-  //       return {
-  //         title: "Login Successful!",
-  //         message: "Welcome back! You have successfully logged in.",
-  //         iconColor: "bg-blue-500",
-  //       };
-  //     case "error-login":
-  //       return {
-  //         title: "Login Unsuccessful",
-  //         message: "Invalid credentials. Please try again.",
-  //         iconColor: "bg-red-500",
-  //       };
-  //     default:
-  //       return null;
-  //   }
-  // };
-
-  // const content = getModalContent();
-
-  // if (!content) return null;
 
   return (
     <AnimatePresence>

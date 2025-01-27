@@ -166,7 +166,7 @@ export default function DashboardComp({events = []}) {
             <h1 className="text-2xl font-bold text-primaryblue">
               Events Created by You
             </h1>
-            {/* Add event details here */}
+            {setTimeout(() => {}, 1000)}
             {eventList.length > 0 ? (
               <List list={createdEvents} style="ml-2" isCreator={true}/>
             ) : (

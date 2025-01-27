@@ -68,12 +68,17 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
         req.files.coverImage[0],
         `coverImage_${Date.now()}`,
       );
-      const updatedEvent = await Event.findByIdAndUpdate(
-        req.params.id,
-        { coverImage: coverImageUrl },
-        { new: true },
-      );
-      console.log('Updated Event with Cover Image:', updatedEvent);
+      if (req.url === '/updateEvent/:id') {
+        const updatedEvent = await Event.findByIdAndUpdate(
+          req.params.id,
+          { coverImage: coverImageUrl },
+          { new: true },
+        );
+        console.log('Updated Event with Cover Image:', updatedEvent);
+      }
+      if (req.url === '/createEvent') {
+        req.body.coverImage = coverImageUrl;
+      }
     }
 
     // Upload photos if they exist
@@ -104,7 +109,7 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllEvents = catchAsync(async (req, res, next) => {
-  // console.log(req.user.role);
+  console.log(req.url);
   const events = await Event.find()
     .populate({
       path: 'reviews',
@@ -144,7 +149,11 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
 exports.createEvent = catchAsync(async (req, res, next) => {
   try {
     // eslint-disable-next-line node/no-unsupported-features/es-syntax
-    const newEvent = await Event.create({ ...req.body, creator: req.user.id, contactEmail: req.body.email || req.user.email });
+    const newEvent = await Event.create({
+      ...req.body,
+      creator: req.user.id,
+      contactEmail: req.body.email || req.user.email,
+    });
 
     // const users = await User.find(); // Fetch all users or specific users
 

@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import UserContext from "@/context/UserContext";
 import { fetchCurrentUser } from "@/utils";
 import { useRouter } from "next/navigation";
@@ -69,8 +71,28 @@ export default function Sidebar() {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out z-40 rounded-r-lg`}
       >
+        
+
         {/* Nav Links */}
         <ul className="mt-8 space-y-4">
+        {/* <Link href="/home">
+            <Image
+              src="/logo.svg"
+              alt="PANKH logo"
+              width={170}
+              height={25}
+              className="flex object-contain"
+            />
+          </Link> */}
+        <li
+            className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
+            onClick={() => {
+              router.push("/home");
+              toggleSidebar();
+            }}
+          >
+            Home
+          </li>
           <li
             className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
             onClick={() => {
@@ -80,15 +102,15 @@ export default function Sidebar() {
           >
             Dashboard
           </li>
-          <li
-            className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
-            onClick={() => {
-              router.push("/create-event");
-              toggleSidebar();
-            }}
-          >
-            Create Event
-          </li>
+            <li
+              className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
+              onClick={() => {
+                router.push("/create-event");
+                toggleSidebar();
+              }}
+            >
+              Create Event
+            </li>
           <li
             className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
             onClick={() => {
@@ -98,9 +120,9 @@ export default function Sidebar() {
           >
             Clubs
           </li>
-          <li className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue">
+          {/* <li className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue">
             Scholarships
-          </li>
+          </li> */}
         </ul>
 
         {/* Login/Logout button */}

@@ -44,8 +44,8 @@ export default function EventParticipants({ participants = [] }) {
   };
 
   return (
-    <div className="p-6 bg-white shadow rounded-2xl min-h-screen">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+    <div className="min-h-screen p-6 bg-white shadow rounded-2xl">
+      <h2 className="mb-4 text-2xl font-semibold text-blue-600">
         Participants
       </h2>
       {loading ? (
@@ -58,15 +58,15 @@ export default function EventParticipants({ participants = [] }) {
             {participants.map((participant, index) => (
               <li
                 key={index}
-                className="flex items-center justify-start py-3 px-4 hover:bg-gray-50 rounded-md"
+                className="flex items-center justify-start px-4 py-3 rounded-md hover:bg-gray-50"
               >
                 <input
                   type="checkbox"
-                  className="form-checkbox text-blue-600 rounded"
+                  className="text-blue-600 rounded form-checkbox"
                   checked={selectedParticipants.includes(participant)}
                   onChange={() => handleToggle(participant)}
                 />
-                <div className="flex items-center space-x-2 ml-4" onClick={() => handleToggle(participant)}>
+                <div className="flex items-center ml-4 space-x-2" onClick={() => handleToggle(participant)}>
                 <span className="text-gray-600">{participant.collegeId} - </span>
                   <p className="text-gray-900">
                     {participant.username}
@@ -77,7 +77,7 @@ export default function EventParticipants({ participants = [] }) {
           </ul>
           <button
             onClick={handleSubmit}
-            className="py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition"
+            className="px-4 py-2 font-semibold text-white transition bg-blue-600 rounded-lg shadow-md hover:bg-blue-700"
             disabled={loading}
           >
             {loading ? "Submitting..." : "Submit Attendance"}

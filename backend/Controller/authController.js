@@ -15,7 +15,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   await User.register(newUser, password);
 
   console.log(newUser);
-  await new SendEmail(newUser, '').sendWelcome();
+  // await new SendEmail(newUser, '').sendWelcome();
 
   // Optionally: Log the user in after signup
   req.login(newUser, (err) => {

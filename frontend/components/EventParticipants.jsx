@@ -1,65 +1,91 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function EventParticipants({ participants = [] }) {
-  // const [participants, setParticipants] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedParticipants, setSelectedParticipants] = useState([]);
 
-  // useEffect(() => {
-  //   async function fetchParticipants() {
-  //     try {
-  //       // // Fetch event details to get participants array
-  //       // const eventRes = await fetch(`/api/v1/event/getEvent/${eventId}`);
-  //       // const eventData = await eventRes.json();
-  //       // console.log(eventData);
-        
-  //       // if (!eventData?.data?.participants || eventData.data.participants.length === 0) {
-  //       //   setParticipants([]);
-  //       //   setLoading(false);
-  //       //   return;
-  //       // }
+  // Handle checkbox toggle
+  const handleToggle = (participant) => {
+    setSelectedParticipants((prev) =>
+      prev.includes(participant)
+        ? prev.filter((p) => p !== participant)
+        : [...prev, participant]
+    );
+  };
 
-  //       // Fetch user details for each participant
-  //       const users = await Promise.all(
-  //         eventData.participants.map(async (participantId) => {
-  //           const userRes = await fetch(`http://localhost:8000/api/v1/user/getUser/${participantId}`);
-  //           const userData = await userRes.json();
-  //           console.log(userData);
-  //           return userData.data ? { username: userData.data.username, collegeId: userData.data.collegeId } : null;
-  //         })
-  //       );
+  // Handle attendance submission
+  const handleSubmit = async () => {
+    if (selectedParticipants.length === 0) {
+      alert("Please select at least one participant.");
+      return;
+    }
 
-  //       // Filter out any failed requests (null values)
-  //       setParticipants(users.filter((user) => user !== null));
-  //     } catch (error) {
-  //       console.error("Error fetching participants:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
+    setLoading(true);
+    try {
+      // Simulate sending data to the backend
+      console.log("Submitting attendance for:", selectedParticipants);
 
-  //   if (eventData) {
-  //     fetchParticipants();
-  //   }
-  // }, [eventData]);
+      // Replace with actual API call
+      // await fetch("/api/attendance", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ attendees: selectedParticipants }),
+      // });
+
+      alert("Attendance submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting attendance:", error);
+      alert("Failed to submit attendance.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <section className="p-4">
-      <h2 className="text-2xl font-semibold">Participants</h2>
+    <div className="p-6 bg-white shadow rounded-2xl min-h-screen">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+        Participants
+      </h2>
       {loading ? (
-        <p>Loading participants...</p>
+        <p className="text-gray-500">Loading participants...</p>
       ) : participants.length === 0 ? (
-        <p>No participants registered.</p>
+        <p className="text-gray-500">No participants registered.</p>
       ) : (
-        <ul className="ml-5 list-disc">
-          {participants.map((participant, index) => (
-            <li key={index} className="mt-2">
-              <strong>{participant.username}</strong> - {participant.collegeId}
-            </li>
-          ))}
-        </ul>
+        <div className="space-y-4">
+          <ul className="divide-y divide-gray-200">
+            {participants.map((participant, index) => (
+              <li
+                key={index}
+                className="flex items-center justify-start py-3 px-4 hover:bg-gray-50 rounded-md"
+                onClick={() => handleToggle(participant)}
+              >
+                <input
+                  type="checkbox"
+                  className="form-checkbox text-blue-600 rounded"
+                  checked={selectedParticipants.includes(participant)}
+                  onChange={() => handleToggle(participant)}
+                />
+                <div className="flex items-center space-x-2 ml-4">
+                <span className="text-gray-600">{participant.collegeId} - </span>
+                  <p className="text-gray-900">
+                    {participant.username}
+                  </p>{" "}
+                  
+                </div>
+              </li>
+            ))}
+          </ul>
+          <button
+            onClick={handleSubmit}
+            className="py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition"
+            disabled={loading}
+          >
+            {loading ? "Submitting..." : "Submit Attendance"}
+          </button>
+        </div>
       )}
-    </section>
+    </div>
   );
 }

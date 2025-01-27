@@ -59,7 +59,6 @@ export default function EventParticipants({ participants = [] }) {
               <li
                 key={index}
                 className="flex items-center justify-start py-3 px-4 hover:bg-gray-50 rounded-md"
-                onClick={() => handleToggle(participant)}
               >
                 <input
                   type="checkbox"
@@ -67,13 +66,12 @@ export default function EventParticipants({ participants = [] }) {
                   checked={selectedParticipants.includes(participant)}
                   onChange={() => handleToggle(participant)}
                 />
-                <div className="flex items-center space-x-2 ml-4">
+                <div className="flex items-center space-x-2 ml-4" onClick={() => handleToggle(participant)}>
                 <span className="text-gray-600">{participant.collegeId} - </span>
                   <p className="text-gray-900">
                     {participant.username}
                   </p>{" "}
-                  
-                </div>
+                  </div>
               </li>
             ))}
           </ul>

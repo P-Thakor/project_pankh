@@ -14,13 +14,6 @@ export default function ListItem({ item, isCreator }) {
     setIsLoading(true);
     router.push(url);
   };
-  const date = new Date();
-  const isPast = new Date(item.startDate) < date;
-  // console.log(isPast);
-
-  // if (isPast) {
-  //   return null;
-  // }
 
   const handleViewParticipants = () => {
     router.push(`/event-participants/${item._id}`);

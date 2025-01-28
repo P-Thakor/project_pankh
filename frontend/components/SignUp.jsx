@@ -10,6 +10,7 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   // const [modalType, setModalType] = useState(null);
@@ -55,6 +56,7 @@ const SignUp = () => {
         username,
         email,
         password,
+        contactNumber,
         collegeId,
         role,
       }),
@@ -132,6 +134,17 @@ const SignUp = () => {
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
+            }}
+            className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
+          />
+          <label>Mobile Number</label>
+          <input
+            type="tel"
+            placeholder="Enter mobile number"
+            name="contact"
+            value={contactNumber}
+            onChange={(e) => {
+              setContactNumber(e.target.value);
             }}
             className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
           />

@@ -17,6 +17,28 @@ exports.signup = catchAsync(async (req, res, next) => {
   console.log(newUser);
   // await new SendEmail(newUser, '').sendWelcome();
 
+  const user = await User.findOne({
+    email,
+  });
+
+  if (!user) {
+    return next(new AppError('Email not found', 404));
+  }
+
+  const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+    expiresIn: '1h',
+  });
+  const verificationUrl = `http://localhost:8000/api/v1/auth/verify-email?token=${token}`;
+
+  try {
+    await new SendEmail(user, verificationUrl).sendVerificationEmail();
+    console.log('Sent Email');
+  } catch (err) {
+    return next(
+      new AppError('There was an error sending the email. Try again later!'),
+      500,
+    );
+  }
   // Optionally: Log the user in after signup
   req.login(newUser, (err) => {
     if (err) return next(err);

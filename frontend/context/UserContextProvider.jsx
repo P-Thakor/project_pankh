@@ -7,21 +7,6 @@ import { fetchCurrentUser } from "@/utils";
 const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       const response = await fetchCurrentUser()
-  //       // if (response.ok) {
-  //         setUser(response);
-  //       // }
-  //     } catch (error) {
-  //       console.error('Failed to fetch user:', error);
-  //     }
-  //   };
-
-  //   fetchUser();
-  // }, []);
-
   useEffect(() => {
     const storedUser = localStorage.getItem("isLoggedIn");
     if (storedUser) {
@@ -36,7 +21,7 @@ const UserContextProvider = ({ children }) => {
 
   const logoutUser = () => {
     setUser(null);
-    localStorage.removeItem("user");
+    localStorage.removeItem("isLoggedIn ");
   };
 
   return (

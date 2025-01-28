@@ -245,7 +245,7 @@ const CreateEvent = () => {
               <input
                 type="text"
                 placeholder="Enter Contact Number"
-                className="w-full px-4 py-2 border border-gray-300 rounded mb-4"
+                className="w-full px-4 py-2 mb-4 border border-gray-300 rounded"
                 value={contactNumber}
                 onChange={(e) => setContactNumber(e.target.value)}
                 required
@@ -256,7 +256,7 @@ const CreateEvent = () => {
               <input
                 type="text"
                 placeholder="Enter Contact Number"
-                className="w-full px-4 py-2 border border-gray-300 rounded mb-4"
+                className="w-full px-4 py-2 mb-4 border border-gray-300 rounded"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />

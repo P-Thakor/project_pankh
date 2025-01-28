@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SearchBar, Sidebar } from ".";
 import { fetchEvents } from "@/utils";
 
-const Navbar = async() => {
+const Navbar = async () => {
   const events = await fetchEvents();
   return (
     <header className="z-10 w-full">
@@ -16,14 +16,52 @@ const Navbar = async() => {
               alt="PANKH logo"
               width={170}
               height={25}
-              className="object-contain hidden sm:flex"
+              className="hidden object-contain sm:flex"
             />
           </Link>
         </div>
-        <div className="flex justify-center items-center">
-          <SearchBar events={events}/>
+
+        <div>
+          <Link href="">
+            <Image
+              src="/assets/images/charusat_logo.png"
+              alt="CHARUSAT logo"
+              width={200}
+              height={25}
+              className="hidden object-contain sm:flex"
+            />
+          </Link>
         </div>
-        <div className="sm:flex items-center justify-items-end hidden">
+
+        <div>
+          <Link href="">
+            <Image
+              src="/assets/images/25YearLogo.png"
+              alt="25 Years of CHARUSAT"
+              width={80}
+              height={25}
+              className="hidden object-contain sm:flex"
+            />
+          </Link>
+        </div>
+
+        <div className="flex items-center justify-center">
+          <SearchBar events={events} />
+        </div>
+
+        <div>
+          <Link href="">
+            <Image
+              src="/assets/images/depstar_logo.png"
+              alt="DEPSTAR logo"
+              width={110}
+              height={25}
+              className="hidden object-contain sm:flex"
+            />
+          </Link>
+        </div>
+
+        <div className="items-center hidden sm:flex justify-items-end">
           <Link href="/sign-in">
             <button className="mx-10">Sign In</button>
           </Link>

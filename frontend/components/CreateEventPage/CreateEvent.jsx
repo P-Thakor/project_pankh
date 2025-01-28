@@ -120,7 +120,6 @@ const CreateEvent = () => {
     <>
       <section className="flex items-center justify-center w-full min-h-screen bg-gray-50">
         <div className="w-full max-w-6xl p-8 bg-white rounded-lg shadow-md">
-          
           <h1 className="mb-8 text-3xl font-semibold text-center">
             {/* Create Event */}
             <span className="text-black">Create</span>{" "}
@@ -131,7 +130,7 @@ const CreateEvent = () => {
             <div className="grid grid-cols-2 gap-6">
               <div className="col-span-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Event Title
+                  Event Title<span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -145,7 +144,7 @@ const CreateEvent = () => {
 
               <div className="col-span-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Event Venue
+                  Event Venue<span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -153,6 +152,7 @@ const CreateEvent = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
+                  required
                 />
               </div>
 
@@ -193,7 +193,7 @@ const CreateEvent = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Start Date
+                  Start Date<span className="text-red-500">*</span>
                 </label>
                 <input
                   type="date"
@@ -219,7 +219,7 @@ const CreateEvent = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Start Time
+                  Start Time<span className="text-red-500">*</span>
                 </label>
                 <input
                   type="time"
@@ -232,7 +232,7 @@ const CreateEvent = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  End Time
+                  End Time<span className="text-red-500">*</span>
                 </label>
                 <input
                   type="time"
@@ -247,7 +247,7 @@ const CreateEvent = () => {
 
             <div className="mt-6">
               <label className="block text-sm font-medium text-gray-700">
-                Event Description
+                Event Description<span className="text-red-500">*</span>
               </label>
               <input
                 placeholder="Cognizance is a tech fest organized by the students of CHARUSAT"
@@ -273,11 +273,11 @@ const CreateEvent = () => {
             <div className="mt-10">
               <h2 className="mb-4 text-xl font-semibold">
                 {/* Contact Person */}
-              <span className="text-black">Contact</span>{" "}
-              <span className="text-blue-600">Person</span>
+                <span className="text-black">Contact</span>{" "}
+                <span className="text-blue-600">Person</span>
               </h2>
               <label className="block text-sm font-medium text-gray-700">
-                Contact Number
+                Contact Number<span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -288,7 +288,7 @@ const CreateEvent = () => {
                 required
               />
               <label className="block text-sm font-medium text-gray-700">
-                Email
+                Email<span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -296,6 +296,7 @@ const CreateEvent = () => {
                 className="w-full px-4 py-2 mb-4 border border-gray-300 rounded"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
 

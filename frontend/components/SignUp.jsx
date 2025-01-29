@@ -100,18 +100,18 @@ const SignUp = () => {
   };
   return (
     <div className="flex w-full p-0">
-      <div className="flex-1 min-h-screen w-1/3 bg-[url('/assets/images/Signup.png')] bg-cover bg-center justify-center items-center hidden text-white lg:flex flex-col ">
+      <div className="flex-1 min-h-screen w-1/3 bg-[url('/assets/images/signInBG.png')] bg-cover bg-center justify-center items-center hidden text-white lg:flex flex-col ">
         <h1 className="mb-8 text-4xl font-semibold">Already a User?</h1>
-        <h4 className="text-sm mb-6">Sign In to continue your journey</h4>
+        <h4 className="mb-6 text-sm">Sign In to continue your journey</h4>
         <div>
           <Link href="/sign-in">
-            <button className="bg-gray-300 bg-opacity-60 text-sm h-10 w-24 rounded-sm">
+            <button className="w-24 h-10 text-sm bg-gray-300 rounded-sm bg-opacity-60">
               Sign In
             </button>
           </Link>
         </div>
       </div>
-      <div className="flex-1 w-2/3 bg-gray-50 lg:px-24 py-32 items-center justify-center">
+      <div className="items-center justify-center flex-1 w-2/3 py-32 bg-gray-50 lg:px-24">
         <h1 className="mb-8 text-4xl font-bold text-center">
           Sign Up to PANKH
         </h1>
@@ -168,7 +168,7 @@ const SignUp = () => {
               setConfirmPassword(e.target.value);
             }}
           />
-          <div className="flex w-full justify-between px-10">
+          <div className="flex justify-between w-full px-10">
             {isLoading ? (
               <TailSpin
                 type="Tailspin"
@@ -179,7 +179,7 @@ const SignUp = () => {
             ) : (
               <button
                 type="submit"
-                className="bg-primaryblue h-12 w-1/3 text-white rounded-md hover:bg-primarydarkblue"
+                className="w-1/3 h-12 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
               >
                 Sign Up
               </button>
@@ -187,8 +187,8 @@ const SignUp = () => {
           </div>
         </form>
 
-        <div className=" mt-10 lg:hidden">
-          <p className="text-center text-sm mt-4">
+        <div className="mt-10  lg:hidden">
+          <p className="mt-4 text-sm text-center">
             Already have an account?{" "}
             <a href="#" className="text-primaryblue hover:text-primarydarkblue">
               Sign In

@@ -1,10 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { SearchBar, Sidebar } from ".";
 import { fetchEvents } from "@/utils";
+import { useContext } from "react";
+import UserContext from "@/context/UserContext";
 
-const Navbar = async () => {
-  const events = await fetchEvents();
+const Navbar = () => {
+  const events = fetchEvents().then((data)=> {return data});
+  const {user} = useContext(UserContext)
   return (
     <header className="z-10 w-full">
       <nav className="flex items-center justify-between w-full px-6 py-4 mx-auto h-28 sm:px-16">
@@ -60,7 +65,10 @@ const Navbar = async () => {
             />
           </Link>
         </div>
-
+        { user ? 
+        <div>
+          Welcome, {user.username}
+        </div> :
         <div className="items-center hidden sm:flex justify-items-end">
           <Link href="/sign-in">
             <button className="mx-10">Sign In</button>
@@ -69,6 +77,7 @@ const Navbar = async () => {
             <button className="custom-btn">Sign Up</button>
           </Link>
         </div>
+}
       </nav>
     </header>
   );

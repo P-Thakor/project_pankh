@@ -22,7 +22,7 @@ const CreateEvent = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [message, setMessage] = useState("");
-  const [iconColor, setIconColor] = useState("bg-blue-500");
+  const [iconColor, setIconColor] = useState("");
 
   const router = useRouter();
 
@@ -103,6 +103,7 @@ const CreateEvent = () => {
         if (response.ok) {
           setModalTitle("Event Created Successfully.");
           setMessage("Looking forward to the experience!");
+          setIconColor("bg-green-500");
           setIsModalVisible(true);
         } else {
           setModalTitle("Event Creation Unsuccessful.");
@@ -277,7 +278,7 @@ const CreateEvent = () => {
                 <span className="text-blue-600">Person</span>
               </h2>
               <label className="block text-sm font-medium text-gray-700">
-                Contact Number<span className="text-red-500">*</span>
+                Contact Number<span>  (optional)</span>
               </label>
               <input
                 type="text"
@@ -285,18 +286,16 @@ const CreateEvent = () => {
                 className="w-full px-4 py-2 mb-4 border border-gray-300 rounded"
                 value={contactNumber}
                 onChange={(e) => setContactNumber(e.target.value)}
-                required
               />
               <label className="block text-sm font-medium text-gray-700">
-                Email<span className="text-red-500">*</span>
+                Email<span>  (optional)</span>
               </label>
               <input
                 type="text"
-                placeholder="Enter Contact Number"
+                placeholder="Enter Email"
                 className="w-full px-4 py-2 mb-4 border border-gray-300 rounded"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
               />
             </div>
 
@@ -314,7 +313,10 @@ const CreateEvent = () => {
         title={modalTitle}
         message={message}
         iconColor={iconColor}
-        onClose={() => setIsModalVisible(false)}
+        onClose={() => {
+          setIsModalVisible(false);
+          router.push("/home")
+        }}
       />
     </>
   );

@@ -14,7 +14,7 @@ const EventDescription = ({ event }) => {
         </div>
 
         <div className="mb-4">
-          <h2 className="text-2xl font-bold">Timings</h2>
+          <h2 className="text-2xl font-bold">Date & Time</h2>
           <p className="text-gray-500 mt-4">
             Start: {formattedDate(eventData.startDate)}, {formattedTime(eventData.startTime)}
           </p>

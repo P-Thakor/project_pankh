@@ -7,7 +7,6 @@ import { TailSpin } from "react-loader-spinner";
 import { AuthModal } from ".";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import UserContext from "../context/UserContext";
-import Image from "next/image";
 
 const SignIn = () => {
   // const [username, setUsername] = useState('');
@@ -16,11 +15,10 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   // const [modalType, setModalType] = useState(null);
   const [isvisible, setIsvisible] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalMessage, setModalMessage] = useState("");
-  const [modalIconColor, setModalIconColor] = useState("");
+  const [ modalTitle, setModalTitle ] = useState('');
+  const [ modalMessage, setModalMessage ] = useState('');
+  const [ modalIconColor, setModalIconColor ] = useState('');
   const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const router = useRouter();
   const { loginUser } = useContext(UserContext);
@@ -68,7 +66,7 @@ const SignIn = () => {
   return (
     <>
       <div className="flex w-full p-0">
-        <div className="items-center justify-center flex-1 w-2/3 py-32 bg-gray-50 lg:px-24">
+        <div className="items-center justify-center flex-1 w-1/3 py-32 bg-gray-50 lg:px-24">
           <h1 className="mb-8 text-4xl font-bold text-center">
             Sign In to PANKH
           </h1>
@@ -84,11 +82,11 @@ const SignIn = () => {
               }}
             />
             <label>Password</label>
-            <div className="flex w-full bg-white rounded-lg justify-between p-0 mb-4">
+            <div className="flex justify-between w-full p-0 mb-4 bg-white rounded-lg">
               <input
                 type={isPasswordVisible ? "text" : "password"}
                 placeholder="Enter your password"
-                className="block w-3/4 pt-4 px-2 mb-4 text-sm bg-white rounded-lg focus:outline-none"
+                className="block w-3/4 px-2 pt-4 mb-4 text-sm bg-white rounded-lg focus:outline-none"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -97,7 +95,7 @@ const SignIn = () => {
               <button
                 type="button"
                 onClick={() => setIsPasswordVisible((prev) => !prev)}
-                className="text-primaryblue text-sm hover:text-primarydarkblue lg:mr-4 opacity-50"
+                className="text-sm opacity-50 text-primaryblue hover:text-primarydarkblue lg:mr-4"
               >
                 {isPasswordVisible ? (
                   <Image
@@ -116,7 +114,7 @@ const SignIn = () => {
                 )}
               </button>
             </div>
-            <div className="flex w-full justify-between px-10">
+            <div className="flex justify-between w-full px-10">
               {isLoading ? (
                 <TailSpin
                   type="Tailspin"
@@ -157,7 +155,7 @@ const SignIn = () => {
             </p>
           </div>
         </div>
-        <div className="flex-1 min-h-screen w-1/3 bg-[url('/assets/images/signInBG.png')] hidden bg-cover bg-center lg:flex">
+        <div className="flex-1 min-h-screen w-2/3 bg-[url('/assets/images/signInBG.png')] hidden bg-cover bg-center lg:flex">
           {/* <div className="flex-col items-center justify-center w-full h-full text-white bg-black bg-opacity-20 lg:flex">
             <h1 className="mb-8 text-4xl font-semibold">
               First time at PANKH?
@@ -185,7 +183,8 @@ const SignIn = () => {
         title={modalTitle}
         message={modalMessage}
         iconColor={modalIconColor}
-        onClose={() => setIsvisible(false)}
+        onClose={() => setIsvisible(false)
+        }
       />
       {forgotPasswordModalOpen && (
         <ForgotPasswordModal

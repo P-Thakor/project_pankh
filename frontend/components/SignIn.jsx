@@ -7,6 +7,7 @@ import { TailSpin } from "react-loader-spinner";
 import { AuthModal } from ".";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import UserContext from "../context/UserContext";
+import Image from "next/image";
 
 const SignIn = () => {
   // const [username, setUsername] = useState('');
@@ -19,6 +20,7 @@ const SignIn = () => {
   const [ modalMessage, setModalMessage ] = useState('');
   const [ modalIconColor, setModalIconColor ] = useState('');
   const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const router = useRouter();
   const { loginUser } = useContext(UserContext);

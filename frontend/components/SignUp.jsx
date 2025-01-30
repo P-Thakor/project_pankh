@@ -101,7 +101,7 @@ const SignUp = () => {
   return (
     <div className="flex w-full p-0">
       <div className="flex-1 min-h-screen w-1/3 bg-[url('/assets/images/signInBG.png')] bg-cover bg-center justify-center items-center hidden text-white lg:flex flex-col ">
-        <h1 className="mb-8 text-4xl font-semibold">Already a User?</h1>
+        {/* <h1 className="mb-8 text-4xl font-semibold">Already a User?</h1>
         <h4 className="mb-6 text-sm">Sign In to continue your journey</h4>
         <div>
           <Link href="/sign-in">
@@ -109,7 +109,7 @@ const SignUp = () => {
               Sign In
             </button>
           </Link>
-        </div>
+        </div> */}
       </div>
       <div className="items-center justify-center flex-1 w-2/3 py-32 bg-gray-50 lg:px-24">
         <h1 className="mb-8 text-4xl font-bold text-center">
@@ -187,7 +187,7 @@ const SignUp = () => {
           </div>
         </form>
 
-        <div className="mt-10  lg:hidden">
+        <div className="mt-10">
           <p className="mt-4 text-sm text-center">
             Already have an account?{" "}
             <a href="#" className="text-primaryblue hover:text-primarydarkblue">

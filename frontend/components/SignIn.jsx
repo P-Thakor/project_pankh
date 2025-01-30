@@ -117,7 +117,7 @@ const SignIn = () => {
             </div>
           </form>
 
-          <div className="mt-10  lg:hidden">
+          <div className="mt-10">
             <p className="mt-4 text-sm text-center">
               New to PANKH?{" "}
               <a
@@ -133,7 +133,7 @@ const SignIn = () => {
           </div>
         </div>
         <div className="flex-1 min-h-screen w-1/3 bg-[url('/assets/images/signInBG.png')] hidden bg-cover bg-center lg:flex">
-          <div className="flex-col items-center justify-center w-full h-full text-white bg-black bg-opacity-20 lg:flex">
+          {/* <div className="flex-col items-center justify-center w-full h-full text-white bg-black bg-opacity-20 lg:flex">
             <h1 className="mb-8 text-4xl font-semibold">
               First time at PANKH?
             </h1>
@@ -152,7 +152,7 @@ const SignIn = () => {
                 </Link>
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <AuthModal

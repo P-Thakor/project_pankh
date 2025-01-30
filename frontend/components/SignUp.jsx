@@ -171,9 +171,9 @@ const SignUp = () => {
             className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
           />
           <label>Institute</label>
-          <div className="flex relative justify-center items-center">
+          <div className="relative flex items-center justify-center">
             <Combobox value={institute} onChange={handleSetInstitute}>
-              <div className="w-full bg-white rounded-lg p-4 mb-4">
+              <div className="w-full p-4 mb-4 bg-white rounded-lg">
                 <ComboboxButton className="w-full text-left">
                   {institute || "Select an institute"}
                 </ComboboxButton>
@@ -183,7 +183,7 @@ const SignUp = () => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <ComboboxOptions className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md overflow-auto focus:outline-none">
+                  <ComboboxOptions className="absolute z-10 w-full mt-1 overflow-auto bg-white rounded-md shadow-lg max-h-60 focus:outline-none">
                     {institutes.map((item) => (
                       <ComboboxOption
                         key={item}
@@ -205,11 +205,11 @@ const SignUp = () => {
             </Combobox>
           </div>
           <label>Password</label>
-          <div className="flex w-full bg-white rounded-lg justify-between p-0 mb-4">
+          <div className="flex justify-between w-full p-0 mb-4 bg-white rounded-lg">
             <input
               type={isPasswordVisible ? "text" : "password"}
               placeholder="Enter your password"
-              className="block w-3/4 pt-4 px-2 mb-4 text-sm bg-white rounded-lg focus:outline-none"
+              className="block w-3/4 px-2 pt-4 mb-4 text-sm bg-white rounded-lg focus:outline-none"
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
@@ -218,7 +218,7 @@ const SignUp = () => {
             <button
               type="button"
               onClick={() => setIsPasswordVisible((prev) => !prev)}
-              className="text-primaryblue text-sm hover:text-primarydarkblue lg:mr-4 opacity-50"
+              className="text-sm opacity-50 text-primaryblue hover:text-primarydarkblue lg:mr-4"
             >
               {isPasswordVisible ? (
                 <Image
@@ -278,7 +278,7 @@ const SignUp = () => {
         <div className="mt-10">
           <p className="mt-4 text-sm text-center">
             Already have an account?{" "}
-            <a href="#" className="text-primaryblue hover:text-primarydarkblue">
+            <a href="/sign-in" className="text-primaryblue hover:text-primarydarkblue">
               Sign In
             </a>
           </p>

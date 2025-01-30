@@ -65,7 +65,7 @@ export const EventType = [
   },
 ];
 
-export const institute = [
+export const institutes = [
   "DEPSTAR",
   "CSPIT",
   "IIIM",
@@ -77,7 +77,7 @@ export const institute = [
   "BDIPS",
 ];
 
-export const department = [
+export const departments = [
   "CSE",
   "IT",
   "CE",

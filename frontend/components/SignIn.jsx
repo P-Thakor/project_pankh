@@ -7,6 +7,7 @@ import { TailSpin } from "react-loader-spinner";
 import { AuthModal } from ".";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import UserContext from "../context/UserContext";
+import Image from "next/image";
 
 const SignIn = () => {
   // const [username, setUsername] = useState('');
@@ -15,10 +16,11 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   // const [modalType, setModalType] = useState(null);
   const [isvisible, setIsvisible] = useState(false);
-  const [ modalTitle, setModalTitle ] = useState('');
-  const [ modalMessage, setModalMessage ] = useState('');
-  const [ modalIconColor, setModalIconColor ] = useState('');
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalIconColor, setModalIconColor] = useState("");
   const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const router = useRouter();
   const { loginUser } = useContext(UserContext);
@@ -82,16 +84,39 @@ const SignIn = () => {
               }}
             />
             <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter a password"
-              className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <div className="flex justify-between w-full px-10">
+            <div className="flex w-full bg-white rounded-lg justify-between p-0 mb-4">
+              <input
+                type={isPasswordVisible ? "text" : "password"}
+                placeholder="Enter your password"
+                className="block w-3/4 pt-4 px-2 mb-4 text-sm bg-white rounded-lg focus:outline-none"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => setIsPasswordVisible((prev) => !prev)}
+                className="text-primaryblue text-sm hover:text-primarydarkblue lg:mr-4 opacity-50"
+              >
+                {isPasswordVisible ? (
+                  <Image
+                    src="/assets/images/crossed-eye.svg"
+                    alt="don't show passsword"
+                    height={20}
+                    width={20}
+                  />
+                ) : (
+                  <Image
+                    src="/assets/images/eye.svg"
+                    alt="show password"
+                    height={20}
+                    width={20}
+                  />
+                )}
+              </button>
+            </div>
+            <div className="flex w-full justify-between px-10">
               {isLoading ? (
                 <TailSpin
                   type="Tailspin"
@@ -160,8 +185,7 @@ const SignIn = () => {
         title={modalTitle}
         message={modalMessage}
         iconColor={modalIconColor}
-        onClose={() => setIsvisible(false)
-        }
+        onClose={() => setIsvisible(false)}
       />
       {forgotPasswordModalOpen && (
         <ForgotPasswordModal

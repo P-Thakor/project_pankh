@@ -16,9 +16,9 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   // const [modalType, setModalType] = useState(null);
   const [isvisible, setIsvisible] = useState(false);
-  const [ modalTitle, setModalTitle ] = useState('');
-  const [ modalMessage, setModalMessage ] = useState('');
-  const [ modalIconColor, setModalIconColor ] = useState('');
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalIconColor, setModalIconColor] = useState("");
   const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -54,6 +54,7 @@ const SignIn = () => {
       // setModalType("error-login");
       setModalTitle("Login Unsuccessful");
       setModalMessage("Invalid credentials. Please try again.");
+      console.log(response.message);
       setModalIconColor("bg-red-500");
       setIsvisible(true);
       // alert("Login failed.");
@@ -185,12 +186,16 @@ const SignIn = () => {
         title={modalTitle}
         message={modalMessage}
         iconColor={modalIconColor}
-        onClose={() => setIsvisible(false)
-        }
+        onClose={() => setIsvisible(false)}
       />
       {forgotPasswordModalOpen && (
         <ForgotPasswordModal
-          onClose={() => setForgotPasswordModalOpen(false)}
+          onClose={() => {
+            setForgotPasswordModalOpen(false);
+            if (modalTitle === "Login Successful!") {
+              router.push("/home");
+            }
+          }}
         />
       )}
     </>

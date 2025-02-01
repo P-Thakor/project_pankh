@@ -3,6 +3,7 @@
 import { useContext, useEffect, useState } from "react";
 import List from "@/components/EventsList/List";
 import UserContext from "../../context/UserContext";
+import { useRouter } from "next/navigation";
 
 export default function DashboardComp({ events = [] }) {
   const [activeSection, setActiveSection] = useState("Profile"); // Default to Profile section
@@ -10,6 +11,7 @@ export default function DashboardComp({ events = [] }) {
   const [createdEvents, setCreatedEvents] = useState([]);
 
   const { user } = useContext(UserContext);
+  const router = useRouter();
 
   useEffect(() => {
     if (user) {
@@ -36,7 +38,7 @@ export default function DashboardComp({ events = [] }) {
   }
 
   if (user) {
-    var { username = "", email = "", collegeId = "" } = user;
+    var { username = "", email = "", collegeId = "", contactNumber = "", designation = "", department = "", institute = "" } = user;
   } else {
     var username = (email = "");
     setUser({});
@@ -120,11 +122,56 @@ export default function DashboardComp({ events = [] }) {
                       </span>
                     </div>
                   )}
+                  {contactNumber !== "" && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-gray-500">
+                        Mobile Number:
+                      </span>
+                      <span className="text-lg font-medium text-primaryblue">
+                        {contactNumber}
+                      </span>
+                    </div>
+                  )}
+                  {designation !== "" && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-gray-500">
+                        Designation:
+                      </span>
+                      <span className="text-lg font-medium text-primaryblue">
+                        {designation}
+                      </span>
+                    </div>
+                  )}
+                  {department !== "" && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-gray-500">
+                        Department:
+                      </span>
+                      <span className="text-lg font-medium text-primaryblue">
+                        {department}
+                      </span>
+                    </div>
+                  )}
+                  {institute !== "" && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-gray-500">
+                        Institute:
+                      </span>
+                      <span className="text-lg font-medium text-primaryblue">
+                        {institute}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
             <div className="flex justify-between">
-              <button className="mt-4 bg-primaryblue text-white rounded-md p-2 hover:bg-primarydarkblue">
+              <button
+                className="mt-4 bg-primaryblue text-white rounded-md p-2 hover:bg-primarydarkblue"
+                onClick={() => {
+                  router.push("/edit-profile");
+                }}
+              >
                 Edit Profile
               </button>
               <button className="mt-4 text-primaryblue rounded-md p-2 border-primaryblue hover:bg-primaryblue hover:text-white">

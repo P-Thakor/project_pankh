@@ -107,6 +107,9 @@ const CreateEvent = () => {
           setIsModalVisible(true);
         } else {
           setModalTitle("Event Creation Unsuccessful.");
+          if (response.status === 403) {
+            setMessage("You are not authorized to create events.");
+          }
           setIconColor("bg-red-500");
           setIsModalVisible(true);
           console.log("Error:", response);
@@ -278,7 +281,7 @@ const CreateEvent = () => {
                 <span className="text-blue-600">Person</span>
               </h2>
               <label className="block text-sm font-medium text-gray-700">
-                Contact Number<span>  (optional)</span>
+                Contact Number<span> (optional)</span>
               </label>
               <input
                 type="text"
@@ -288,7 +291,7 @@ const CreateEvent = () => {
                 onChange={(e) => setContactNumber(e.target.value)}
               />
               <label className="block text-sm font-medium text-gray-700">
-                Email<span>  (optional)</span>
+                Email<span> (optional)</span>
               </label>
               <input
                 type="text"
@@ -315,7 +318,9 @@ const CreateEvent = () => {
         iconColor={iconColor}
         onClose={() => {
           setIsModalVisible(false);
-          router.push("/home")
+          if (modalTitle === "Event Created Successfully.") {
+            router.push("/home");
+          }
         }}
       />
     </>

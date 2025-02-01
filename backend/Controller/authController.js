@@ -43,13 +43,18 @@ exports.signup = catchAsync(async (req, res, next) => {
   req.login(newUser, (err) => {
     if (err) return next(err);
 
-    res.cookie('userId', newUser._id.toString(), {
-      httpOnly: true,
-      maxAge: 3600000, // 1 hour
-      // secure: process.env.NODE_ENV === 'production',
-      secure: false,
-      sameSite: 'lax',
-    });
+    req.session.user = {
+      id: newUser._id,
+      username: newUser.username,
+    };
+
+    // res.cookie('userId', newUser._id.toString(), {
+    //   httpOnly: true,
+    //   maxAge: 3600000, // 1 hour
+    //   // secure: process.env.NODE_ENV === 'production',
+    //   secure: false,
+    //   sameSite: 'lax',
+    // });
 
     res.status(201).json({
       status: 'success',
@@ -69,13 +74,10 @@ exports.login = (req, res, next) => {
     req.login(user, (error) => {
       if (error) return next(error);
 
-      res.cookie('userId', user._id.toString(), {
-        httpOnly: true,
-        maxAge: 3600000, // 1 hour
-        // secure: process.env.NODE_ENV === 'production',
-        secure: false,
-        sameSite: 'lax',
-      });
+      req.session.user = {
+        id: user._id,
+        username: user.username,
+      };
 
       res.status(200).json({
         status: 'success',
@@ -90,15 +92,18 @@ exports.login = (req, res, next) => {
 
 // Logout
 exports.logout = (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err); // Passes any error to the global error handler
-    }
-    res.clearCookie('userId', {
+  req.session.destroy((err) => {
+    if (err) return next(err);
+    // req.logout((err) => {
+    //   if (err) {
+    //     return next(err); // Passes any error to the global error handler
+    //   }
+
+    res.clearCookie('connect.sid', {
       httpOnly: true,
       // secure: process.env.NODE_ENV === 'production',
       secure: false,
-      sameSite: 'lax',
+      sameSite: 'none',
     });
     res.status(200).json({
       status: 'success',

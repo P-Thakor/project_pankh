@@ -1,10 +1,10 @@
 export const footerLinks = [
   {
     links: [
-      { title: "Home", url: "/" },
-      { title: "Events", url: "/" },
-      { title: "Clubs", url: "/" },
-      { title: "About Us", url: "/" },
+      { title: "Home", url: "/home" },
+      { title: "Events", url: "/home" },
+      { title: "Clubs", url: "/home" },
+      { title: "About Us", url: "/home" },
     ],
   },
 ];

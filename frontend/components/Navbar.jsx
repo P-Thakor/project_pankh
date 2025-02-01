@@ -2,14 +2,46 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { SearchBar, Sidebar } from ".";
 import { fetchEvents } from "@/utils";
+import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import UserContext from "@/context/UserContext";
 
 const Navbar = () => {
-  const events = fetchEvents().then((data)=> {return data});
-  const {user} = useContext(UserContext)
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+  const events = fetchEvents().then((data) => {
+    return data;
+  });
+  const { user, logoutUser } = useContext(UserContext);
+
+  const router = useRouter();
+
+  const handleLogout = () => {
+    fetch("http://localhost:8000/api/v1/auth/logout", {
+      method: "GET",
+    })
+      .then((response) => {
+        if (response.ok) {
+          setIsLoggedIn(false);
+          logoutUser();
+          response.json().then((data) => {
+            console.log(data);
+          });
+          router.push("/sign-in");
+        }
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   return (
     <header className="z-10 w-full">
       <nav className="flex items-center justify-between w-full px-6 py-4 mx-auto h-28 sm:px-16">
@@ -33,7 +65,7 @@ const Navbar = () => {
               alt="CHARUSAT logo"
               width={200}
               height={25}
-              className="hidden object-contain sm:flex"
+              className="hidden object-contain lg:flex"
             />
           </Link>
         </div>
@@ -45,7 +77,7 @@ const Navbar = () => {
               alt="25 Years of CHARUSAT"
               width={80}
               height={25}
-              className="hidden object-contain sm:flex"
+              className="hidden object-contain lg:flex"
             />
           </Link>
         </div>
@@ -61,23 +93,38 @@ const Navbar = () => {
               alt="DEPSTAR logo"
               width={110}
               height={25}
-              className="hidden object-contain sm:flex"
+              className="hidden object-contain lg:flex"
             />
           </Link>
         </div>
-        { user ? 
-        <div>
-          Welcome, {user.username}
-        </div> :
-        <div className="items-center hidden sm:flex justify-items-end">
-          <Link href="/sign-in">
-            <button className="mx-10">Sign In</button>
-          </Link>
-          <Link href="/sign-up">
-            <button className="custom-btn">Sign Up</button>
-          </Link>
-        </div>
-}
+        {user ? (
+          <div className="items-center hidden sm:flex justify-items-end ">
+            Welcome,{" "}
+            <a
+              href="/dashboard"
+              className="font-semibold text-primaryblue hover:text-primarydarkblue"
+              onClick={() => {
+                setIsLoading(true);
+              }}
+            >
+              {user.username}{" "}
+            </a>
+            <Link href="">
+              <button className="mx-10 custom-btn" onClick={handleLogout}>
+                Log Out
+              </button>
+            </Link>
+          </div>
+        ) : (
+          <div className="items-center hidden sm:flex justify-items-end">
+            <Link href="/sign-in">
+              <button className="mx-10">Sign In</button>
+            </Link>
+            <Link href="/sign-up">
+              <button className="custom-btn">Sign Up</button>
+            </Link>
+          </div>
+        )}
       </nav>
     </header>
   );

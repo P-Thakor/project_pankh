@@ -122,12 +122,10 @@ const CreateEvent = () => {
 
   return (
     <>
-      <section className="flex items-center justify-center w-full min-h-screen bg-gray-50">
-        <div className="w-full max-w-6xl p-8 bg-white rounded-lg shadow-md">
-          <h1 className="mb-8 text-3xl font-semibold text-center">
-            {/* Create Event */}
-            <span className="text-black">Create</span>{" "}
-            <span className="text-blue-600">Event</span>
+      <section className="flex items-center justify-center w-full min-h-screen p-6 bg-gray-100">
+        <div className="w-full max-w-5xl p-6 bg-white rounded-lg shadow-md">
+          <h1 className="mb-8 text-3xl font-semibold text-center text-blue-600">
+            Create Event  
           </h1>
 
           <form onSubmit={handleCreateEvent}>
@@ -139,7 +137,7 @@ const CreateEvent = () => {
                 <input
                   type="text"
                   placeholder="Enter Event Title"
-                  className="w-full px-4 py-2 border border-gray-300 rounded"
+                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -153,7 +151,7 @@ const CreateEvent = () => {
                 <input
                   type="text"
                   placeholder="Enter Event Venue"
-                  className="w-full px-4 py-2 border border-gray-300 rounded"
+                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   required
@@ -203,7 +201,7 @@ const CreateEvent = () => {
                   type="date"
                   value={startDate}
                   onChange={handleStartDateChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded"
+                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
                   required
                 />
               </div>
@@ -216,7 +214,7 @@ const CreateEvent = () => {
                   type="date"
                   value={endDate}
                   onChange={handleEndDateChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded"
+                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
                   disabled={!isMultipleDays}
                 />
               </div>
@@ -229,7 +227,7 @@ const CreateEvent = () => {
                   type="time"
                   value={startTime}
                   onChange={(e) => setStartTime(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded"
+                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
                   required
                 />
               </div>
@@ -243,7 +241,7 @@ const CreateEvent = () => {
                   value={endTime}
                   min={startTime} // Set min to prevent selecting an invalid time
                   onChange={handleEndTimeChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded"
+                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
                   required
                 />
               </div>
@@ -255,7 +253,7 @@ const CreateEvent = () => {
               </label>
               <input
                 placeholder="Cognizance is a tech fest organized by the students of CHARUSAT"
-                className="w-full px-4 py-2 mb-6 border border-gray-300 rounded"
+                className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
                 value={eventDescription}
                 onChange={(e) => setEventDescription(e.target.value)}
                 required
@@ -270,15 +268,13 @@ const CreateEvent = () => {
                 type="file"
                 accept="image/*"
                 onChange={(e) => setEventPoster(e.target.files[0])}
-                className="w-full px-4 py-2 mb-4 border border-gray-300 rounded"
+                className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
               />
             </div>
 
             <div className="mt-10">
-              <h2 className="mb-4 text-xl font-semibold">
-                {/* Contact Person */}
-                <span className="text-black">Contact</span>{" "}
-                <span className="text-blue-600">Person</span>
+              <h2 className="mb-4 text-xl font-semibold text-blue-600">
+                Contact Person
               </h2>
               <label className="block text-sm font-medium text-gray-700">
                 Contact Number<span> (optional)</span>
@@ -286,7 +282,7 @@ const CreateEvent = () => {
               <input
                 type="text"
                 placeholder="Enter Contact Number"
-                className="w-full px-4 py-2 mb-4 border border-gray-300 rounded"
+                className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
                 value={contactNumber}
                 onChange={(e) => setContactNumber(e.target.value)}
               />
@@ -296,7 +292,7 @@ const CreateEvent = () => {
               <input
                 type="text"
                 placeholder="Enter Email"
-                className="w-full px-4 py-2 mb-4 border border-gray-300 rounded"
+                className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />

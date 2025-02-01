@@ -95,6 +95,12 @@ const eventSchema = new mongoose.Schema({
       ref: 'Review',
     },
   ],
+  attendance: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
 });
 
 // eventSchema.path('contactNumbr').validate(function validatePhone() {

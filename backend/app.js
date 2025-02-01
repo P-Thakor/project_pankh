@@ -70,7 +70,6 @@ app.use(mongoSanitize());
 
 // Data Sanitization against XSS (cross-site scripting)
 app.use(xss());
-app.use(xss());
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -82,6 +81,12 @@ app.use(
     credentials: true,
   }),
 );
+
+app.use((req, res, next) => {
+  console.log('Session:', req.session);
+  console.log('Cookies:', req.cookies);
+  next();
+});
 
 app.use('/api/v1/event', eventRouter);
 app.use('/api/v1/club', clubRouter);

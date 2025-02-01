@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import List from "@/components/EventsList/List";
 import UserContext from "../../context/UserContext";
 
-export default function DashboardComp({events = []}) {
+export default function DashboardComp({ events = [] }) {
   const [activeSection, setActiveSection] = useState("Profile"); // Default to Profile section
   const [eventList, setEventList] = useState([]);
   const [createdEvents, setCreatedEvents] = useState([]);
@@ -13,21 +13,22 @@ export default function DashboardComp({events = []}) {
 
   useEffect(() => {
     if (user) {
-
-      let templist = events.filter(event=>user.eventsParticipated?.includes(event._id))
+      let templist = events.filter((event) =>
+        user.eventsParticipated?.includes(event._id)
+      );
       setEventList(templist);
     }
 
     console.log(user);
     console.log(eventList);
 
-    if(user?.role === "admin" || user?.role === "faculty-member") {
+    if (user?.role === "admin" || user?.role === "faculty-member") {
       let tempcreatedlist = [];
       events.forEach((event) => {
         event.creator === user._id && tempcreatedlist.push(event);
-        });
-        setCreatedEvents(tempcreatedlist);
-      };
+      });
+      setCreatedEvents(tempcreatedlist);
+    }
   }, [user, events]);
 
   if (!user) {
@@ -67,20 +68,19 @@ export default function DashboardComp({events = []}) {
               {item}
             </li>
           ))}
-          {
-            user.role === "faculty-member" && (
-              <li
-                key="Your Events"
-                onClick={() => setActiveSection("Your Events")}
-                className={`p-4 cursor-pointer transition-colors ${
-                  activeSection === "Your Events"
-                    ? "text-primaryblue font-semibold" // Active item style
-                    : "hover:text-primaryblue" // Hover style
-                }`}
-              >
-                Your Events
-              </li>
-            )}
+          {user.role === "faculty-member" && (
+            <li
+              key="Your Events"
+              onClick={() => setActiveSection("Your Events")}
+              className={`p-4 cursor-pointer transition-colors ${
+                activeSection === "Your Events"
+                  ? "text-primaryblue font-semibold" // Active item style
+                  : "hover:text-primaryblue" // Hover style
+              }`}
+            >
+              Your Events
+            </li>
+          )}
         </ul>
       </div>
 
@@ -91,7 +91,6 @@ export default function DashboardComp({events = []}) {
             <div className="flex flex-col">
               <div className="w-full p-6 mt-6 bg-white rounded-lg">
                 <div className="flex flex-col space-y-4">
-
                   <div className="flex items-center justify-center w-24 h-24 mb-4 text-4xl font-bold text-white rounded-full bg-primaryblue">
                     {username.charAt(0) || "a"}
                   </div>
@@ -124,6 +123,14 @@ export default function DashboardComp({events = []}) {
                 </div>
               </div>
             </div>
+            <div className="flex justify-between">
+              <button className="mt-4 bg-primaryblue text-white rounded-md p-2 hover:bg-primarydarkblue">
+                Edit Profile
+              </button>
+              <button className="mt-4 text-primaryblue rounded-md p-2 border-primaryblue hover:bg-primaryblue hover:text-white">
+                Reset Password
+              </button>
+            </div>
           </div>
         )}
 
@@ -146,7 +153,7 @@ export default function DashboardComp({events = []}) {
               Events Created by You
             </h1>
             {createdEvents.length > 0 ? (
-              <List list={createdEvents} style="ml-2" isCreator={true}/>
+              <List list={createdEvents} style="ml-2" isCreator={true} />
             ) : (
               <p className="mt-4 text-gray-500">No events organized yet!</p>
             )}

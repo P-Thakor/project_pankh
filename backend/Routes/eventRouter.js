@@ -13,7 +13,13 @@ router.get(
 
 router
   .route('/createEvent')
-  .post(isAuthenticated, userRole, eventController.createEvent);
+  .post(
+    isAuthenticated,
+    eventController.uploadEventImages,
+    eventController.uploadImage,
+    userRole,
+    eventController.createEvent,
+  );
 
 router
   .route('/createEventByClub/:id')

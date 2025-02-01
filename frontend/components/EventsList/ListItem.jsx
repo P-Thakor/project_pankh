@@ -37,8 +37,8 @@ export default function ListItem({ item, isCreator }) {
           <div className="object-contain" onClick={() => handleRedirect(`/view-event/${item._id}`)}>
             <Image
               src={
-                item.photo[0]?.startsWith("https://res.cloudinary.com/")
-                  ? item.photo[0].replace(
+                item.coverImage?.startsWith("https://res.cloudinary.com/")
+                  ? item.coverImage.replace(
                       "/upload/",
                       "/upload/c_crop,w_350,h_238/"
                     )

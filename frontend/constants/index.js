@@ -5,62 +5,85 @@ export const footerLinks = [
       { title: "Events", url: "/" },
       { title: "Clubs", url: "/" },
       { title: "About Us", url: "/" },
-    ]
-  }
+    ],
+  },
 ];
 
 export const Days = [
   {
     title: "All Days",
-    value: ""
+    value: "",
   },
   {
     title: "Weekdays",
-    value: "weekdays"
+    value: "weekdays",
   },
   {
     title: "Weekends",
-    value: "weekends"
-  }
-]
+    value: "weekends",
+  },
+];
 
 export const EventMode = [
   {
     title: "Any Mode",
-    value: ""
+    value: "",
   },
   {
     title: "Online",
-    value: "online"
+    value: "online",
   },
   {
     title: "Offline",
-    value: "offline"
-  }
-]
+    value: "offline",
+  },
+];
 
 export const EventCategory = [
   {
     title: "All Events",
-    value: ""
+    value: "",
   },
   {
     title: "Free",
-    value: "free"
+    value: "free",
   },
   {
     title: "Paid",
-    value: "paid"
-  }
-]
+    value: "paid",
+  },
+];
 
 export const EventType = [
   {
     title: "Tech",
-    value: "tech"
+    value: "tech",
   },
   {
     title: "Nontech",
-    value: "nontech"
-  }
-]
+    value: "nontech",
+  },
+];
+
+export const institutes = [
+  "DEPSTAR",
+  "CSPIT",
+  "IIIM",
+  "CMPICA",
+  "RPCP",
+  "PDPIAS",
+  "MTIN",
+  "ARIP",
+  "BDIPS",
+];
+
+export const departments = [
+  "CSE",
+  "IT",
+  "CE",
+  "EC",
+  "EE",
+  "MECH",
+  "CVL",
+  "AIML",
+];

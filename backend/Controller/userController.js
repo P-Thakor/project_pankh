@@ -45,19 +45,19 @@ exports.createUser = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.updateUser = catchAsync(async (req, res, next) => {
-//   const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-//     new: true,
-//     runValidators: true,
-//   });
-//   if (!user) {
-//     return next(new AppError(404, 'User not found'));
-//   }
-//   res.status(200).json({
-//     status: 'success',
-//     data: User,
-//   });
-// });
+exports.updateUser = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  if (!user) {
+    return next(new AppError(404, 'User not found'));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: User,
+  });
+});
 
 exports.deleteUser = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, {

@@ -46,6 +46,19 @@ const userSchema = new mongoose.Schema({
       ref: 'Event',
     },
   ],
+  contactNumber: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  institute: {
+    type: String,
+    enum: ['DEPSTAR', 'CSPIT', 'IIIM', 'CMPICA', 'RPCP', 'PDPIAS', 'MTIN', 'ARIP', 'BDIPS'],
+  },
+  department: {
+    type: String,
+    enum: ['CSE', 'IT', 'CE', 'EC', 'EE', 'MECH', 'CVL', 'AIML']
+  },
   passwordChangedAt: Date,
   resetPasswordToken: String,
   resetPasswordExpire: Date,

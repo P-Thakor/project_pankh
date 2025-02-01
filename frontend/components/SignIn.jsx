@@ -16,9 +16,9 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   // const [modalType, setModalType] = useState(null);
   const [isvisible, setIsvisible] = useState(false);
-  const [ modalTitle, setModalTitle ] = useState('');
-  const [ modalMessage, setModalMessage ] = useState('');
-  const [ modalIconColor, setModalIconColor ] = useState('');
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalIconColor, setModalIconColor] = useState("");
   const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -67,97 +67,102 @@ const SignIn = () => {
 
   return (
     <>
-      <div className="flex w-full p-0">
-        <div className="items-center justify-center flex-1 w-1/3 py-32 bg-gray-50 lg:px-24">
-          <h1 className="mb-8 text-4xl font-bold text-center">
-            Sign In to PANKH
-          </h1>
-          <form className="w-full p-8" onSubmit={handleSignIn}>
-            <label>Email</label>
-            <input
-              type="text"
-              placeholder="Enter email"
-              className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-            <label>Password</label>
-            <div className="flex justify-between w-full p-0 mb-4 bg-white rounded-lg">
+      <div className="flex w-full min-h-screen p-0 bg-gray-100">
+        {/* Left Side - White Box with Sign In Form */}
+        <div className="flex items-center justify-center w-full p-12 lg:w-1/2">
+          <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+            <h1 className="mb-8 text-4xl font-bold text-center">
+              <span className="text-primaryblue">Sign In</span> to PANKH
+            </h1>
+            <form className="w-full" onSubmit={handleSignIn}>
+              <label>Email</label>
               <input
-                type={isPasswordVisible ? "text" : "password"}
-                placeholder="Enter your password"
-                className="block w-3/4 px-2 pt-4 mb-4 text-sm bg-white rounded-lg focus:outline-none"
-                value={password}
+                type="text"
+                placeholder="Enter email"
+                className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                value={email}
                 onChange={(e) => {
-                  setPassword(e.target.value);
+                  setEmail(e.target.value);
                 }}
               />
-              <button
-                type="button"
-                onClick={() => setIsPasswordVisible((prev) => !prev)}
-                className="text-sm opacity-50 text-primaryblue hover:text-primarydarkblue lg:mr-4"
-              >
-                {isPasswordVisible ? (
-                  <Image
-                    src="/assets/images/crossed-eye.svg"
-                    alt="don't show passsword"
-                    height={20}
-                    width={20}
+              <label>Password</label>
+              <div className="relative flex items-center w-full mb-4">
+                <input
+                  type={isPasswordVisible ? "text" : "password"}
+                  placeholder="Enter your password"
+                  className="w-full p-3 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsPasswordVisible((prev) => !prev)}
+                  className="absolute -translate-y-1/2 right-3 top-1/2 text-primaryblue hover:text-primarydarkblue"
+                >
+                  {isPasswordVisible ? (
+                    <Image
+                      src="/assets/images/crossed-eye.svg"
+                      alt="Don't show password"
+                      height={20}
+                      width={20}
+                    />
+                  ) : (
+                    <Image
+                      src="/assets/images/eye.svg"
+                      alt="Show password"
+                      height={20}
+                      width={20}
+                    />
+                  )}
+                </button>
+              </div>
+              <div className="flex justify-center w-full px-10">
+                {isLoading ? (
+                  <TailSpin
+                    type="Tailspin"
+                    color="#00BFFF"
+                    height={50}
+                    width={50}
                   />
                 ) : (
-                  <Image
-                    src="/assets/images/eye.svg"
-                    alt="show password"
-                    height={20}
-                    width={20}
-                  />
+                  <button
+                    type="submit"
+                    className="w-1/3 h-12 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
+                  >
+                    Sign In
+                  </button>
                 )}
-              </button>
-            </div>
-            <div className="flex justify-between w-full px-10">
-              {isLoading ? (
-                <TailSpin
-                  type="Tailspin"
-                  color="#00BFFF"
-                  height={50}
-                  width={50}
-                />
-              ) : (
-                <button
-                  type="submit"
-                  className="w-1/3 h-12 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
-                >
-                  Sign In
-                </button>
-              )}
+              </div>
               <button
-                className="text-sm text-primaryblue hover:text-primarydarkblue"
+                className="mt-4 text-sm text-primaryblue hover:text-primarydarkblue"
                 type="button"
                 onClick={() => setForgotPasswordModalOpen(true)}
               >
                 Forgot Password?
               </button>
-            </div>
-          </form>
+            </form>
 
-          <div className="mt-10">
-            <p className="mt-4 text-sm text-center">
-              New to PANKH?{" "}
-              <a
-                href="/sign-up"
-                className="text-primaryblue hover:text-primarydarkblue"
-                onClick={() => {
-                  setIsLoading(true);
-                }}
-              >
-                Sign Up
-              </a>
-            </p>
+            <div className="mt-10">
+              <p className="mt-4 text-sm text-center">
+                New to PANKH?{" "}
+                <a
+                  href="/sign-up"
+                  className="text-primaryblue hover:text-primarydarkblue"
+                  onClick={() => {
+                    setIsLoading(true);
+                  }}
+                >
+                  Sign Up
+                </a>
+              </p>
+            </div>
           </div>
         </div>
-        <div className="flex-1 min-h-screen w-2/3 bg-[url('/assets/images/signInBG.png')] hidden bg-cover bg-center lg:flex">
+
+        {/* Right Side - Background Image */}
+        <div className="w-1/2 min-h-screen bg-[url('/assets/images/signInBG.png')] hidden bg-cover bg-center lg:flex">
           {/* <div className="flex-col items-center justify-center w-full h-full text-white bg-black bg-opacity-20 lg:flex">
             <h1 className="mb-8 text-4xl font-semibold">
               First time at PANKH?
@@ -180,13 +185,13 @@ const SignIn = () => {
           </div> */}
         </div>
       </div>
+
       <AuthModal
         isVisible={isvisible}
         title={modalTitle}
         message={modalMessage}
         iconColor={modalIconColor}
-        onClose={() => setIsvisible(false)
-        }
+        onClose={() => setIsvisible(false)}
       />
       {forgotPasswordModalOpen && (
         <ForgotPasswordModal

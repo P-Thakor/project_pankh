@@ -46,12 +46,12 @@ const SearchBar = ({ events }) => {
   };
 
   return (
-    <form className="flex z-20" onSubmit={handleSearch}>
-      <div className="flex relative justify-center items-center">
+    <form className="z-20 flex" onSubmit={handleSearch}>
+      <div className="relative flex items-center justify-center">
         <Combobox value={event} onChange={handleSelectEvent}>
           <div className="w-full">
             <ComboboxInput
-              className="bg-gray-100 p-2 rounded-md w-56"
+              className="w-56 p-2 bg-gray-100 rounded-md"
               placeholder="Search Events"
               displayValue={(event) => (event ? event.name : query)}
               onChange={(e) => setQuery(e.target.value)}
@@ -65,7 +65,7 @@ const SearchBar = ({ events }) => {
                 setQuery("");
               }}
             >
-              <ComboboxOptions className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md overflow-auto focus:outline-none" static>
+              <ComboboxOptions className="absolute z-10 w-full mt-1 overflow-auto bg-white rounded-md shadow-lg max-h-60 focus:outline-none" static>
                 {filteredEvents.length === 0 && query !== "" ? (
                   <div className="px-4 py-2 text-gray-500">
                     No results found

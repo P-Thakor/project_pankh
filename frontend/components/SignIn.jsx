@@ -75,7 +75,7 @@ const SignIn = () => {
               <span className="text-primaryblue">Sign In</span> to PANKH
             </h1>
             <form className="w-full" onSubmit={handleSignIn}>
-              <label>Email</label>
+              <label className="text-sm">Email</label>
               <input
                 type="text"
                 placeholder="Enter email"
@@ -85,7 +85,7 @@ const SignIn = () => {
                   setEmail(e.target.value);
                 }}
               />
-              <label>Password</label>
+              <label className="text-sm ">Password</label>
               <div className="relative flex items-center w-full mb-4">
                 <input
                   type={isPasswordVisible ? "text" : "password"}

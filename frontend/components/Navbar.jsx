@@ -65,7 +65,7 @@ const Navbar = () => {
               alt="CHARUSAT logo"
               width={200}
               height={25}
-              className="hidden object-contain sm:flex"
+              className="hidden object-contain lg:flex"
             />
           </Link>
         </div>
@@ -77,7 +77,7 @@ const Navbar = () => {
               alt="25 Years of CHARUSAT"
               width={80}
               height={25}
-              className="hidden object-contain sm:flex"
+              className="hidden object-contain lg:flex"
             />
           </Link>
         </div>
@@ -93,7 +93,7 @@ const Navbar = () => {
               alt="DEPSTAR logo"
               width={110}
               height={25}
-              className="hidden object-contain sm:flex"
+              className="hidden object-contain lg:flex"
             />
           </Link>
         </div>

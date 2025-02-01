@@ -227,7 +227,7 @@ exports.deleteEvent = catchAsync(async (req, res, next) => {
 // });
 
 exports.registerEventForUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user.id);
   const event = await Event.findById(req.params.id);
   if (!event) {
     return next(new AppError('Event not found', 404));

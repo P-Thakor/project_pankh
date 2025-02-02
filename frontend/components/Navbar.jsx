@@ -99,7 +99,7 @@ const Navbar = () => {
         </div>
         {user ? (
           <div className="items-center hidden sm:flex justify-items-end ">
-            Welcome,{" "}
+            Welcome,&nbsp;
             <a
               href="/dashboard"
               className="font-semibold text-primaryblue hover:text-primarydarkblue"
@@ -107,7 +107,7 @@ const Navbar = () => {
                 setIsLoading(true);
               }}
             >
-              {user.username}{" "}
+              {user.username}
             </a>
             <Link href="">
               <button className="mx-10 custom-btn" onClick={handleLogout}>

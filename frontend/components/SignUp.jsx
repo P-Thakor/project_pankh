@@ -134,14 +134,13 @@ const SignUp = () => {
         </div> */}
       </div>
       <div className="flex flex-col items-center justify-center w-full px-8 py-16 bg-gray-100 lg:w-1/2 lg:px-24">
-        <h1 className="mb-6 text-3xl font-bold text-center lg:text-4xl">
-          <span className="text-primaryblue">Sign Up</span> to PANKH
-        </h1>
-
         <form
-          className="w-full max-w-md p-6 bg-white rounded-lg shadow-md"
+          className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg"
           onSubmit={handleSignUp}
         >
+          <h1 className="mb-6 text-3xl font-bold text-center lg:text-4xl">
+            <span className="text-primaryblue">Sign Up</span> to PANKH
+          </h1>
           <label className="block mb-2 text-sm font-medium">Full Name</label>
           <input
             type="text"
@@ -271,17 +270,16 @@ const SignUp = () => {
               </button>
             )}
           </div>
+          <p className="mt-6 text-sm text-center">
+            Already have an account?{" "}
+            <a
+              href="/sign-in"
+              className="text-primaryblue hover:text-primarydarkblue"
+            >
+              Sign In
+            </a>
+          </p>
         </form>
-
-        <p className="mt-6 text-sm text-center">
-          Already have an account?{" "}
-          <a
-            href="/sign-in"
-            className="text-primaryblue hover:text-primarydarkblue"
-          >
-            Sign In
-          </a>
-        </p>
       </div>
       <AuthModal
         isVisible={isvisible}

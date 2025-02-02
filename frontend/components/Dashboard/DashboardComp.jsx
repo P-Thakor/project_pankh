@@ -132,7 +132,7 @@ export default function DashboardComp({ events = [] }) {
 
         {/* Buttons */}
         <div className="flex mt-4 space-x-4">
-          <button className="px-4 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue">
+          <button className="px-4 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue" onClick={() => router.push("/edit-profile")}>
             Edit Profile
           </button>
           <button className="px-4 py-2 border rounded-md border-primaryblue text-primaryblue hover:bg-primaryblue hover:text-white">

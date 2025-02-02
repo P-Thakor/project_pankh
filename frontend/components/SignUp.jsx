@@ -36,84 +36,88 @@ const SignUp = () => {
   const router = useRouter();
 
   const handleSignUp = async (e) => {
-    setIsLoading(true);
-    e.preventDefault();
-    let collegeId = "";
-    let role = "other";
-    if (email.endsWith("@charusat.edu.in")) {
-      collegeId = email.split("@")[0];
-      role = "user";
-      // setCollegeId(id);
-      // setRole("user");
-    } else if (email.endsWith("@charusat.ac.in")) {
-      // setRole("faculty-member");
-      role = "faculty-member";
-    }
-    if (password !== confirmPassword) {
-      // alert("Passwords do not match");
-      setModalTitle("Sign Up Unsuccessful");
-      setModalMessage("Passwords do not match. Please try again.");
-      setModalIconColor("bg-red-500");
-      setIsvisible(true);
-      setIsLoading(false);
-      return;
-    }
-    const response = await fetch("http://localhost:8000/api/v1/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        password,
-        contactNumber,
-        collegeId,
-        role,
-        institute,
-      }),
-    });
-
-    // const data = await response.json();
-    console.log(response);
-    if (response.status === 201) {
-      setModalTitle("Registration Successful!");
-      switch (role) {
-        case "faculty-member":
-          setModalMessage(
-            "Welcome! You have successfully registered as a faculty."
-          );
-          setModalIconColor("bg-green-500");
-          break;
-        case "user":
-          setModalMessage(
-            "Welcome! You have successfully registered as a student."
-          );
-          setModalIconColor("bg-green-500");
-          break;
-
-        default:
-          setModalMessage(
-            "Welcome! You have successfully registered as a user."
-          );
-          setModalIconColor("bg-blue-500");
-          break;
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      let collegeId = "";
+      let role = "other";
+      if (email.endsWith("@charusat.edu.in")) {
+        collegeId = email.split("@")[0];
+        role = "user";
+        // setCollegeId(id);
+        // setRole("user");
+      } else if (email.endsWith("@charusat.ac.in")) {
+        // setRole("faculty-member");
+        role = "faculty-member";
       }
-      setIsvisible(true);
-      setTimeout(() => {
-        router.push("/sign-in");
-      }, 2000);
-    } else {
-      setModalTitle("Registration Unsuccessful");
-      setModalMessage("Registration failed. Please try again.");
-      setModalIconColor("bg-red-500");
-      setIsvisible(true);
+      if (password !== confirmPassword) {
+        // alert("Passwords do not match");
+        setModalTitle("Sign Up Unsuccessful");
+        setModalMessage("Passwords do not match. Please try again.");
+        setModalIconColor("bg-red-500");
+        setIsvisible(true);
+        setIsLoading(false);
+        return;
+      }
+      const response = await fetch("http://localhost:8000/api/v1/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+          contactNumber,
+          collegeId,
+          role,
+          institute,
+        }),
+      });
+  
+      const data = await response.json();
+      console.log(data);
+      if (response.status === 201) {
+        setModalTitle("Registration Successful!");
+        switch (role) {
+          case "faculty-member":
+            setModalMessage(
+              "Welcome! You have successfully registered as a faculty."
+            );
+            setModalIconColor("bg-green-500");
+            break;
+          case "user":
+            setModalMessage(
+              "Welcome! You have successfully registered as a student."
+            );
+            setModalIconColor("bg-green-500");
+            break;
+  
+          default:
+            setModalMessage(
+              "Welcome! You have successfully registered as a user."
+            );
+            setModalIconColor("bg-blue-500");
+            break;
+        }
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setIsvisible(true);
+        setTimeout(() => {
+          router.push("/sign-in");
+        }, 2000);
+      } else {
+        setModalTitle("Registration Unsuccessful");
+        setModalMessage("Registration failed. Please try again.");
+        setModalIconColor("bg-red-500");
+        setIsvisible(true);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
     }
-    setIsLoading(false);
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
   };
 
   const handleSetInstitute = (value) => {
@@ -183,7 +187,7 @@ const SignUp = () => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <ComboboxOptions className="absolute z-10 w-full mt-1 bg-white rounded-md shadow-lg max-h-60 focus:outline-none">
+                  <ComboboxOptions className="absolute z-10 w-full mt-1 bg-white rounded-md shadow-lg max-h-60 overflow-auto focus:outline-none">
                     {institutes.map((item) => (
                       <ComboboxOption
                         key={item}

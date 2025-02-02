@@ -127,7 +127,12 @@ exports.getAllEvents = catchAsync(async (req, res, next) => {
     .populate({
       path: 'participants', // Populating the participants
       select: 'username collegeId email', // Only select the 'email' field from participants
-    });
+    })
+    .populate({
+      path: 'attendance',
+      select: 'username collegeId email',
+    })
+    .sort({ createdAt: -1 });
 
   res.status(200).json({
     status: 'success',

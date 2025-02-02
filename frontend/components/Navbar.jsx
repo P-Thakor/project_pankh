@@ -112,7 +112,7 @@ const Navbar = () => {
                 setIsLoading(true);
               }}
             >
-              {user.username}
+              {user?.username}
             </a>
             <Link href="">
               <button className="mx-10 custom-btn" onClick={handleLogout}>

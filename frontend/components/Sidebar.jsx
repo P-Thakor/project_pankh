@@ -84,7 +84,7 @@ export default function Sidebar() {
             {isLoggedIn && (
               <p className="flex items-center justify-center font-semibold text-center text-gray-600">
                 Welcome&nbsp;
-                <span className="text-primaryblue">{user.username}</span>
+                <span className="text-primaryblue">{user?.username}</span>
               </p>
             )}
           </Link>

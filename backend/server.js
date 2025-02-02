@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
-const app = require('./app');
 const cors = require('cors');
+
+const app = require('./app');
+
 app.use(cors());
 
 process.on('uncaughtException', (err) => {
@@ -41,7 +43,7 @@ app.listen(port, (err) => {
 
 main().catch((err) => {
   console.log(`${err.name} --> ${err.message}\nUNHANDLED REJECTION💣`);
-  server.close(() => {
+  app.close(() => {
     process.exit(1);
   });
 });

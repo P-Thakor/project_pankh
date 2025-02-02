@@ -105,6 +105,11 @@ const CreateEvent = () => {
           setMessage("Looking forward to the experience!");
           setIconColor("bg-green-500");
           setIsModalVisible(true);
+          response.json()
+          .then((data) => {
+            console.log(data);
+            router.push(`/view-event/${data.data._id}`);
+          })
         } else {
           setModalTitle("Event Creation Unsuccessful.");
           if (response.status === 403) {

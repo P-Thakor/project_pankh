@@ -31,6 +31,7 @@ const upload = multer({
 exports.uploadEventImages = upload.fields([
   { name: 'coverImage', maxCount: 1 },
   { name: 'photo' },
+  { name: 'profilePhoto', maxCount: 1 },
 ]);
 
 exports.uploadImage = catchAsync(async (req, res, next) => {
@@ -61,6 +62,14 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
         }
       });
     };
+    console.log(req.files);
+    if (req.files?.profilePhoto) {
+      const profilePhoto = await uploadImageToCloudinary(
+        req.files.profilePhoto[0],
+        `profilePhoto_${Date.now()}`,
+      );
+      req.body.profilePhoto = profilePhoto;
+    }
 
     // Upload coverImage if it exists
     if (req.files?.coverImage) {

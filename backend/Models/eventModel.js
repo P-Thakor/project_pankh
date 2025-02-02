@@ -30,6 +30,22 @@ const eventSchema = new mongoose.Schema({
     required: [true, 'An Event must have a Location'],
     trim: true,
   },
+  Registration: {
+    price: {
+      type: Number,
+    },
+    deadline: {
+      type: Date,
+      // required: [true, 'An Event must have deadline'],
+    },
+    quantityAvailable: {
+      type: Number,
+      // required: [true, 'An Event must have fixed Quantity of participants'],
+    },
+    isAvailable: {
+      type: Boolean,
+    },
+  },
   photo: [String],
   coverImage: {
     type: String,
@@ -72,23 +88,6 @@ const eventSchema = new mongoose.Schema({
   endTime: Date,
   externalLink: {
     type: String,
-  },
-  Registration: {
-    price: {
-      type: Number,
-    },
-    deadline: {
-      type: Date,
-      // required: [true, 'An Event must have deadline'],
-      default: {startTime} - 1,
-    },
-    quantityAvailable: {
-      type: Number,
-      // required: [true, 'An Event must have fixed Quantity of participants'],
-    },
-    isAvailable: {
-      type: Boolean,
-    },
   },
   reviews: [
     {

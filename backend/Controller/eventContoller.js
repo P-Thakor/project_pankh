@@ -192,6 +192,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       ...req.body,
       creator: req.user.id,
       contactEmail: req.body.email || req.user.email,
+      contactNumber: req.body.contactNumber || req.user.contactNumber,
     });
 
     // const users = await User.find(); // Fetch all users or specific users

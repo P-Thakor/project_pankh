@@ -11,7 +11,7 @@ const ParticipantsPage = async({params}) => {
 
   return (
     <>
-      <EventParticipants participants={participants} />
+      <EventParticipants participants={participants} eventId={params.id} />
     </>
   )
 }

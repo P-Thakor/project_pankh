@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function EventParticipants({ participants = [] }) {
+export default function EventParticipants({ participants = [], eventId = "" }) {
   const [loading, setLoading] = useState(false);
   const [selectedParticipants, setSelectedParticipants] = useState([]);
 
@@ -28,11 +28,11 @@ export default function EventParticipants({ participants = [] }) {
       console.log("Submitting attendance for:", selectedParticipants);
 
       // Replace with actual API call
-      // await fetch("/api/attendance", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ attendees: selectedParticipants }),
-      // });
+      await fetch(`http://localhost:8000/api/v1/event/attendance/${eventId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userIds: selectedParticipants }),
+      });
 
       alert("Attendance submitted successfully!");
     } catch (error) {

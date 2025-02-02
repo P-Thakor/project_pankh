@@ -31,9 +31,6 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  photo: {
-    type: String,
-  },
   role: {
     type: String,
     enum: ['user', 'faculty-member', 'club-leader', 'admin', 'other'],
@@ -73,6 +70,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['CSE', 'IT', 'CE', 'EC', 'EE', 'MECH', 'CVL', 'AIML'],
   },
+  designation: {
+    type: String,
+    },
   passwordChangedAt: Date,
   resetPasswordToken: String,
   resetPasswordExpire: Date,

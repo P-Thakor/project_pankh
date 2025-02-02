@@ -82,9 +82,10 @@ export default function Sidebar() {
               className="flex object-contain ml-8"
             />
             {isLoggedIn && (
-              <p className="flex items-center justify-center font-semibold text-center text-gray-600">
-                Welcome&nbsp;
+              <p className="flex flex-col items-center justify-center font-semibold text-center text-gray-600 mt-8">
+                {/* Welcome&nbsp; */}
                 <span className="text-primaryblue">{user?.username}</span>
+                <span className="text-xs">{user?.designation}</span>
               </p>
             )}
           </Link>
@@ -107,7 +108,7 @@ export default function Sidebar() {
           >
             Dashboard
           </li>
-          <li
+          { user?.role === "faculty-member" && <li
             className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
             onClick={() => {
               router.push("/create-event");
@@ -115,7 +116,7 @@ export default function Sidebar() {
             }}
           >
             Create Event
-          </li>
+          </li>}
           <li
             className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
             onClick={() => {

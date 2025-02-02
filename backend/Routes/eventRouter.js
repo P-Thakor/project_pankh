@@ -22,6 +22,10 @@ router
   );
 
 router
+  .route('/generateEventReport/:id')
+  .get(isAuthenticated, eventController.generateEventRepot);
+
+router
   .route('/createEventByClub/:id')
   .post(isAuthenticated, eventController.createEventByClub);
 // router.post(
@@ -49,7 +53,5 @@ router
   .route('/deleteEvent/:id')
   .delete(isAuthenticated, eventController.deleteEvent);
 
-router
-  .route('/attendance/:id')
-  .post(userRole, eventController.attendance);
+router.route('/attendance/:id').post(userRole, eventController.attendance);
 module.exports = router;

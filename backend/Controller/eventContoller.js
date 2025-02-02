@@ -163,6 +163,28 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.generateEventRepot = catchAsync(async (req, res, next) => {
+  const event = await Event.findById(req.params.id)
+    .populate({
+      path: 'participants',
+      select: 'username collegeId email',
+    })
+    .populate({
+      path: 'attendance',
+      select: 'username collegeId email',
+    })
+    .select(
+      'participants attendance name description startDate endDate startTime endTime creator',
+    );
+  if (!event) {
+    return next(new AppError(404, 'Event not found'));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: event,
+  });
+});
+
 exports.createEvent = catchAsync(async (req, res, next) => {
   try {
     // eslint-disable-next-line node/no-unsupported-features/es-syntax

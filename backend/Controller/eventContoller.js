@@ -149,6 +149,10 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
     .populate({
       path: 'participants', // Populating the participants
       select: 'username collegeId email', // Only select the 'email' field from participants
+    })
+    .populate({
+      path: 'attendance',
+      select: 'username collegeId email',
     });
   if (!event) {
     return next(new AppError(404, 'Event not found'));

@@ -178,7 +178,7 @@ const SignUp = () => {
           <div className="relative">
             <Combobox value={institute} onChange={handleSetInstitute}>
               <div className="w-full p-3 mb-4 rounded-lg bg-blue-50">
-                <ComboboxButton className="w-full text-left">
+                <ComboboxButton className="w-full text-sm text-left text-gray-400">
                   {institute || "Select an institute"}
                 </ComboboxButton>
                 <Transition
@@ -187,7 +187,7 @@ const SignUp = () => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <ComboboxOptions className="absolute z-10 w-full mt-1 bg-white rounded-md shadow-lg max-h-60 overflow-auto focus:outline-none">
+                  <ComboboxOptions className="absolute z-10 w-full mt-1 overflow-auto text-sm bg-white rounded-md shadow-lg max-h-60 focus:outline-none">
                     {institutes.map((item) => (
                       <ComboboxOption
                         key={item}

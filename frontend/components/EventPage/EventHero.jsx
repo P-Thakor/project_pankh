@@ -88,23 +88,21 @@ export default function EventHero({ item }) {
           <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 rounded-md" />
           {/* text on image */}
           <div className="absolute inset-0 flex">
-            <div className="flex flex-col justify-center w-2/3 px-10 lg:w-1/2">
-              <h1
-                className="mb-6 font-bold text-white md:mb-12"
-                style={{ fontSize: "4vw" }}
-              >
+            <div className="flex flex-col justify-center w-2/3 px-10 lg:w-1/2 sm:w-full">
+              <h1 className="mb-6 font-bold text-white md:mb-12 text-3xl sm:text-4xl md:text-[4vw]">
+                {/* event name */}
                 {item.name}
               </h1>
-              <h3
-                className="mb-6 font-bold text-white md:mb-12"
-                style={{ fontSize: "2vw" }}
-              >
-                {/* CLUB NAME{item.clubname} */}
-              </h3>
-              {/* <p className="text-white " style={{ fontSize: "1.3vw" }}>
-                {item.description}
-              </p> */}
+
+              {/* <h3 className="mb-6 font-bold text-white text-2xl sm:text-3xl md:text-[1.8vw] md:mb-12 text-center md:text-left">
+                {item.clubname}
+              </h3> */}
+
+              {/* <p className="text-white text-base sm:text-lg md:text-[1.3vw] text-center md:text-left">
+                    {item.description}
+                  </p> */}
             </div>
+
             {/* book event */}
             <div className="items-center justify-center hidden w-1/2 shadow-lg lg:flex">
               <div className="items-center justify-center p-8 bg-white w-96 rounded-xl">
@@ -142,7 +140,10 @@ export default function EventHero({ item }) {
                     )}
                   </button>
                 )}
-                <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full" onClick={() => setIsUserModalVisible(true)}>
+                <button
+                  className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full"
+                  onClick={() => setIsUserModalVisible(true)}
+                >
                   More Info
                 </button>
               </div>
@@ -175,7 +176,11 @@ export default function EventHero({ item }) {
         iconColor={modalIconColor}
         onClose={() => setIsModalVisible(false)}
       />
-      <UserModal userId={item.creator} isOpen={isUserModalVisible} onClose={() => setIsUserModalVisible(false)} />
+      <UserModal
+        userId={item.creator}
+        isOpen={isUserModalVisible}
+        onClose={() => setIsUserModalVisible(false)}
+      />
     </>
   );
 }

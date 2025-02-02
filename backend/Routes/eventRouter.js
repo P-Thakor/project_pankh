@@ -51,5 +51,5 @@ router
 
 router
   .route('/attendance/:id')
-  .post(isAuthenticated, eventController.attendance);
+  .post(eventController.attendance);
 module.exports = router;

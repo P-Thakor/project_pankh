@@ -37,12 +37,13 @@ const eventSchema = new mongoose.Schema({
     deadline: {
       type: Date,
       // required: [true, 'An Event must have deadline'],
+      default: startTime - 1,
     },
-    quantityAvailabel: {
+    quantityAvailable: {
       type: Number,
       // required: [true, 'An Event must have fixed Quantity of participants'],
     },
-    isAvailale: {
+    isAvailable: {
       type: Boolean,
     },
   },
@@ -86,7 +87,6 @@ const eventSchema = new mongoose.Schema({
   endDate: Date,
   startTime: Date,
   endTime: Date,
-  registrationDeadline: Date,
   externalLink: {
     type: String,
   },

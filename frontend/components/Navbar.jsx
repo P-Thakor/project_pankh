@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchBar, Sidebar } from ".";
 import { fetchEvents } from "@/utils";
 import { useRouter } from "next/navigation";
@@ -12,10 +12,15 @@ import UserContext from "@/context/UserContext";
 const Navbar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [events, setEvents] = useState([]);
 
-  const events = fetchEvents().then((data) => {
-    return data;
-  });
+  useEffect( () => {
+    (async () => {
+    const eventList = await fetchEvents();
+    setEvents(eventList);
+    })();
+  }, []);
+
   const { user, logoutUser } = useContext(UserContext);
 
   const router = useRouter();

@@ -82,7 +82,7 @@ export default function Sidebar() {
               className="flex object-contain ml-8"
             />
             {isLoggedIn && (
-              <p className="flex flex-col items-center justify-center font-semibold text-center text-gray-600 mt-8">
+              <p className="flex flex-col items-center justify-center mt-8 font-semibold text-center text-gray-600">
                 {/* Welcome&nbsp; */}
                 <span className="text-primaryblue">{user?.username}</span>
                 <span className="text-xs">{user?.designation}</span>
@@ -99,24 +99,28 @@ export default function Sidebar() {
           >
             Home
           </li>
-          <li
-            className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
-            onClick={() => {
-              router.push("/dashboard");
-              toggleSidebar();
-            }}
-          >
-            Dashboard
-          </li>
-          { user?.role === "faculty-member" && <li
-            className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
-            onClick={() => {
-              router.push("/create-event");
-              toggleSidebar();
-            }}
-          >
-            Create Event
-          </li>}
+          {isLoggedIn && (
+            <li
+              className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
+              onClick={() => {
+                router.push("/dashboard");
+                toggleSidebar();
+              }}
+            >
+              Dashboard
+            </li>
+          )}
+          {user?.role === "faculty-member" && (
+            <li
+              className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
+              onClick={() => {
+                router.push("/create-event");
+                toggleSidebar();
+              }}
+            >
+              Create Event
+            </li>
+          )}
           <li
             className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
             onClick={() => {

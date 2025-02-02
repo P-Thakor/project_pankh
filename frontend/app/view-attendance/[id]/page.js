@@ -1,14 +1,26 @@
+import UserList from "@/components/UserList";
+import { fetchEventById, fetchEvents } from "@/utils";
 
 const AttendancePage = async ({ params }) => {
-    const event = await fetchEventById(params.id);
-    const attendees = event.attendance;
+  const event = await fetchEventById(params.id);
+  const attendees = event.attendance;
+  const absentees = event.participants.filter(
+    (participant) => !attendees.includes(participant)
+  );
 
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <UserList userList={attendees} />
+        </div>
+        <div>
+          <UserList userList={absentees} />
+        </div>
+      </div>
+    </>
+  );
+};
 
 export async function generateStaticParams() {
   try {
@@ -27,4 +39,4 @@ export async function generateStaticParams() {
   }
 }
 
-export default AttendancePage
+export default AttendancePage;

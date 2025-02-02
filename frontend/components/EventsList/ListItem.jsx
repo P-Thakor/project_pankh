@@ -17,7 +17,11 @@ export default function ListItem({ item, isCreator }) {
 
   const handleViewParticipants = () => {
     router.push(`/event-participants/${item._id}`);
-  }
+  };
+
+  const handleViewAttendance = () => {
+    router.push(`/view-attendance/${item._id}`);
+  };
   return (
     <>
       {isLoading ? (
@@ -27,14 +31,14 @@ export default function ListItem({ item, isCreator }) {
           <TailSpin type="Tailspin" color="#00BFFF" height={50} width={50} />
         </div>
       ) : (
-        <div
-          className="items-center justify-center p-4 transition-all duration-300 shadow-xl cursor-pointer w-100 rounded-xl hover:shadow-2xl hover:scale-105"
-          
-        >
+        <div className="items-center justify-center p-4 transition-all duration-300 shadow-xl cursor-pointer w-100 rounded-xl hover:shadow-2xl hover:scale-105">
           {/* <div className="absolute px-2 py-1 m-2 text-xs text-purple-600 bg-white rounded-xl">
             {item.price !== 0 ? "PAID" : "FREE"}
           </div> */}
-          <div className="object-contain" onClick={() => handleRedirect(`/view-event/${item._id}`)}>
+          <div
+            className="object-contain"
+            onClick={() => handleRedirect(`/view-event/${item._id}`)}
+          >
             <Image
               src={
                 item.coverImage?.startsWith("https://res.cloudinary.com/")
@@ -51,7 +55,10 @@ export default function ListItem({ item, isCreator }) {
             />
           </div>
           <div className="flex items-center justify-between mt-4">
-            <div className="max-w-[350px] text-wrap" onClick={() => handleRedirect(`/view-event/${item._id}`)}>
+            <div
+              className="max-w-[350px] text-wrap"
+              onClick={() => handleRedirect(`/view-event/${item._id}`)}
+            >
               <h3 className="my-4 font-sans text-lg font-semibold">
                 {item.name}
               </h3>
@@ -60,11 +67,25 @@ export default function ListItem({ item, isCreator }) {
               </p>
               <p className="mt-4 text-gray-500">{item.locations}</p>
             </div>
-            { isCreator &&
+            {isCreator && (
               <div>
-                <button className="z-10 px-2 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue" onClick={handleViewParticipants}>View Participants</button>
+                {item.attendance && item.attendance.length > 0 ? (
+                  <button
+                    className="z-10 px-2 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
+                    onClick={handleViewAttendance}
+                  >
+                    View Attendance
+                  </button>
+                ) : (
+                  <button
+                    className="z-10 px-2 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
+                    onClick={handleViewParticipants}
+                  >
+                    View Participants
+                  </button>
+                )}
               </div>
-            }
+            )}
           </div>
         </div>
       )}

@@ -6,7 +6,6 @@ const catchAsync = require('../Utils/catchAsync');
 const AppError = require('../Utils/appError');
 const User = require('../Models/userModel');
 const sendEmail = require('../Utils/email');
-
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: 'dosqfitt3', // Your Cloudinary cloud name
@@ -208,6 +207,47 @@ exports.deleteEvent = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.attendance = catchAsync(async (req, res, next) => {
+  try {
+    const { id } = req.params; // Event ID
+    const { userIds } = req.body; // Expecting an array of user IDs
+
+    if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+      return res.status(400).json({ message: 'User IDs array is required' });
+    }
+
+    // Find the event by ID
+    let event = await Event.findById(id);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    // Filter out already marked users
+    const newAttendances = userIds.filter(
+      (userId) => !event.attendance.includes(userId),
+    );
+
+    if (newAttendances.length === 0) {
+      return res
+        .status(400)
+        .json({ message: 'All users already marked attendance' });
+    }
+
+    // Store new User IDs in `attendance`
+    event.attendance.push(...newAttendances);
+
+    // Save the updated event
+    await event.save();
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Attendance marked successfully',
+      data: event,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 // exports.resizeEventImage = catchAsync(async (req, res, next) => {
 //   console.log(req.files);
 //   // console.log(req.body);

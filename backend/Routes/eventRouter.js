@@ -49,4 +49,7 @@ router
   .route('/deleteEvent/:id')
   .delete(isAuthenticated, eventController.deleteEvent);
 
+router
+  .route('/attendance/:id')
+  .post(isAuthenticated, eventController.attendance);
 module.exports = router;

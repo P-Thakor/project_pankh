@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchBar, Sidebar } from ".";
 import { fetchEvents } from "@/utils";
 import { useRouter } from "next/navigation";
@@ -12,10 +12,15 @@ import UserContext from "@/context/UserContext";
 const Navbar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [events, setEvents] = useState([]);
 
-  const events = fetchEvents().then((data) => {
-    return data;
-  });
+  useEffect( () => {
+    (async () => {
+    const eventList = await fetchEvents();
+    setEvents(eventList);
+    })();
+  }, []);
+
   const { user, logoutUser } = useContext(UserContext);
 
   const router = useRouter();
@@ -65,7 +70,7 @@ const Navbar = () => {
               alt="CHARUSAT logo"
               width={200}
               height={25}
-              className="hidden object-contain sm:flex"
+              className="hidden object-contain lg:flex"
             />
           </Link>
         </div>
@@ -77,7 +82,7 @@ const Navbar = () => {
               alt="25 Years of CHARUSAT"
               width={80}
               height={25}
-              className="hidden object-contain sm:flex"
+              className="hidden object-contain lg:flex"
             />
           </Link>
         </div>
@@ -93,13 +98,13 @@ const Navbar = () => {
               alt="DEPSTAR logo"
               width={110}
               height={25}
-              className="hidden object-contain sm:flex"
+              className="hidden object-contain lg:flex"
             />
           </Link>
         </div>
         {user ? (
-          <div className="items-center hidden sm:flex justify-items-end ">
-            Welcome,{" "}
+          <div className="items-center hidden font-semibold text-gray-600 sm:flex justify-items-end ">
+            Welcome&nbsp;
             <a
               href="/dashboard"
               className="font-semibold text-primaryblue hover:text-primarydarkblue"
@@ -107,7 +112,7 @@ const Navbar = () => {
                 setIsLoading(true);
               }}
             >
-              {user.username}{" "}
+              {user?.username}
             </a>
             <Link href="">
               <button className="mx-10 custom-btn" onClick={handleLogout}>

@@ -36,84 +36,88 @@ const SignUp = () => {
   const router = useRouter();
 
   const handleSignUp = async (e) => {
-    setIsLoading(true);
-    e.preventDefault();
-    let collegeId = "";
-    let role = "other";
-    if (email.endsWith("@charusat.edu.in")) {
-      collegeId = email.split("@")[0];
-      role = "user";
-      // setCollegeId(id);
-      // setRole("user");
-    } else if (email.endsWith("@charusat.ac.in")) {
-      // setRole("faculty-member");
-      role = "faculty-member";
-    }
-    if (password !== confirmPassword) {
-      // alert("Passwords do not match");
-      setModalTitle("Sign Up Unsuccessful");
-      setModalMessage("Passwords do not match. Please try again.");
-      setModalIconColor("bg-red-500");
-      setIsvisible(true);
-      setIsLoading(false);
-      return;
-    }
-    const response = await fetch("http://localhost:8000/api/v1/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        password,
-        contactNumber,
-        collegeId,
-        role,
-        institute,
-      }),
-    });
-
-    // const data = await response.json();
-    console.log(response);
-    if (response.status === 201) {
-      setModalTitle("Registration Successful!");
-      switch (role) {
-        case "faculty-member":
-          setModalMessage(
-            "Welcome! You have successfully registered as a faculty."
-          );
-          setModalIconColor("bg-green-500");
-          break;
-        case "user":
-          setModalMessage(
-            "Welcome! You have successfully registered as a student."
-          );
-          setModalIconColor("bg-green-500");
-          break;
-
-        default:
-          setModalMessage(
-            "Welcome! You have successfully registered as a user."
-          );
-          setModalIconColor("bg-blue-500");
-          break;
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      let collegeId = "";
+      let role = "other";
+      if (email.endsWith("@charusat.edu.in")) {
+        collegeId = email.split("@")[0];
+        role = "user";
+        // setCollegeId(id);
+        // setRole("user");
+      } else if (email.endsWith("@charusat.ac.in")) {
+        // setRole("faculty-member");
+        role = "faculty-member";
       }
-      setIsvisible(true);
-      setTimeout(() => {
-        router.push("/sign-in");
-      }, 2000);
-    } else {
-      setModalTitle("Registration Unsuccessful");
-      setModalMessage("Registration failed. Please try again.");
-      setModalIconColor("bg-red-500");
-      setIsvisible(true);
+      if (password !== confirmPassword) {
+        // alert("Passwords do not match");
+        setModalTitle("Sign Up Unsuccessful");
+        setModalMessage("Passwords do not match. Please try again.");
+        setModalIconColor("bg-red-500");
+        setIsvisible(true);
+        setIsLoading(false);
+        return;
+      }
+      const response = await fetch("http://localhost:8000/api/v1/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+          contactNumber,
+          collegeId,
+          role,
+          institute,
+        }),
+      });
+  
+      const data = await response.json();
+      console.log(data);
+      if (response.status === 201) {
+        setModalTitle("Registration Successful!");
+        switch (role) {
+          case "faculty-member":
+            setModalMessage(
+              "Welcome! You have successfully registered as a faculty."
+            );
+            setModalIconColor("bg-green-500");
+            break;
+          case "user":
+            setModalMessage(
+              "Welcome! You have successfully registered as a student."
+            );
+            setModalIconColor("bg-green-500");
+            break;
+  
+          default:
+            setModalMessage(
+              "Welcome! You have successfully registered as a user."
+            );
+            setModalIconColor("bg-blue-500");
+            break;
+        }
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setIsvisible(true);
+        setTimeout(() => {
+          router.push("/sign-in");
+        }, 2000);
+      } else {
+        setModalTitle("Registration Unsuccessful");
+        setModalMessage("Registration failed. Please try again.");
+        setModalIconColor("bg-red-500");
+        setIsvisible(true);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
     }
-    setIsLoading(false);
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
   };
 
   const handleSetInstitute = (value) => {
@@ -122,7 +126,7 @@ const SignUp = () => {
 
   return (
     <div className="flex w-full p-0">
-      <div className="flex-1 min-h-screen w-1/3 bg-[url('/assets/images/signInBG.png')] bg-cover bg-center justify-center items-center hidden text-white lg:flex flex-col ">
+      <div className="min-h-screen w-1/2 bg-[url('/assets/images/signInBG.png')] bg-cover bg-center justify-center items-center hidden text-white lg:flex flex-col ">
         {/* <h1 className="mb-8 text-4xl font-semibold">Already a User?</h1>
         <h4 className="mb-6 text-sm">Sign In to continue your journey</h4>
         <div>
@@ -133,48 +137,48 @@ const SignUp = () => {
           </Link>
         </div> */}
       </div>
-      <div className="items-center justify-center flex-1 w-2/3 py-32 bg-gray-50 lg:px-24">
-        <h1 className="mb-8 text-4xl font-bold text-center">
-          Sign Up to PANKH
-        </h1>
-        <form className="w-full p-8" onSubmit={handleSignUp}>
-          <label>Full Name</label>
+      <div className="flex flex-col items-center justify-center w-full px-8 py-16 bg-gray-100 lg:w-1/2 lg:px-24">
+        <form
+          className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg"
+          onSubmit={handleSignUp}
+        >
+          <h1 className="mb-6 text-3xl font-bold text-center lg:text-4xl">
+            <span className="text-primaryblue">Sign Up</span> to PANKH
+          </h1>
+          <label className="block mb-2 text-sm font-medium">Full Name</label>
           <input
             type="text"
             placeholder="Enter your full name"
-            className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
+            className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
             value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
+            onChange={(e) => setUsername(e.target.value)}
           />
-          <label>Email</label>
+
+          <label className="block mb-2 text-sm font-medium">Email</label>
           <input
             type="email"
             placeholder="Enter email address"
-            name="email"
+            className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
             value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <label>Mobile Number</label>
+
+          <label className="block mb-2 text-sm font-medium">
+            Mobile Number
+          </label>
           <input
             type="tel"
             placeholder="Enter mobile number"
-            name="contact"
+            className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
             value={contactNumber}
-            onChange={(e) => {
-              setContactNumber(e.target.value);
-            }}
-            className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
+            onChange={(e) => setContactNumber(e.target.value)}
           />
-          <label>Institute</label>
-          <div className="relative flex items-center justify-center">
+
+          <label className="block mb-2 text-sm font-medium">Institute</label>
+          <div className="relative">
             <Combobox value={institute} onChange={handleSetInstitute}>
-              <div className="w-full p-4 mb-4 bg-white rounded-lg">
-                <ComboboxButton className="w-full text-left">
+              <div className="w-full p-3 mb-4 rounded-lg bg-blue-50">
+                <ComboboxButton className="w-full text-sm text-left text-gray-400">
                   {institute || "Select an institute"}
                 </ComboboxButton>
                 <Transition
@@ -183,16 +187,16 @@ const SignUp = () => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <ComboboxOptions className="absolute z-10 w-full mt-1 overflow-auto bg-white rounded-md shadow-lg max-h-60 focus:outline-none">
+                  <ComboboxOptions className="absolute z-10 w-full mt-1 overflow-auto text-sm bg-white rounded-md shadow-lg max-h-60 focus:outline-none">
                     {institutes.map((item) => (
                       <ComboboxOption
                         key={item}
                         value={item}
                         className={({ active }) =>
-                          `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                          `cursor-pointer select-none p-2 ${
                             active
                               ? "bg-primaryblue text-white"
-                              : "bg-white text-gray-900"
+                              : "text-gray-900"
                           }`
                         }
                       >
@@ -204,39 +208,39 @@ const SignUp = () => {
               </div>
             </Combobox>
           </div>
-          <label>Password</label>
-          <div className="flex justify-between w-full p-0 mb-4 bg-white rounded-lg">
+
+          <label className="block mb-2 text-sm font-medium">Password</label>
+          <div className="flex items-center w-full p-3 mb-4 rounded-lg bg-blue-50">
             <input
               type={isPasswordVisible ? "text" : "password"}
               placeholder="Enter your password"
-              className="block w-3/4 px-2 pt-4 mb-4 text-sm bg-white rounded-lg focus:outline-none"
+              className="flex-1 text-sm bg-transparent focus:outline-none"
               value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button
               type="button"
               onClick={() => setIsPasswordVisible((prev) => !prev)}
-              className="text-sm opacity-50 text-primaryblue hover:text-primarydarkblue lg:mr-4"
+              className="text-primaryblue hover:text-primarydarkblue"
             >
               {isPasswordVisible ? (
                 <Image
                   src="/assets/images/crossed-eye.svg"
-                  alt="don't show passsword"
-                  height={20}
+                  alt="Hide Password"
                   width={20}
+                  height={20}
                 />
               ) : (
                 <Image
                   src="/assets/images/eye.svg"
-                  alt="show password"
-                  height={20}
+                  alt="Show Password"
                   width={20}
+                  height={20}
                 />
               )}
             </button>
           </div>
+
           {/* <input
             type="password"
             placeholder="Enter a password"
@@ -246,43 +250,40 @@ const SignUp = () => {
             }}
             className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
           /> */}
-          <label>Confirm Password</label>
+
+          <label className="block mb-2 text-sm font-medium">
+            Confirm Password
+          </label>
           <input
             type="password"
             placeholder="Re-type password"
-            className="block w-full p-4 mb-4 text-sm bg-white rounded-lg"
+            className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
             value={confirmPassword}
-            onChange={(e) => {
-              setConfirmPassword(e.target.value);
-            }}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          <div className="flex justify-between w-full px-10">
+
+          <div className="flex justify-center mt-6">
             {isLoading ? (
-              <TailSpin
-                type="Tailspin"
-                color="#00BFFF"
-                height={50}
-                width={50}
-              />
+              <TailSpin color="#00BFFF" height={50} width={50} />
             ) : (
               <button
                 type="submit"
-                className="w-1/3 h-12 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
+                className="w-40 h-12 text-white rounded-lg bg-primaryblue hover:bg-primarydarkblue"
               >
                 Sign Up
               </button>
             )}
           </div>
-        </form>
-
-        <div className="mt-10">
-          <p className="mt-4 text-sm text-center">
+          <p className="mt-6 text-sm text-center">
             Already have an account?{" "}
-            <a href="/sign-in" className="text-primaryblue hover:text-primarydarkblue">
+            <a
+              href="/sign-in"
+              className="text-primaryblue hover:text-primarydarkblue"
+            >
               Sign In
             </a>
           </p>
-        </div>
+        </form>
       </div>
       <AuthModal
         isVisible={isvisible}

@@ -9,9 +9,9 @@ export default function EventParticipants({ participants = [] }) {
   // Handle checkbox toggle
   const handleToggle = (participant) => {
     setSelectedParticipants((prev) =>
-      prev.includes(participant)
-        ? prev.filter((p) => p !== participant)
-        : [...prev, participant]
+      prev.includes(participant._id)
+        ? prev.filter((p) => p !== participant._id)
+        : [...prev, participant._id]
     );
   };
 
@@ -63,7 +63,7 @@ export default function EventParticipants({ participants = [] }) {
                 <input
                   type="checkbox"
                   className="text-blue-600 rounded form-checkbox"
-                  checked={selectedParticipants.includes(participant)}
+                  checked={selectedParticipants.includes(participant._id)}
                   onChange={() => handleToggle(participant)}
                 />
                 <div className="flex items-center ml-4 space-x-2" onClick={() => handleToggle(participant)}>

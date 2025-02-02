@@ -7,20 +7,17 @@ import { useContext, useEffect, useState } from "react";
 import UserContext from "@/context/UserContext";
 import { AuthModal } from "..";
 import { TailSpin } from "react-loader-spinner";
+import UserModal from "../UserModal";
 
 export default function EventHero({ item }) {
   // const [user, setUser] = useState(null);
   const [registered, setRegistered] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isUserModalVisible, setIsUserModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const [modalIconColor, setModalIconColor] = useState("");
   const [loading, setLoading] = useState(false);
-  // useEffect(() => {
-  //   fetchCurrentUser().then((data) => {
-  //     setUser(data);
-  //   });
-  // }, []);
 
   const { user } = useContext(UserContext);
 
@@ -32,12 +29,13 @@ export default function EventHero({ item }) {
 
   const handleRegisterForEvent = () => {
     setLoading(true);
-    fetch(`http://localhost:3000/api/v1/user/registerEvent/${item._id}`, {
+    fetch(`http://localhost:8000/api/v1/user/registerEvent/${item._id}`, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user: user }),
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
+      // body: JSON.stringify({ user: user }),
+      credentials: "include",
     })
       .then((response) => {
         response.json().then((data) => {
@@ -52,9 +50,10 @@ export default function EventHero({ item }) {
           } else {
             // alert("Failed to register for this event");
             setModalTitle("Registration Unsuccessful");
-            setModalMessage(
-              "Failed to register for this event. Please try again."
-            );
+            // setModalMessage(
+            //   "Failed to register for this event. Please try again."
+            // );
+            setModalMessage(data.message);
             setModalIconColor("bg-red-500");
             setIsModalVisible(true);
           }
@@ -102,9 +101,9 @@ export default function EventHero({ item }) {
               >
                 {/* CLUB NAME{item.clubname} */}
               </h3>
-              <p className="text-white " style={{ fontSize: "1.3vw" }}>
+              {/* <p className="text-white " style={{ fontSize: "1.3vw" }}>
                 {item.description}
-              </p>
+              </p> */}
             </div>
             {/* book event */}
             <div className="items-center justify-center hidden w-1/2 shadow-lg lg:flex">
@@ -143,7 +142,7 @@ export default function EventHero({ item }) {
                     )}
                   </button>
                 )}
-                <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full">
+                <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full" onClick={() => setIsUserModalVisible(true)}>
                   More Info
                 </button>
               </div>
@@ -176,6 +175,7 @@ export default function EventHero({ item }) {
         iconColor={modalIconColor}
         onClose={() => setIsModalVisible(false)}
       />
+      <UserModal userId={item.creator} isOpen={isUserModalVisible} onClose={() => setIsUserModalVisible(false)} />
     </>
   );
 }

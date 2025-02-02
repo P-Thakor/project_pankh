@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from "react";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   // const [user, setUser] = useState(null);
 
   const { user, logoutUser } = useContext(UserContext);
@@ -71,10 +71,9 @@ export default function Sidebar() {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out z-40 rounded-r-lg`}
       >
-
         {/* Nav Links */}
         <ul className="mt-8 space-y-4">
-        <Link href="/home">
+          <Link href="/home">
             <Image
               src="/logo_cropped.png"
               alt="PANKH logo"
@@ -82,8 +81,15 @@ export default function Sidebar() {
               height={25}
               className="flex object-contain ml-8"
             />
+            {isLoggedIn && (
+              <p className="flex items-center justify-center font-semibold text-center text-gray-600">
+                Welcome&nbsp;
+                <span className="text-primaryblue">{user?.username}</span>
+              </p>
+            )}
           </Link>
-        <li
+
+          <li
             className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
             onClick={() => {
               router.push("/home");
@@ -101,15 +107,15 @@ export default function Sidebar() {
           >
             Dashboard
           </li>
-            <li
-              className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
-              onClick={() => {
-                router.push("/create-event");
-                toggleSidebar();
-              }}
-            >
-              Create Event
-            </li>
+          <li
+            className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
+            onClick={() => {
+              router.push("/create-event");
+              toggleSidebar();
+            }}
+          >
+            Create Event
+          </li>
           <li
             className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
             onClick={() => {

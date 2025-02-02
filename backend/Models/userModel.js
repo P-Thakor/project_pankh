@@ -10,6 +10,9 @@ const userSchema = new mongoose.Schema({
     trim: true,
     // unique: true,
   },
+  profilePhoto: {
+    type: String,
+  },
   email: {
     type: String,
     required: [true, 'User should have an Email'],
@@ -22,6 +25,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     unique: true,
     trim: true,
+    set: (value) => (value === "" ? null : value),
   },
   isVerifiedEmail: {
     type: Boolean,
@@ -49,15 +53,25 @@ const userSchema = new mongoose.Schema({
   contactNumber: {
     type: String,
     trim: true,
-    required: true
+    required: true,
   },
   institute: {
     type: String,
-    enum: ['DEPSTAR', 'CSPIT', 'IIIM', 'CMPICA', 'RPCP', 'PDPIAS', 'MTIN', 'ARIP', 'BDIPS'],
+    enum: [
+      'DEPSTAR',
+      'CSPIT',
+      'IIIM',
+      'CMPICA',
+      'RPCP',
+      'PDPIAS',
+      'MTIN',
+      'ARIP',
+      'BDIPS',
+    ],
   },
   department: {
     type: String,
-    enum: ['CSE', 'IT', 'CE', 'EC', 'EE', 'MECH', 'CVL', 'AIML']
+    enum: ['CSE', 'IT', 'CE', 'EC', 'EE', 'MECH', 'CVL', 'AIML'],
   },
   passwordChangedAt: Date,
   resetPasswordToken: String,

@@ -30,6 +30,7 @@ const upload = multer({
 exports.uploadEventImages = upload.fields([
   { name: 'coverImage', maxCount: 1 },
   { name: 'photo' },
+  { name: 'profilePhoto', maxCount: 1 },
 ]);
 
 exports.uploadImage = catchAsync(async (req, res, next) => {
@@ -60,6 +61,14 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
         }
       });
     };
+    console.log(req.files);
+    if (req.files?.profilePhoto) {
+      const profilePhoto = await uploadImageToCloudinary(
+        req.files.profilePhoto[0],
+        `profilePhoto_${Date.now()}`,
+      );
+      req.body.profilePhoto = profilePhoto;
+    }
 
     // Upload coverImage if it exists
     if (req.files?.coverImage) {
@@ -117,7 +126,12 @@ exports.getAllEvents = catchAsync(async (req, res, next) => {
     .populate({
       path: 'participants', // Populating the participants
       select: 'username collegeId email', // Only select the 'email' field from participants
-    });
+    })
+    .populate({
+      path: 'attendance',
+      select: 'username collegeId email',
+    })
+    .sort({ createdAt: -1 });
 
   res.status(200).json({
     status: 'success',
@@ -267,7 +281,7 @@ exports.attendance = catchAsync(async (req, res, next) => {
 // });
 
 exports.registerEventForUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user.id);
   const event = await Event.findById(req.params.id);
   if (!event) {
     return next(new AppError('Event not found', 404));

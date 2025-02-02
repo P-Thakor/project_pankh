@@ -1,10 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { AuthModal } from ".";
+import { useRouter } from "next/navigation";
+import { fetchEventById } from "@/utils";
 
 export default function EventParticipants({ participants = [], eventId = "" }) {
   const [loading, setLoading] = useState(false);
   const [selectedParticipants, setSelectedParticipants] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [title, setTitle] = useState("");
+  const [iconColor, setIconColor] = useState("");
+
+  const router = useRouter();
 
   const handleToggle = (participant) => {
     setSelectedParticipants((prev) =>
@@ -21,22 +30,49 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
     }
 
     setLoading(true);
+
+    const event = await fetchEventById(eventId);
+
     try {
       console.log("Submitting attendance for:", selectedParticipants);
 
-      const res = await fetch(`http://localhost:8000/api/v1/event/attendance/${eventId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userIds: selectedParticipants }),
-      });
+      if (event.attendance.length > 0) {
+        setTitle("Attendance Already Submitted");
+        setMessage("Attendance has already been submitted for this event.");
+        setModalOpen(true);
+        setTimeout(() => router.push(`/view-attendance/${eventId}`), 2500);
+        return;
+      }
+
+      const res = await fetch(
+        `http://localhost:8000/api/v1/event/attendance/${eventId}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userIds: selectedParticipants }),
+        }
+      );
 
       const data = await res.json();
       console.log(data);
-
-      alert("Attendance submitted successfully!");
+      if (res.ok) {
+        setTitle("Attendance Submitted");
+        setMessage("Attendance submitted successfully!");
+        setIconColor("bg-green-500");
+        setModalOpen(true);
+        setTimeout(() => router.push(`/view-attendance/${eventId}`), 2500);
+      } else {
+        setTitle("Attendance Submission Unsuccessful");
+        setMessage(data.message);
+        setIconColor("bg-red-500");
+        setModalOpen(true);
+      }
     } catch (error) {
       console.error("Error submitting attendance:", error);
-      alert("Failed to submit attendance.");
+      setTitle("Error");
+      setMessage("An error occurred while submitting attendance.");
+      setIconColor("bg-red-500");
+      setModalOpen(true);
     } finally {
       setLoading(false);
     }
@@ -65,12 +101,15 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
                   checked={selectedParticipants.includes(participant._id)}
                   onChange={() => handleToggle(participant)}
                 />
-                <div className="flex items-center ml-4 space-x-2" onClick={() => handleToggle(participant)}>
-                <span className="text-gray-600">{participant.collegeId} - </span>
-                  <p className="text-gray-900">
-                    {participant.username}
-                  </p>{" "}
-                  </div>
+                <div
+                  className="flex items-center ml-4 space-x-2"
+                  onClick={() => handleToggle(participant)}
+                >
+                  <span className="text-gray-600">
+                    {participant.collegeId} -{" "}
+                  </span>
+                  <p className="text-gray-900">{participant.username}</p>{" "}
+                </div>
               </li>
             ))}
           </ul>
@@ -83,6 +122,12 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
           </button>
         </div>
       )}
+      <AuthModal
+        isVisible={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title={title}
+        message={message}
+      />
     </div>
   );
 }

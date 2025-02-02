@@ -75,23 +75,28 @@ const page = () => {
     <main className="overflow-hidden">
       <Hero />
       <div className="flex flex-col items-center justify-between w-full mb-10 sm:px-20 sm:flex-row">
-        <div className="flex w-1/2 mb-4 sm:mb-0">
-          <h1 className="mr-3 text-4xl font-semibold">{activeSection}</h1>
-          <h1 className="text-4xl font-semibold text-primaryblue">Events</h1>
+        <div className="flex flex-col items-center w-full mb-4 sm:flex-row sm:w-1/2 sm:mb-0 sm:items-start">
+          <h1 className="mr-0 text-2xl font-semibold sm:mr-3 sm:text-4xl">
+            {activeSection}
+          </h1>
+          <h1 className="text-2xl font-semibold sm:text-4xl text-primaryblue">
+            Events
+          </h1>
         </div>
+
         {/* <div className="flex w-1/2 gap-6">
           <CustomFilter title="Days" options={Days} />
           <CustomFilter title="Mode" options={EventMode} />
           <CustomFilter title="Category" options={EventCategory} />
           <CustomFilter title="Type" options={EventType} />
         </div> */}
-        <div className="flex w-1/2 gap-10">
-          <ul className="flex">
+        <div className="flex w-full gap-10 overflow-x-auto lg:w-1/2">
+          <ul className="flex flex-wrap justify-center w-full lg:justify-start">
             {["Upcoming", "Ongoing", "Completed"].map((item) => (
               <li
                 key={item}
                 onClick={() => setActiveSection(item)}
-                className={`p-4 cursor-pointer text-2xl transition-colors text-gray-500 font-semibold ${
+                className={`p-4 cursor-pointer text-lg sm:text-xl lg:text-2xl transition-colors text-gray-500 font-semibold ${
                   activeSection === item
                     ? "hidden" // Active item style
                     : "hover:text-primaryblue" // Hover style
@@ -103,7 +108,7 @@ const page = () => {
           </ul>
         </div>
       </div>
-      <div className="pb-10 lg:ml-20">
+      <div className="pb-10 lg:ml-28">
         {activeSection === "Upcoming" && setTimeout(() => {}, 1000) && (
           <List list={upcomingList} />
         )}

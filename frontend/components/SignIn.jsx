@@ -55,9 +55,10 @@ const SignIn = () => {
       }, 2500);
     } else {
       // setModalType("error-login");
+      const data = await response.json();
       setModalTitle("Login Unsuccessful");
-      setModalMessage("Invalid credentials. Please try again.");
-      console.log(response.message);
+      setModalMessage(data.message);
+      console.log(data);
       setModalIconColor("bg-red-500");
       setIsvisible(true);
       // alert("Login failed.");

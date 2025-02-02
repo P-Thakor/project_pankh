@@ -110,7 +110,8 @@ const SignUp = () => {
         }, 2000);
       } else {
         setModalTitle("Registration Unsuccessful");
-        setModalMessage("Registration failed. Please try again.");
+        // setModalMessage("Registration failed. Please try again.");
+        setModalMessage(data.message);
         setModalIconColor("bg-red-500");
         setIsvisible(true);
       }

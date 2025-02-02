@@ -7,10 +7,25 @@ const SendEmail = require('../Utils/email');
 
 // Sign-up
 exports.signup = catchAsync(async (req, res, next) => {
-  const { username, email, password, collegeId, role, contactNumber, institute } = req.body;
+  const {
+    username,
+    email,
+    password,
+    collegeId,
+    role,
+    contactNumber,
+    institute,
+  } = req.body;
   // console.log(collegeId);
 
-  const newUser = new User({ username, email, collegeId, role, contactNumber, institute });
+  const newUser = new User({
+    username,
+    email,
+    collegeId,
+    role,
+    contactNumber,
+    institute,
+  });
 
   await User.register(newUser, password);
 
@@ -31,7 +46,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const verificationUrl = `http://localhost:8000/api/v1/auth/verify-email?token=${token}`;
 
   try {
-    // await new SendEmail(user, verificationUrl).sendVerificationEmail();
+    await new SendEmail(user, verificationUrl).sendVerificationEmail();
     console.log('Sent Email');
   } catch (err) {
     return next(

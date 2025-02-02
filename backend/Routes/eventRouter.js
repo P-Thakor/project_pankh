@@ -51,5 +51,5 @@ router
 
 router
   .route('/attendance/:id')
-  .post(eventController.attendance);
+  .post(userRole, eventController.attendance);
 module.exports = router;

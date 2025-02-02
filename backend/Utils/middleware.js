@@ -1,3 +1,4 @@
+const User = require('../Models/userModel');
 const AppError = require('./appError');
 
 exports.isAuthenticated = (req, _, next) => {
@@ -18,3 +19,20 @@ exports.userRole = (req, _, next) => {
   }
   return next();
 };
+
+exports.isVerifiedEmail = async (req, _, next) => {
+  const {email} = req.body;
+  const user = await User.findOne({
+    email,
+  });
+
+  if (user.isVerifiedEmail) {
+    return next();
+  }
+  return next(
+    new AppError(
+      'Your email is not verified. Please verify your email to access this resource.',
+      401,
+    ),
+  );
+}

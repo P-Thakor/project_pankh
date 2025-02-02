@@ -6,7 +6,6 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
   const [loading, setLoading] = useState(false);
   const [selectedParticipants, setSelectedParticipants] = useState([]);
 
-  // Handle checkbox toggle
   const handleToggle = (participant) => {
     setSelectedParticipants((prev) =>
       prev.includes(participant._id)
@@ -15,7 +14,6 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
     );
   };
 
-  // Handle attendance submission
   const handleSubmit = async () => {
     if (selectedParticipants.length === 0) {
       alert("Please select at least one participant.");
@@ -24,15 +22,16 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
 
     setLoading(true);
     try {
-      // Simulate sending data to the backend
       console.log("Submitting attendance for:", selectedParticipants);
 
-      // Replace with actual API call
-      await fetch(`http://localhost:8000/api/v1/event/attendance/${eventId}`, {
+      const res = await fetch(`http://localhost:8000/api/v1/event/attendance/${eventId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userIds: selectedParticipants }),
       });
+
+      const data = await res.json();
+      console.log(data);
 
       alert("Attendance submitted successfully!");
     } catch (error) {

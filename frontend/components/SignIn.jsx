@@ -50,6 +50,9 @@ const SignIn = () => {
       setModalMessage("Welcome back! You have successfully logged in.");
       setModalIconColor("bg-blue-500");
       setIsvisible(true);
+      setTimeout(() => {
+        router.push("/home");
+      }, 2500);
     } else {
       // setModalType("error-login");
       setModalTitle("Login Unsuccessful");
@@ -198,9 +201,6 @@ const SignIn = () => {
         <ForgotPasswordModal
           onClose={() => {
             setForgotPasswordModalOpen(false);
-            if (modalTitle === "Login Successful!") {
-              router.push("/home");
-            }
           }}
         />
       )}

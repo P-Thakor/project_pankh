@@ -54,6 +54,7 @@ const SignIn = () => {
       // setModalType("error-login");
       setModalTitle("Login Unsuccessful");
       setModalMessage("Invalid credentials. Please try again.");
+      console.log(response.message);
       setModalIconColor("bg-red-500");
       setIsvisible(true);
       // alert("Login failed.");
@@ -195,7 +196,12 @@ const SignIn = () => {
       />
       {forgotPasswordModalOpen && (
         <ForgotPasswordModal
-          onClose={() => setForgotPasswordModalOpen(false)}
+          onClose={() => {
+            setForgotPasswordModalOpen(false);
+            if (modalTitle === "Login Successful!") {
+              router.push("/home");
+            }
+          }}
         />
       )}
     </>

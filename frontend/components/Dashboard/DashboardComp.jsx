@@ -34,15 +34,7 @@ export default function DashboardComp({ events = [] }) {
   }
 
   if (user) {
-    var {
-      username = "",
-      email = "",
-      collegeId = "",
-      contactNumber = "",
-      designation = "",
-      department = "",
-      institute = "",
-    } = user;
+    var { username = "", email = "", collegeId = "" } = user;
   } else {
     var username = (email = "");
     setUser({});
@@ -73,64 +65,56 @@ export default function DashboardComp({ events = [] }) {
         <span className="text-sm font-semibold text-gray-600">Email:</span>
         <p className="text-lg font-medium text-primaryblue">{email}</p>
       </div>
-      {collegeId && (
-        <div className="p-4 border rounded-lg bg-blue-50">
-          <span className="text-sm font-semibold text-gray-600">Student ID:</span>
-          <p className="text-lg font-medium text-primaryblue">{collegeId}</p>
-        </div>
-      )}
-      {contactNumber && (
-        <div className="p-4 border rounded-lg bg-blue-50">
-          <span className="text-sm font-semibold text-gray-600">Mobile Number:</span>
-          <p className="text-lg font-medium text-primaryblue">{contactNumber}</p>
-        </div>
-      )}
-      {designation && (
-        <div className="p-4 border rounded-lg bg-blue-50">
-          <span className="text-sm font-semibold text-gray-600">Designation:</span>
-          <p className="text-lg font-medium text-primaryblue">{designation}</p>
-        </div>
-      )}
-      {department && (
-        <div className="p-4 border rounded-lg bg-blue-50">
-          <span className="text-sm font-semibold text-gray-600">Department:</span>
-          <p className="text-lg font-medium text-primaryblue">{department}</p>
-        </div>
-      )}
-      {institute && (
-        <div className="p-4 border rounded-lg bg-blue-50">
-          <span className="text-sm font-semibold text-gray-600">Institute:</span>
-          <p className="text-lg font-medium text-primaryblue">{institute}</p>
-        </div>
-      )}
-    </div>
-  </div>
 
-  {/* Buttons */}
-  <div className="flex mt-4 space-x-4">
-    <button className="px-4 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue">
-      Edit Profile
-    </button>
-    <button className="px-4 py-2 border rounded-md border-primaryblue text-primaryblue hover:bg-primaryblue hover:text-white">
-      Reset Password
-    </button>
-  </div>
-</div>
-
-
-      {/* Events Created by User (Only for Admin & Faculty) */}
-      {(user.role === "faculty-member" || user.role === "admin") && (
-        <div className="w-full p-6 bg-white rounded-lg shadow-lg">
-          <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
-            Events Created by You
-          </h2>
-          {createdEvents.length > 0 ? (
-            <List list={createdEvents} style="ml-2" isCreator={true} />
-          ) : (
-            <p className="mt-4 text-gray-500">No events organized yet!</p>
-          )}{" "}
-        </div>
-      )}
+      <div className="flex-1 p-8 bg-gray-100">
+        {activeSection === "Profile" && user && (
+          <div className="max-w-md rounded-lg">
+            <h1 className="text-2xl font-bold text-primaryblue">Profile</h1>
+            <div className="flex flex-col">
+              <div className="w-full p-6 mt-6 bg-white rounded-lg">
+                <div className="flex flex-col space-y-4">
+                  <div className="flex items-center justify-center w-24 h-24 mb-4 text-4xl font-bold text-white rounded-full bg-primaryblue">
+                    {username.charAt(0) || "a"}
+                  </div>
+                  <div className="flex items-center justify-between pb-4 border-b">
+                    <span className="text-sm font-semibold text-gray-500">
+                      Full Name:
+                    </span>
+                    <span className="text-lg font-medium text-primaryblue">
+                      {username}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-semibold text-gray-500">
+                      Email:
+                    </span>
+                    <span className="text-lg font-medium text-primaryblue">
+                      {email}
+                    </span>
+                  </div>
+                  {collegeId !== "" && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-gray-500">
+                        Student ID:
+                      </span>
+                      <span className="text-lg font-medium text-primaryblue">
+                        {collegeId}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <button className="mt-4 bg-primaryblue text-white rounded-md p-2 hover:bg-primarydarkblue">
+                Edit Profile
+              </button>
+              <button className="mt-4 text-primaryblue rounded-md p-2 border-primaryblue hover:bg-primaryblue hover:text-white">
+                Reset Password
+              </button>
+            </div>
+          </div>
+        )}
 
       {/* Events Participated Section */}
       <div className="w-full p-6 bg-white rounded-lg shadow-lg">

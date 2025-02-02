@@ -103,8 +103,8 @@ const Navbar = () => {
           </Link>
         </div>
         {user ? (
-          <div className="items-center hidden sm:flex justify-items-end ">
-            Welcome,&nbsp;
+          <div className="items-center hidden font-semibold text-gray-600 sm:flex justify-items-end ">
+            Welcome&nbsp;
             <a
               href="/dashboard"
               className="font-semibold text-primaryblue hover:text-primarydarkblue"

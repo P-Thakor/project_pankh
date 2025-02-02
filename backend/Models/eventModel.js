@@ -86,6 +86,7 @@ const eventSchema = new mongoose.Schema({
   endDate: Date,
   startTime: Date,
   endTime: Date,
+  registrationDeadline: Date,
   externalLink: {
     type: String,
   },

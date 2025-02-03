@@ -137,7 +137,7 @@ exports.getAllEvents = catchAsync(async (req, res, next) => {
       path: 'attendance',
       select: 'username collegeId email',
     })
-    .sort({ createdAt: -1 });
+    .sort({ startTime: 1 });
 
   res.status(200).json({
     status: 'success',
@@ -308,6 +308,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       ...req.body,
       creator: req.user.id,
       contactEmail: req.body.email || req.user.email,
+      contactNumber: req.body.contactNumber || req.user.contactNumber,
     });
 
     // const users = await User.find(); // Fetch all users or specific users

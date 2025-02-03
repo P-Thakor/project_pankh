@@ -77,7 +77,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(
   cors({
-    origin: 'http://localhost:3000', // Specify your frontend domain here
+    origin: 'http://localhost:3005', // Specify your frontend domain here
     credentials: true,
   }),
 );

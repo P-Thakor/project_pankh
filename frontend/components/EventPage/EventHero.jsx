@@ -19,6 +19,7 @@ export default function EventHero({ item }) {
   const [modalIconColor, setModalIconColor] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const date  = new Date();
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function EventHero({ item }) {
 
   const handleRegisterForEvent = () => {
     setLoading(true);
-    fetch(`http://localhost:8000/api/v1/user/registerEvent/${item._id}`, {
+    fetch(`http://localhost:8001/api/v1/user/registerEvent/${item._id}`, {
       method: "PATCH",
       // headers: {
       //   "Content-Type": "application/json",
@@ -122,6 +123,13 @@ export default function EventHero({ item }) {
                     disabled
                   >
                     Registered
+                  </button>
+                ) : (new Date(item.startDate) < date) ? (
+                  <button
+                    className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
+                    disabled
+                  >
+                    Registration Closed
                   </button>
                 ) : (
                   <button

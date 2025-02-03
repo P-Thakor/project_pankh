@@ -38,11 +38,11 @@ const eventSchema = new mongoose.Schema({
       type: Date,
       // required: [true, 'An Event must have deadline'],
     },
-    quantityAvailabel: {
+    quantityAvailable: {
       type: Number,
       // required: [true, 'An Event must have fixed Quantity of participants'],
     },
-    isAvailale: {
+    isAvailable: {
       type: Boolean,
     },
   },

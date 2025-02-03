@@ -26,7 +26,7 @@ const Navbar = () => {
   const router = useRouter();
 
   const handleLogout = () => {
-    fetch("http://localhost:8000/api/v1/auth/logout", {
+    fetch("http://localhost:8001/api/v1/auth/logout", {
       method: "GET",
     })
       .then((response) => {
@@ -68,7 +68,7 @@ const Navbar = () => {
             <Image
               src="/assets/images/charusat_logo.png"
               alt="CHARUSAT logo"
-              width={200}
+              width={170}
               height={25}
               className="hidden object-contain lg:flex"
             />
@@ -80,7 +80,7 @@ const Navbar = () => {
             <Image
               src="/assets/images/25YearLogo.png"
               alt="25 Years of CHARUSAT"
-              width={80}
+              width={70}
               height={25}
               className="hidden object-contain lg:flex"
             />
@@ -96,7 +96,7 @@ const Navbar = () => {
             <Image
               src="/assets/images/depstar_logo.png"
               alt="DEPSTAR logo"
-              width={110}
+              width={100}
               height={25}
               className="hidden object-contain lg:flex"
             />

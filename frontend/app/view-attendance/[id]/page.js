@@ -2,23 +2,40 @@ import UserList from "@/components/UserList";
 import { fetchEventById, fetchEvents } from "@/utils";
 
 const AttendancePage = async ({ params }) => {
+  if (!params?.id)
+    return <p className="text-red-500 text-center py-4">Invalid Event</p>;
+
   const event = await fetchEventById(params.id);
-  const attendees = event.attendance;
-  const absentees = event.participants.filter(
-    (participant) => !attendees.includes(participant)
-  );
+  if (!event)
+    return <p className="text-red-500 text-center py-4">Event not found</p>;
+
+  const attendees = event.attendance || [];
+  const absentees =
+    event.participants?.filter(
+      (participant) =>
+        !attendees.some((attendee) => attendee._id === participant._id)
+    ) || [];
 
   return (
-    <>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
+    <div className="p-4 min-h-lvh">
+      <h1 className="text-2xl font-bold text-center mb-6">
+        {event.name} - Attendance Report
+      </h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Attendees Section */}
+        <div className="bg-white shadow-lg rounded-lg p-6">
+          <h2 className="text-xl font-bold mb-4 text-blue-600">Attendees</h2>
           <UserList userList={attendees} />
         </div>
-        <div>
+
+        {/* Absentees Section */}
+        <div className="bg-white shadow-lg rounded-lg p-6">
+          <h2 className="text-xl font-bold mb-4 text-red-600">Absentees</h2>
           <UserList userList={absentees} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
@@ -31,10 +48,10 @@ export async function generateStaticParams() {
     }
 
     return events.map((event) => ({
-      id: event._id.toString(),
+      id: event._id?.toString() || "",
     }));
   } catch (error) {
-    console.log(error);
+    console.error("Error generating static params:", error);
     return [];
   }
 }

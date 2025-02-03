@@ -26,7 +26,7 @@ export default function Sidebar() {
 
   const handleLoginLogout = () => {
     if (isLoggedIn) {
-      fetch("http://localhost:8000/api/v1/auth/logout", {
+      fetch("http://localhost:8001/api/v1/auth/logout", {
         method: "GET",
       })
         .then((response) => {
@@ -82,7 +82,7 @@ export default function Sidebar() {
               className="flex object-contain ml-8"
             />
             {isLoggedIn && (
-              <p className="flex flex-col items-center justify-center mt-8 font-semibold text-center text-gray-600">
+              <p className="flex flex-col items-center justify-center mt-4 font-semibold text-center text-gray-600">
                 {/* Welcome&nbsp; */}
                 <span className="text-primaryblue">{user?.username}</span>
                 <span className="text-xs">{user?.designation}</span>

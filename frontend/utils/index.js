@@ -1,5 +1,5 @@
 export async function fetchEvents() {
-  const res = await fetch("http://localhost:8000/api/v1/event/getAllEvents", {
+  const res = await fetch("http://localhost:8001/api/v1/event/getAllEvents", {
     cache: "no-store",
   });
   const data = await res.json();
@@ -7,7 +7,7 @@ export async function fetchEvents() {
 }
 
 export async function fetchEventById(id) {
-  const res = await fetch(`http://localhost:8000/api/v1/event/getEvent/${id}`, {
+  const res = await fetch(`http://localhost:8001/api/v1/event/getEvent/${id}`, {
     cache: "no-store",
     credentials: "include",
   });
@@ -32,19 +32,19 @@ export function formattedTime(time) {
 }
 
 export async function fetchClubById(id) {
-  const res = await fetch(`http://localhost:8000/api/v1/club/club/${id}`);
+  const res = await fetch(`http://localhost:8001/api/v1/club/club/${id}`);
   const data = await res.json();
   return data.data.club;
 }
 
 export async function fetchClubs() {
-  const res = await fetch("http://localhost:8000/api/v1/club/clubs");
+  const res = await fetch("http://localhost:8001/api/v1/club/clubs");
   const data = await res.json();
   return data.data.clubs;
 }
 
 export async function fetchCurrentUser() {
-  const res = await fetch("http://localhost:8000/api/v1/user/me", {
+  const res = await fetch("http://localhost:8001/api/v1/user/me", {
     credentials: "include",
   });
   const data = await res.json();
@@ -52,7 +52,7 @@ export async function fetchCurrentUser() {
 }
 
 export async function forgotPassword(email) {
-  const res = await fetch("http://localhost:8000/api/v1/auth/forgotPassword", {
+  const res = await fetch("http://localhost:8001/api/v1/auth/forgotPassword", {
     method: "POST",
     credentials: "include",
     headers: {
@@ -65,7 +65,7 @@ export async function forgotPassword(email) {
 
 export async function resetPassword(Otp) {
   const res = await fetch(
-    `http://localhost:8000/api/v1/auth/resetPassword/${Otp}`,
+    `http://localhost:8001/api/v1/auth/resetPassword/${Otp}`,
     {
       method: "GET",
       headers: {

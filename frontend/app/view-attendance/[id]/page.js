@@ -1,3 +1,4 @@
+import GenerateReportButton from "@/components/GenerateReportButton";
 import UserList from "@/components/UserList";
 import { fetchEventById, fetchEvents } from "@/utils";
 
@@ -25,7 +26,7 @@ const AttendancePage = async ({ params }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Attendees Section */}
         <div className="bg-white shadow-lg rounded-lg p-6">
-          <h2 className="text-xl font-bold mb-4 text-blue-600">Attendees</h2>
+          <h2 className="text-xl font-bold mb-4 text-green-600">Attendees</h2>
           <UserList userList={attendees} />
         </div>
 
@@ -35,6 +36,7 @@ const AttendancePage = async ({ params }) => {
           <UserList userList={absentees} />
         </div>
       </div>
+      <GenerateReportButton eventId={params.id} />
     </div>
   );
 };

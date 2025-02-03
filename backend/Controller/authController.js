@@ -153,7 +153,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     maxAge: 3600000, // 1 hour
     secure: false,
   });
-
+  console.log(req.cookie);
   // 2) Generate the random reset token
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
@@ -206,7 +206,8 @@ exports.verifyOtp = catchAsync(async (req, res, next) => {
 
 exports.changePassword = catchAsync(async (req, res, next) => {
   // 1) Get user from collection
-  const email = decodeURIComponent(req.user.email);
+  console.log(req.cookies);
+  const email = decodeURIComponent(req.cookies.email);
   console.log(email);
   const user = await User.findOne({
     email,
@@ -215,10 +216,10 @@ exports.changePassword = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new AppError('User not found', 404));
   }
-  // 3) Check if posted current password is correct
-  if (!(await user.correctPassword(req.body.currentPassword, user.password))) {
-    return next(new AppError('Your current password is wrong.', 401));
-  }
+  // // 3) Check if posted current password is correct
+  // if (!(await user.correctPassword(req.body.currentPassword, user.password))) {
+  //   return next(new AppError('Your current password is wrong.', 401));
+  // }
   // 3) If so, update password
   await user.setPassword(req.body.password);
   // disable validation

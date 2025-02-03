@@ -87,6 +87,13 @@ userSchema.methods.createPasswordResetToken = function () {
   return OTP;
 };
 
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword,
+) {
+  return await this.authenticate(candidatePassword, userPassword);
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

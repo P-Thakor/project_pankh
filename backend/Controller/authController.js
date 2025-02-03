@@ -206,7 +206,7 @@ exports.verifyOtp = catchAsync(async (req, res, next) => {
 
 exports.changePassword = catchAsync(async (req, res, next) => {
   // 1) Get user from collection
-  const email = decodeURIComponent(req.cookies.email);
+  const email = decodeURIComponent(req.user.email);
   console.log(email);
   const user = await User.findOne({
     email,
@@ -214,6 +214,10 @@ exports.changePassword = catchAsync(async (req, res, next) => {
   // 2) Check if user has password set
   if (!user) {
     return next(new AppError('User not found', 404));
+  }
+  // 3) Check if posted current password is correct
+  if (!(await user.correctPassword(req.body.currentPassword, user.password))) {
+    return next(new AppError('Your current password is wrong.', 401));
   }
   // 3) If so, update password
   await user.setPassword(req.body.password);

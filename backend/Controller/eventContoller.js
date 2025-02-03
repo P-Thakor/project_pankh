@@ -177,6 +177,22 @@ exports.generateEventRepot = async (req, res, next) => {
       .populate('creator', 'username')
       .select('name description startDate endDate creator');
 
+    const attendance = event.attendance.map((user) => ({
+      username: user.username,
+      collegeId: user.collegeId,
+      email: user.email,
+    }));
+
+    const participants = event.participants.map((user) => ({
+      username: user.username,
+      collegeId: user.collegeId,
+      email: user.email,
+    }));
+
+    const absences = participants.filter(
+      (user) => !attendance.some((attendee) => attendee.email === user.email),
+    );
+
     if (!event) {
       return res.status(404).json({ error: 'Event not found' });
     }
@@ -228,33 +244,29 @@ exports.generateEventRepot = async (req, res, next) => {
     doc.moveDown(1);
 
     // **Participants Title (Ensure Left Alignment & Bold)**
-    if (event.participants.length > 0) {
+    if (event.attendance.length > 0) {
       doc.moveDown(1); // Ensure spacing before title
       doc
         .fontSize(16)
         .fillColor('#1F618D')
         .font('Helvetica-Bold') // ✅ Make the title bold
-        .text('Participants:', { align: 'left', underline: true });
+        .text('Attendance:', { align: 'left', underline: true });
       doc.moveDown(0.5); // Add spacing before table
       addTable(doc, ['No.', 'Name', 'College ID', 'Email'], event.participants);
     }
 
     // **Force "Attendance" Title to Align with "Participants" & Bold**
-    if (event.attendance.length > 0) {
+    if (absences.length > 0) {
       doc.moveDown(1); // Ensure same spacing as "Participants"
       doc.text('', 50); // Move cursor to start of line
       doc
         .fontSize(16)
         .fillColor('#1F618D')
         .font('Helvetica-Bold') // ✅ Make the title bold
-        .text('Attendance:', { align: 'left', underline: true });
+        .text('Absences:', { align: 'left', underline: true });
       doc.moveDown(0.5);
       addTable(doc, ['No.', 'Name', 'College ID', 'Email'], event.attendance);
     }
-
-    // **Footer**
-    doc.moveDown(2);
-    doc.fontSize(12).fillColor('#555').text('Event Report', { align: 'right' });
 
     doc.end();
   } catch (error) {

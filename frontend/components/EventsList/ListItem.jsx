@@ -22,6 +22,23 @@ export default function ListItem({ item, isCreator }) {
   const handleViewAttendance = () => {
     router.push(`/view-attendance/${item._id}`);
   };
+
+  const handleDeleteEvent = async () => {
+    try {
+      if (confirm("Are you sure you want to delete this event?")) {
+        setIsLoading(true);
+        const res = await fetch(`http://localhost:8001/api/v1/event/deleteEvent/${item._id}`, {
+          method: "DELETE",
+        });
+        if (res.ok) {
+          setIsLoading(false);
+          router.reload();
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       {isLoading ? (
@@ -87,6 +104,22 @@ export default function ListItem({ item, isCreator }) {
               </div>
             )}
           </div>
+          {isCreator && (
+            <div>
+              {/* <button
+              className="z-10 px-2 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
+              onClick={() => handleRedirect(`/edit-event/${item._id}`)}
+            >
+              Edit
+            </button> */}
+              <button
+                className="z-10 px-2 py-2 mt-2 text-red-400 rounded-md hover:bg-red-600 hover:text-white"
+                onClick={handleDeleteEvent}
+              >
+                Delete
+              </button>
+            </div>
+          )}
         </div>
       )}
     </>

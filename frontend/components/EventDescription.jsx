@@ -10,7 +10,7 @@ const EventDescription = ({ event }) => {
         <h2 className="mb-4 text-xl font-semibold text-primaryblue">Event Poster</h2>
         <Link href="/home">
           <Image
-            src={event.coverImage}
+            src={event.coverImage || "/Event.png"}
             alt="Event Poster"
             width={500}
             height={500}

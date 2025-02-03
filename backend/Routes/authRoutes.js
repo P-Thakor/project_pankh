@@ -8,7 +8,7 @@ const { isVerifiedEmail } = require('../Utils/middleware');
 router.route('/signup').post(authController.signup);
 
 // Login Route
-router.route('/login').post( authController.login);
+router.route('/login').post(isVerifiedEmail, authController.login);
 
 // Logout Route
 router.route('/logout').get(authController.logout);

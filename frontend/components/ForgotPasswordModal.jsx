@@ -85,7 +85,7 @@ const ForgotPasswordModal = ({ onClose }) => {
 
     setLoading(true);
 
-    fetch("http://localhost:8000/api/v1/auth/changePassword", {
+    fetch("http://localhost:8001/api/v1/auth/changePassword", {
       method: "PATCH",
       credentials: "include",
       headers: {

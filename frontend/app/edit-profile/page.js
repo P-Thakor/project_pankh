@@ -72,7 +72,7 @@ const EditProfilePage = () => {
     formData.append("department", department);
 
     const res = await fetch(
-      `http://localhost:8000/api/v1/user/updateUser/${user._id}`,
+      `http://localhost:8001/api/v1/user/updateUser/${user._id}`,
       {
         method: "PATCH",
         body: formData,

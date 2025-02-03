@@ -45,7 +45,7 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
       }
 
       const res = await fetch(
-        `http://localhost:8000/api/v1/event/attendance/${eventId}`,
+        `http://localhost:8001/api/v1/event/attendance/${eventId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

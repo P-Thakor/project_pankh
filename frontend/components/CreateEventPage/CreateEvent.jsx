@@ -23,6 +23,7 @@ const CreateEvent = () => {
   const [modalTitle, setModalTitle] = useState("");
   const [message, setMessage] = useState("");
   const [iconColor, setIconColor] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -76,6 +77,7 @@ const CreateEvent = () => {
 
   const handleCreateEvent = (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const beginEvent = convertToISO(startDate, startTime);
     const endEvent = convertToISO(endDate, endTime);
@@ -94,7 +96,7 @@ const CreateEvent = () => {
     formData.append("email", email);
     formData.append("contactNumber", contactNumber);
 
-    fetch("http://localhost:8000/api/v1/event/createEvent", {
+    fetch("http://localhost:8001/api/v1/event/createEvent", {
       method: "POST",
       credentials: "include",
       body: formData,
@@ -105,11 +107,10 @@ const CreateEvent = () => {
           setMessage("Looking forward to the experience!");
           setIconColor("bg-green-500");
           setIsModalVisible(true);
-          response.json()
-          .then((data) => {
+          response.json().then((data) => {
             console.log(data);
             router.push(`/view-event/${data.data._id}`);
-          })
+          });
         } else {
           setModalTitle("Event Creation Unsuccessful.");
           if (response.status === 403) {
@@ -123,6 +124,7 @@ const CreateEvent = () => {
       .catch((error) => {
         console.log("Error:", error);
       });
+      setLoading(false);
   };
 
   return (
@@ -130,7 +132,7 @@ const CreateEvent = () => {
       <section className="flex items-center justify-center w-full min-h-screen p-6 bg-gray-100">
         <div className="w-full max-w-5xl p-6 bg-white rounded-lg shadow-md">
           <h1 className="mb-8 text-3xl font-semibold text-center text-blue-600">
-            Create Event  
+            Create Event
           </h1>
 
           <form onSubmit={handleCreateEvent}>
@@ -307,7 +309,16 @@ const CreateEvent = () => {
               type="submit"
               className="w-full px-4 py-2 mt-6 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
-              Create event
+              {loading ? (
+                <TailSpin
+                  type="Tailspin"
+                  color="#FFFFFF"
+                  height={25}
+                  width={25}
+                />
+              ) : (
+                "Create Event"
+              )}
             </button>
           </form>
         </div>

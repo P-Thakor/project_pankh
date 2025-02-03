@@ -26,7 +26,7 @@ const Navbar = () => {
   const router = useRouter();
 
   const handleLogout = () => {
-    fetch("http://localhost:8000/api/v1/auth/logout", {
+    fetch("http://localhost:8001/api/v1/auth/logout", {
       method: "GET",
     })
       .then((response) => {

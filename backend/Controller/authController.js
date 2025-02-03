@@ -43,7 +43,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const token = jwt.sign({ email }, process.env.JWT_SECRET, {
     expiresIn: '1h',
   });
-  const verificationUrl = `http://localhost:8000/api/v1/auth/verify-email?token=${token}`;
+  const verificationUrl = `http://localhost:8001/api/v1/auth/verify-email?token=${token}`;
 
   try {
     await new SendEmail(user, verificationUrl).sendVerificationEmail();
@@ -239,7 +239,7 @@ exports.sendVerificationEmail = catchAsync(async (req, res, next) => {
   const token = jwt.sign({ email }, process.env.JWT_SECRET, {
     expiresIn: '1h',
   });
-  const verificationUrl = `http://localhost:8000/api/v1/auth/verify-email?token=${token}`;
+  const verificationUrl = `http://localhost:8001/api/v1/auth/verify-email?token=${token}`;
 
   try {
     await new SendEmail(user, verificationUrl).sendVerificationEmail();

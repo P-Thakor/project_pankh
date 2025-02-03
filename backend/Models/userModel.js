@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     unique: true,
     trim: true,
-    set: (value) => (value === "" ? null : value),
+    set: (value) => (value === '' ? null : value),
   },
   isVerifiedEmail: {
     type: Boolean,
@@ -72,7 +72,7 @@ const userSchema = new mongoose.Schema({
   },
   designation: {
     type: String,
-    },
+  },
   passwordChangedAt: Date,
   resetPasswordToken: String,
   resetPasswordExpire: Date,

@@ -35,9 +35,12 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^8.0.0",
+    "pdfkit": "^0.16.0",
+    "pdfkit-table": "^0.1.99",
     "pug": "^3.0.3",
     "sharp": "^0.33.5",
     "slugify": "^1.6.6",
+    "streamifier": "^0.1.1",
     "validator": "^13.12.0",
     "xss-clean": "^0.1.4"
   },

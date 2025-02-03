@@ -21,9 +21,10 @@ router
     eventController.createEvent,
   );
 
-router
-  .route('/generateEventReport/:id')
-  .get(isAuthenticated, eventController.generateEventRepot);
+router.route('/generateEventReport/:id').get(
+  // isAuthenticated,
+  eventController.generateEventRepot,
+);
 
 router
   .route('/createEventByClub/:id')

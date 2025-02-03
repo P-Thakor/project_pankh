@@ -1,11 +1,17 @@
 // const sharp = require('sharp');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
+const streamifier = require('streamifier');
 const Event = require('../Models/eventModel');
 const catchAsync = require('../Utils/catchAsync');
 const AppError = require('../Utils/appError');
 const User = require('../Models/userModel');
 const sendEmail = require('../Utils/email');
+const PDFDocument = require('pdfkit');
+const { Table } = require('pdfkit-table');
+const fs = require('fs');
+const path = require('path');
+
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: 'dosqfitt3', // Your Cloudinary cloud name
@@ -163,27 +169,137 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.generateEventRepot = catchAsync(async (req, res, next) => {
-  const event = await Event.findById(req.params.id)
-    .populate({
-      path: 'participants',
-      select: 'username collegeId email',
-    })
-    .populate({
-      path: 'attendance',
-      select: 'username collegeId email',
-    })
-    .select(
-      'participants attendance name description startDate endDate startTime endTime creator',
+exports.generateEventRepot = async (req, res, next) => {
+  try {
+    const event = await Event.findById(req.params.id)
+      .populate('participants', 'username collegeId email')
+      .populate('attendance', 'username collegeId email')
+      .populate('creator', 'username')
+      .select('name description startDate endDate creator');
+
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    // **Set Response Headers for PDF Download**
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="event_report.pdf"`,
     );
-  if (!event) {
-    return next(new AppError(404, 'Event not found'));
+
+    // **Create PDF and Pipe it to Response**
+    const doc = new PDFDocument({ margin: 50 });
+    doc.pipe(res);
+
+    // **Header**
+    doc
+      .fontSize(20)
+      .fillColor('#1F618D')
+      .font('Helvetica-Bold') // ✅ Make the title bold
+      .text('Event Report', { align: 'center', underline: true });
+    doc.moveDown(1);
+
+    // **Event Details**
+    doc
+      .font('Helvetica-Bold')
+      .fontSize(14)
+      .fillColor('#000')
+      .text(`Event Name:`, { continued: true });
+    doc.font('Helvetica').text(` ${event.name}`); // Normal font for value
+    doc.moveDown(0.5);
+
+    doc.font('Helvetica-Bold').text(`Description:`, { continued: true });
+    doc.font('Helvetica').text(` ${event.description}`);
+    doc.moveDown(0.5);
+
+    doc.font('Helvetica-Bold').text(`Start Date:`, { continued: true });
+    doc
+      .font('Helvetica')
+      .text(` ${new Date(event.startDate).toLocaleString()}`);
+    doc.moveDown(0.5);
+
+    doc.font('Helvetica-Bold').text(`End Date:`, { continued: true });
+    doc.font('Helvetica').text(` ${new Date(event.endDate).toLocaleString()}`);
+    doc.moveDown(0.5);
+
+    doc.font('Helvetica-Bold').text(`Organizer:`, { continued: true });
+    doc.font('Helvetica').text(` ${event.creator.username}`);
+    doc.moveDown(1);
+
+    // **Participants Title (Ensure Left Alignment & Bold)**
+    if (event.participants.length > 0) {
+      doc.moveDown(1); // Ensure spacing before title
+      doc
+        .fontSize(16)
+        .fillColor('#1F618D')
+        .font('Helvetica-Bold') // ✅ Make the title bold
+        .text('Participants:', { align: 'left', underline: true });
+      doc.moveDown(0.5); // Add spacing before table
+      addTable(doc, ['No.', 'Name', 'College ID', 'Email'], event.participants);
+    }
+
+    // **Force "Attendance" Title to Align with "Participants" & Bold**
+    if (event.attendance.length > 0) {
+      doc.moveDown(1); // Ensure same spacing as "Participants"
+      doc.text('', 50); // Move cursor to start of line
+      doc
+        .fontSize(16)
+        .fillColor('#1F618D')
+        .font('Helvetica-Bold') // ✅ Make the title bold
+        .text('Attendance:', { align: 'left', underline: true });
+      doc.moveDown(0.5);
+      addTable(doc, ['No.', 'Name', 'College ID', 'Email'], event.attendance);
+    }
+
+    // **Footer**
+    doc.moveDown(2);
+    doc.fontSize(12).fillColor('#555').text('Event Report', { align: 'right' });
+
+    doc.end();
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-  res.status(200).json({
-    status: 'success',
-    data: event,
+};
+
+// **Function to Draw Table**
+function addTable(doc, headers, data) {
+  let startX = 50;
+  let startY = doc.y + 10;
+  const columnWidths = [40, 150, 100, 200];
+
+  doc.fontSize(12).fillColor('#000');
+
+  // Draw Headers
+  headers.forEach((text, i) => {
+    doc.rect(startX, startY, columnWidths[i], 25).stroke();
+    doc.text(text, startX + 5, startY + 7);
+    startX += columnWidths[i];
   });
-});
+
+  // Draw Rows
+  startY += 25;
+  data.forEach((item, index) => {
+    startX = 50;
+    const row = [
+      index + 1,
+      item.username || 'N/A',
+      item.collegeId || 'N/A',
+      item.email || 'N/A',
+    ];
+
+    row.forEach((cell, i) => {
+      let text = cell !== undefined && cell !== null ? cell.toString() : 'N/A';
+      doc.rect(startX, startY, columnWidths[i], 20).stroke();
+      doc.text(text, startX + 5, startY + 5);
+      startX += columnWidths[i];
+    });
+    startY += 20;
+  });
+
+  doc.moveDown(2);
+}
 
 exports.createEvent = catchAsync(async (req, res, next) => {
   try {

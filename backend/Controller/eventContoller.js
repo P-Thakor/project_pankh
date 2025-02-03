@@ -189,7 +189,7 @@ exports.generateEventRepot = async (req, res, next) => {
       email: user.email,
     }));
 
-    const absences = participants.filter(
+    const absentees = participants.filter(
       (user) => !attendance.some((attendee) => attendee.email === user.email),
     );
 
@@ -256,14 +256,14 @@ exports.generateEventRepot = async (req, res, next) => {
     }
 
     // **Force "Attendance" Title to Align with "Participants" & Bold**
-    if (absences.length > 0) {
+    if (absentees.length > 0) {
       doc.moveDown(1); // Ensure same spacing as "Participants"
       doc.text('', 50); // Move cursor to start of line
       doc
         .fontSize(16)
         .fillColor('#1F618D')
         .font('Helvetica-Bold') // ✅ Make the title bold
-        .text('Absences:', { align: 'left', underline: true });
+        .text('Absentees:', { align: 'left', underline: true });
       doc.moveDown(0.5);
       addTable(doc, ['No.', 'Name', 'College ID', 'Email'], event.attendance);
     }

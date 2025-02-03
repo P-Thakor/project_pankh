@@ -131,7 +131,7 @@ exports.getAllEvents = catchAsync(async (req, res, next) => {
       path: 'attendance',
       select: 'username collegeId email',
     })
-    .sort({ createdAt: -1 });
+    .sort({ startTime: 1 });
 
   res.status(200).json({
     status: 'success',

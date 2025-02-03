@@ -7,7 +7,7 @@ module.exports = class Email {
     this.to = user.email;
     this.firstName = user.username;
     this.url = url;
-    this.from = `Kandarp Vyas <kandarp7777@gmail.com>`;
+    this.from = `PANKH <pankhdepstar@gmail.com>`;
   }
 
   newTransport() {

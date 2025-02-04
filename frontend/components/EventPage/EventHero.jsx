@@ -90,15 +90,15 @@ export default function EventHero({ item }) {
   return (
     <>
       <section className="relative m-5 lg:mx-10 lg:my-5 ">
-        <div className="relative w-full">
+        <div className="relative w-full bg-black h-[500px]">
           {/* image */}
-          <Image
+          {/* <Image
             src="/assets/images/EventHeroBg.png"
             alt="Bg image"
             height={1500}
             width={1500}
             className="w-full h-full rounded-md"
-          />
+          /> */}
           {/* black layer */}
           <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 rounded-md" />
           {/* text on image */}

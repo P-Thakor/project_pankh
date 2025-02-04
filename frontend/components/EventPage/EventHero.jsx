@@ -30,6 +30,20 @@ export default function EventHero({ item }) {
 
   const handleRegisterForEvent = () => {
     setLoading(true);
+    if (!user) {
+      setModalTitle("Registration Unsuccessful");
+      setModalMessage("Please login to register for this event.");
+      setModalIconColor("bg-red-500");
+      setIsModalVisible(true);
+      setLoading(false);
+      return;
+    }
+
+    if(!confirm("Are you sure you want to register for this event?")) {
+      setLoading(false);
+      return;
+    }
+
     fetch(`http://localhost:8001/api/v1/user/registerEvent/${item._id}`, {
       method: "PATCH",
       // headers: {
@@ -168,10 +182,10 @@ export default function EventHero({ item }) {
               {item.startDate}, {item.startTime}
             </p>
             <p className="mb-4 text-lg text-primaryblue">{item.locations}</p>
-            <button className="w-full mb-2 custom-btn hover:bg-primarydarkblue">
+            <button className="w-full mb-2 custom-btn hover:bg-primarydarkblue" onClick={handleRegisterForEvent}>
               Register Now
             </button>
-            <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full">
+            <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full" onClick={() => setIsUserModalVisible(true)}>
               More Info
             </button>
           </div>

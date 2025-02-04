@@ -15,8 +15,6 @@ const CreateEvent = () => {
   const [endTime, setEndTime] = useState("");
   const [location, setLocation] = useState("");
   const [eventDescription, setEventDescription] = useState("");
-  const [email, setEmail] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
   const [eventPoster, setEventPoster] = useState("");
   const [externalLink, setExternalLink] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -93,8 +91,6 @@ const CreateEvent = () => {
     formData.append("startTime", beginEvent);
     formData.append("endTime", endEvent);
     formData.append("description", eventDescription);
-    formData.append("email", email);
-    formData.append("contactNumber", contactNumber);
 
     fetch("http://localhost:8001/api/v1/event/createEvent", {
       method: "POST",
@@ -276,32 +272,6 @@ const CreateEvent = () => {
                 accept="image/*"
                 onChange={(e) => setEventPoster(e.target.files[0])}
                 className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
-              />
-            </div>
-
-            <div className="mt-10">
-              <h2 className="mb-4 text-xl font-semibold text-blue-600">
-                Contact Person
-              </h2>
-              <label className="block text-sm font-medium text-gray-700">
-                Contact Number<span> (optional)</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Enter Contact Number"
-                className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
-                value={contactNumber}
-                onChange={(e) => setContactNumber(e.target.value)}
-              />
-              <label className="block text-sm font-medium text-gray-700">
-                Email<span> (optional)</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Enter Email"
-                className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 

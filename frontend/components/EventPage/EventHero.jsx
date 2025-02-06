@@ -18,15 +18,30 @@ export default function EventHero({ item }) {
   const [modalMessage, setModalMessage] = useState("");
   const [modalIconColor, setModalIconColor] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isCreator, setIsCreator] = useState(false);
 
-  const date  = new Date();
+  const date = new Date();
   const { user } = useContext(UserContext);
 
   useEffect(() => {
     if (user && user.eventsParticipated.includes(`${item._id}`)) {
       setRegistered(true);
     }
+
+    if (user && item.creator === user._id) {
+      setIsCreator(true);
+    }
   }, [user, item._id]);
+
+  const handleViewParticipants = () => {
+    setLoading(true);
+    router.push(`/event-participants/${item._id}`);
+  };
+
+  const handleViewAttendance = () => {
+    setLoading(true);
+    router.push(`/view-attendance/${item._id}`);
+  };
 
   const handleRegisterForEvent = () => {
     setLoading(true);
@@ -39,7 +54,7 @@ export default function EventHero({ item }) {
       return;
     }
 
-    if(!confirm("Are you sure you want to register for this event?")) {
+    if (!confirm("Are you sure you want to register for this event?")) {
       setLoading(false);
       return;
     }
@@ -131,14 +146,30 @@ export default function EventHero({ item }) {
                 <p className="mb-4 text-lg text-primaryblue">
                   {item.locations}
                 </p>
-                {registered ? (
+                {isCreator ? (
+                  item.attendance.length > 0 ? (
+                    <button
+                      onClick={handleViewAttendance}
+                      className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+                    >
+                      View Attendance
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleViewParticipants}
+                      className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+                    >
+                      View Participants
+                    </button>
+                  )
+                ) : registered ? (
                   <button
                     className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
                     disabled
                   >
                     Registered
                   </button>
-                ) : (new Date(item.startDate) < date) ? (
+                ) : new Date(item.startDate) < date ? (
                   <button
                     className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
                     disabled
@@ -182,10 +213,16 @@ export default function EventHero({ item }) {
               {item.startDate}, {item.startTime}
             </p>
             <p className="mb-4 text-lg text-primaryblue">{item.locations}</p>
-            <button className="w-full mb-2 custom-btn hover:bg-primarydarkblue" onClick={handleRegisterForEvent}>
+            <button
+              className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+              onClick={handleRegisterForEvent}
+            >
               Register Now
             </button>
-            <button className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full" onClick={() => setIsUserModalVisible(true)}>
+            <button
+              className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full"
+              onClick={() => setIsUserModalVisible(true)}
+            >
               More Info
             </button>
           </div>

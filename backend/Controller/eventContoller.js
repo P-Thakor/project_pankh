@@ -319,8 +319,8 @@ exports.createEvent = catchAsync(async (req, res, next) => {
     const newEvent = await Event.create({
       ...req.body,
       creator: req.user.id,
-      contactEmail: req.body.email || req.user.email,
-      contactNumber: req.body.contactNumber || req.user.contactNumber,
+      contactEmail: req.user.email,
+      contactNumber: req.user.contactNumber,
     });
 
     const otherEmail = req.body.otherEmail;

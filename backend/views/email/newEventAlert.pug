@@ -1,13 +1,16 @@
 extends baseEmail
 
 block content
+  - const readableDate = new Date(event.startDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  - const readableTime = new Date(event.startDate).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
   h2 New Event Alert 🚀
   p Hello #{firstName},
-  p We are excited to announce a new event: **#{eventTitle}**.
+  p We are excited to announce a new event: **#{event.name}**.
   ul
-    li Date: #{eventDate}
-    li Time: #{eventTime}
-    li Location: #{eventLocation}
-  p #{eventDescription}
+    li Date: #{readableDate}
+    li Time: #{readableTime}
+    li Location: #{event.locations}
+  p #{event.description}
   p Don't miss out! Click the button below to learn more:
-  a(href=eventUrl style="display: inline-block; margin: 10px 0; padding: 10px 20px; background: #007BFF; color: white; text-decoration: none; border-radius: 4px;") View Event Details
+  a(href='google.com' style="display: inline-block; margin: 10px 0; padding: 10px 20px; background: #007BFF; color: white; text-decoration: none; border-radius: 4px;") View Event Details

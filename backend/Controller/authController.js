@@ -46,7 +46,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const verificationUrl = `http://localhost:8001/api/v1/auth/verify-email?token=${token}`;
 
   try {
-    await new SendEmail(user, verificationUrl).sendVerificationEmail();
+    await new SendEmail(user.email, verificationUrl).sendVerificationEmail();
     console.log('Sent Email');
   } catch (err) {
     return next(
@@ -161,7 +161,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   console.log('Generated OTP: ', resetToken);
   // 3) Send it to user's email
   try {
-    await new SendEmail(user, resetToken).sendPasswordReset();
+    await new SendEmail(user.email, resetToken).sendPasswordReset();
 
     res.status(200).json({
       status: 'success',
@@ -247,7 +247,7 @@ exports.sendVerificationEmail = catchAsync(async (req, res, next) => {
   const verificationUrl = `http://localhost:8001/api/v1/auth/verify-email?token=${token}`;
 
   try {
-    await new SendEmail(user, verificationUrl).sendVerificationEmail();
+    await new SendEmail(user.email, verificationUrl).sendVerificationEmail();
 
     res.status(200).json({
       status: 'success',

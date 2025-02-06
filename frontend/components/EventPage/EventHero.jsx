@@ -8,6 +8,7 @@ import UserContext from "@/context/UserContext";
 import { AuthModal } from "..";
 import { TailSpin } from "react-loader-spinner";
 import UserModal from "../UserModal";
+import { useRouter } from "next/navigation";
 
 export default function EventHero({ item }) {
   // const [user, setUser] = useState(null);
@@ -22,6 +23,7 @@ export default function EventHero({ item }) {
 
   const date = new Date();
   const { user } = useContext(UserContext);
+  const router = useRouter();
 
   useEffect(() => {
     if (user && user.eventsParticipated.includes(`${item._id}`)) {
@@ -152,14 +154,32 @@ export default function EventHero({ item }) {
                       onClick={handleViewAttendance}
                       className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
                     >
-                      View Attendance
+                      {loading ? (
+                      <TailSpin
+                        type="Tailspin"
+                        color="#FFFFFF"
+                        height={25}
+                        width={25}
+                      />
+                    ) : (
+                      "View Attendance"
+                    )}
                     </button>
                   ) : (
                     <button
                       onClick={handleViewParticipants}
                       className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
                     >
-                      View Participants
+                      {loading ? (
+                      <TailSpin
+                        type="Tailspin"
+                        color="#FFFFFF"
+                        height={25}
+                        width={25}
+                      />
+                    ) : (
+                      "View Participants"
+                    )}
                     </button>
                   )
                 ) : registered ? (

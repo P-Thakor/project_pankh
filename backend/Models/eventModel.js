@@ -68,6 +68,14 @@ const eventSchema = new mongoose.Schema({
       ref: 'User', // Reference to the User model
     },
   ],
+  otherEmail: [
+    {
+      type: String,
+      trim: true,
+      lowercase: true,
+      validate: [validator.isEmail, 'Please provide a valid Email'],
+    },
+  ],
   // {
   //   type: mongoose.Schema.ObjectId,
   //   ref: 'User',

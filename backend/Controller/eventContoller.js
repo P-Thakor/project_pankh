@@ -323,11 +323,25 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       contactNumber: req.body.contactNumber || req.user.contactNumber,
     });
 
+    const otherEmail = req.body.otherEmail;
+    console.log(otherEmail);
+    if (otherEmail) {
+      await Promise.all(
+        otherEmail.map(async (email) => {
+          const emailData = new sendEmail(email, 'eventCreated');
+          await emailData.sendNewEventAlert(newEvent);
+        }),
+      );
+      // otherEmail.forEach((email) => {
+      //   const emailData = new sendEmail(email, 'eventCreated');
+      //   emailData.sendNewEventAlert(newEvent);
+      // });
+    }
     // const users = await User.find(); // Fetch all users or specific users
 
     // await Promise.all(
     //   users.map((user) => {
-    //     const email = new sendEmail(user, 'eventCreated'); // Instantiate the class with `new`
+    //     const email = new sendEmail(user.email, 'eventCreated'); // Instantiate the class with `new`
     //     return email.sendNewEventAlert(newEvent); // Call the method on the instance
     //   }),
     // );
@@ -447,13 +461,13 @@ exports.registerEventForUser = catchAsync(async (req, res, next) => {
     );
   }
 
-  // if (!event.participants) {
-  //   event.participants = []; // Initialize if it doesn't exist
-  // }
+  if (!event.participants) {
+    event.participants = []; // Initialize if it doesn't exist
+  }
 
-  // console.log(user);
-  // const email = new sendEmail(user, 'eventRegistered');
-  // await email.sendRegistrationConfirmation(event);
+  console.log(user);
+  const email = new sendEmail(user.email, 'eventRegistered');
+  await email.sendRegistrationConfirmation(event);
   user.eventsParticipated.push(req.params.id);
   event.participants.push(user._id);
   await user.save();

@@ -11,15 +11,13 @@ router.get(
   eventController.getAllEvents,
 );
 
-router
-  .route('/createEvent')
-  .post(
-    isAuthenticated,
-    eventController.uploadEventImages,
-    eventController.uploadImage,
-    userRole,
-    eventController.createEvent,
-  );
+router.route('/createEvent').post(
+  isAuthenticated,
+  eventController.uploadEventImages,
+  eventController.uploadImage,
+  // userRole,
+  eventController.createEvent,
+);
 
 router.route('/generateEventReport/:id').get(
   // isAuthenticated,

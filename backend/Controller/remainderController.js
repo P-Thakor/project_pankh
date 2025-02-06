@@ -18,7 +18,7 @@ const sendReminderEmails = async () => {
       eventsToday.map(async (event) => {
         await Promise.all(
           event.participants.map(async (participant) => {
-            await sendEmail(participant, event).sendEventReminder();
+            await sendEmail(participant.email, event).sendEventReminder();
           }),
         );
       }),

@@ -4,7 +4,7 @@ const pug = require('pug');
 
 module.exports = class Email {
   constructor(user, url) {
-    this.to = user.email;
+    this.to = user.email || user;
     this.firstName = user.username;
     this.url = url;
     this.from = `PANKH <pankhdepstar@gmail.com>`;
@@ -75,7 +75,9 @@ module.exports = class Email {
   }
 
   async sendNewEventAlert(event) {
-    await this.send('newEventAlert', `New Event Alert: ${event.name}`);
+    await this.send('newEventAlert', `New Event Alert: ${event.name}`, {
+      event,
+    });
   }
 
   async sendRegistrationConfirmation(event) {

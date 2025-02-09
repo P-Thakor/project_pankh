@@ -1,33 +1,12 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
-import List from "@/components/EventsList/List";
+import { useContext } from "react";
 import UserContext from "../../context/UserContext";
 import { useRouter } from "next/navigation";
 
-export default function DashboardComp({ events = [] }) {
-  const [eventList, setEventList] = useState([]);
-  const [createdEvents, setCreatedEvents] = useState([]);
-
+export default function Profile() {
   const { user } = useContext(UserContext);
   const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      let templist = events.filter((event) =>
-        user.eventsParticipated?.includes(event._id)
-      );
-      setEventList(templist);
-    }
-
-    if (user?.role === "admin" || user?.role === "faculty-member") {
-      let tempcreatedlist = [];
-      events.forEach((event) => {
-        event.creator === user._id && tempcreatedlist.push(event);
-      });
-      setCreatedEvents(tempcreatedlist);
-    }
-  }, [user, events]);
 
   if (!user) {
     return <div>Loading...</div>;
@@ -50,10 +29,7 @@ export default function DashboardComp({ events = [] }) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen p-6 space-y-6 bg-gray-100">
-      <h1 className="text-3xl font-bold text-primaryblue">Dashboard</h1>
-
-      {/* Profile Section */}
+    <>
       <div className="flex flex-col items-center w-full p-6 bg-white rounded-lg shadow-lg md:items-start">
         <div className="flex flex-col items-center w-full space-y-4 md:flex-row md:items-start md:space-x-6 md:space-y-0">
           {/* Profile Picture */}
@@ -132,7 +108,10 @@ export default function DashboardComp({ events = [] }) {
 
         {/* Buttons */}
         <div className="flex mt-4 space-x-4">
-          <button className="px-4 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue" onClick={() => router.push("/edit-profile")}>
+          <button
+            className="px-4 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
+            onClick={() => router.push("/edit-profile")}
+          >
             Edit Profile
           </button>
           <button className="px-4 py-2 border rounded-md border-primaryblue text-primaryblue hover:bg-primaryblue hover:text-white">
@@ -140,32 +119,6 @@ export default function DashboardComp({ events = [] }) {
           </button>
         </div>
       </div>
-
-      {/* Events Created by User (Only for Admin & Faculty) */}
-      {(user.role === "faculty-member" || user.role === "admin") && (
-        <div className="w-full p-6 bg-white rounded-lg shadow-lg">
-          <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
-            Events Created by You
-          </h2>
-          {createdEvents.length > 0 ? (
-            <List list={createdEvents} style="ml-2" isCreator={true} />
-          ) : (
-            <p className="mt-4 text-gray-500">No events organized yet!</p>
-          )}{" "}
-        </div>
-      )}
-
-      {/* Events Participated Section */}
-      <div className="w-full p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
-          Events Participated
-        </h2>
-        {eventList.length > 0 ? (
-          <List list={eventList} style="ml-2" />
-        ) : (
-          <p className="mt-4 text-gray-500">No events participated yet!</p>
-        )}
-      </div>
-    </div>
+    </>
   );
 }

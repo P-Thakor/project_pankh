@@ -1,12 +1,15 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import UserContext from "../../context/UserContext";
 import { useRouter } from "next/navigation";
+import { ForgotPasswordModal } from "..";
 
 export default function Profile() {
   const { user } = useContext(UserContext);
   const router = useRouter();
+
+  const [resetPasswordModalOpen, setResetPasswordModalOpen] = useState(false);
 
   if (!user) {
     return <div>Loading...</div>;
@@ -114,11 +117,18 @@ export default function Profile() {
           >
             Edit Profile
           </button>
-          <button className="px-4 py-2 border rounded-md border-primaryblue text-primaryblue hover:bg-primaryblue hover:text-white">
+          <button className="px-4 py-2 border rounded-md border-primaryblue text-primaryblue hover:bg-primaryblue hover:text-white" onClick={() => setResetPasswordModalOpen(true)}>
             Reset Password
           </button>
         </div>
       </div>
+      {resetPasswordModalOpen && (
+        <ForgotPasswordModal
+          onClose={() => {
+            setResetPasswordModalOpen(false);
+          }}
+        />
+      )}
     </>
   );
 }

@@ -89,9 +89,12 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
 
   return (
     <div className="min-h-screen p-6 bg-white shadow rounded-2xl">
+      <div className="flex">
       <h2 className="mb-4 text-2xl font-semibold text-blue-600">
         Participants
       </h2>
+      {<h3 className="text-xl text-gray-700 mt-1 ml-4">({participants.length})</h3>}
+      </div>
       {loading ? (
         <p className="text-gray-500">Loading participants...</p>
       ) : participants.length === 0 ? (

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthModal } from ".";
 import { useRouter } from "next/navigation";
 import { fetchEventById } from "@/utils";
+import UserContext from "@/context/UserContext";
 
 export default function EventParticipants({ participants = [], eventId = "" }) {
   const [loading, setLoading] = useState(false);
@@ -12,8 +13,18 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
   const [message, setMessage] = useState("");
   const [title, setTitle] = useState("");
   const [iconColor, setIconColor] = useState("");
+  const [event, setEvent] = useState(null);
 
   const router = useRouter();
+
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    (async () => {
+      const eventData = await fetchEventById(eventId);
+      setEvent(eventData);
+    })();
+  }, []);
 
   const handleToggle = (participant) => {
     setSelectedParticipants((prev) =>
@@ -30,8 +41,6 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
     }
 
     setLoading(true);
-
-    const event = await fetchEventById(eventId);
 
     try {
       console.log("Submitting attendance for:", selectedParticipants);
@@ -113,19 +122,22 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
               </li>
             ))}
           </ul>
-          <button
-            onClick={handleSubmit}
-            className="px-4 py-2 font-semibold text-white transition bg-blue-600 rounded-lg shadow-md hover:bg-blue-700"
-            disabled={loading}
-          >
-            {loading ? "Submitting..." : "Submit Attendance"}
-          </button>
+          {user && event && user._id === event.creator && (
+            <button
+              onClick={handleSubmit}
+              className="px-4 py-2 font-semibold text-white transition bg-blue-600 rounded-lg shadow-md hover:bg-blue-700"
+              disabled={loading}
+            >
+              {loading ? "Submitting..." : "Submit Attendance"}
+            </button>
+          )}
         </div>
       )}
       <AuthModal
         isVisible={modalOpen}
         onClose={() => setModalOpen(false)}
         title={title}
+        iconColor={iconColor}
         message={message}
       />
     </div>

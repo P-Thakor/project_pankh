@@ -22,6 +22,8 @@ const CreateEvent = () => {
   const [message, setMessage] = useState("");
   const [iconColor, setIconColor] = useState("");
   const [loading, setLoading] = useState(false);
+  const [deadlineDate, setDeadlineDate] = useState("");
+  const [deadlineTime, setDeadlineTime] = useState("");
 
   const router = useRouter();
 
@@ -32,6 +34,8 @@ const CreateEvent = () => {
     if (!isMultipleDays) {
       setEndDate(selectedDate); // Auto-set end date for single-day events
     }
+
+    setDeadlineDate(selectedDate)
   };
 
   const handleEndDateChange = (e) => {
@@ -48,6 +52,8 @@ const CreateEvent = () => {
     if (!isMultipleDays && endTime && selectedTime > endTime) {
       setEndTime(selectedTime);
     }
+
+    setDeadlineTime(selectedTime)
   };
 
   const handleEndTimeChange = (e) => {
@@ -120,7 +126,7 @@ const CreateEvent = () => {
       .catch((error) => {
         console.log("Error:", error);
       });
-      setLoading(false);
+    setLoading(false);
   };
 
   return (
@@ -229,7 +235,7 @@ const CreateEvent = () => {
                 <input
                   type="time"
                   value={startTime}
-                  onChange={(e) => setStartTime(e.target.value)}
+                  onChange={handleStartTimeChange}
                   className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
                   required
                 />
@@ -245,6 +251,37 @@ const CreateEvent = () => {
                   min={startTime} // Set min to prevent selecting an invalid time
                   onChange={handleEndTimeChange}
                   className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 items-center gap-6 mt-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Registration Deadline Date
+                </label>
+                <input
+                  type="date"
+                  value={deadlineDate}
+                  onChange={(e) => setDeadlineDate(e.target.value)}
+                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  defaultValue={startDate}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Deadline Time
+                </label>
+                <input
+                  type="time"
+                  value={deadlineTime}
+                  max={startTime} // Set max to prevent selecting an invalid time
+                  onChange={(e)=> setDeadlineTime(e.target.value)}
+                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  defaultValue={startTime}
                   required
                 />
               </div>

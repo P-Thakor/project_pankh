@@ -323,6 +323,25 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       contactNumber: req.user.contactNumber,
     });
 
+    if (req.body.department && req.body.department.length > 0) {
+      // Create a regex pattern to match any department name in the email
+      const regexPattern = req.body.department.join('|'); // E.g., "cse|ce|it"
+
+      // Find students whose email contains any of the department names
+      const emailData = await User.find({
+        email: { $regex: regexPattern, $options: 'i' }, // Case-insensitive match
+      }).select('email');
+
+      console.log('Matching Emails:', emailData);
+
+      if (emailData.length > 0) {
+        emailData.map(async (user) => {
+          const emailData = new sendEmail(user.email, 'eventCreated');
+          await emailData.sendNewEventAlert(newEvent);
+        });
+      }
+    }
+
     const otherEmail = req.body.otherEmail;
     console.log(otherEmail);
     if (otherEmail) {
@@ -332,10 +351,6 @@ exports.createEvent = catchAsync(async (req, res, next) => {
           await emailData.sendNewEventAlert(newEvent);
         }),
       );
-      // otherEmail.forEach((email) => {
-      //   const emailData = new sendEmail(email, 'eventCreated');
-      //   emailData.sendNewEventAlert(newEvent);
-      // });
     }
     // const users = await User.find(); // Fetch all users or specific users
 

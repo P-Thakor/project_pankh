@@ -88,6 +88,12 @@ const CreateEvent = () => {
 
     console.log(beginEvent, endEvent);
 
+    const Registration = {
+      deadline: convertToISO(deadlineDate, deadlineTime),
+    }
+    console.log(Registration);
+    console.log(JSON.stringify(Registration));
+
     const formData = new FormData();
     formData.append("coverImage", eventPoster);
     formData.append("name", name);
@@ -97,6 +103,7 @@ const CreateEvent = () => {
     formData.append("startTime", beginEvent);
     formData.append("endTime", endEvent);
     formData.append("description", eventDescription);
+    formData.append("Registration", Registration);
 
     fetch("http://localhost:8001/api/v1/event/createEvent", {
       method: "POST",
@@ -115,6 +122,9 @@ const CreateEvent = () => {
           });
         } else {
           setModalTitle("Event Creation Unsuccessful.");
+          response.json().then((data) => {setMessage(data.message)
+            console.log(data);
+          })
           if (response.status === 403) {
             setMessage("You are not authorized to create events.");
           }

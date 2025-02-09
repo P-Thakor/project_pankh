@@ -391,46 +391,62 @@ exports.deleteEvent = catchAsync(async (req, res, next) => {
 });
 
 exports.attendance = catchAsync(async (req, res, next) => {
-  try {
-    const { id } = req.params; // Event ID
-    const { userIds } = req.body; // Expecting an array of user IDs
+  const { id } = req.params; // Event ID
+  const { userIds } = req.body; // Expecting an array of user IDs
 
-    if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
-      return res.status(400).json({ message: 'User IDs array is required' });
-    }
-
-    // Find the event by ID
-    let event = await Event.findById(id);
-    if (!event) {
-      return res.status(404).json({ message: 'Event not found' });
-    }
-
-    // Filter out already marked users
-    const newAttendances = userIds.filter(
-      (userId) => !event.attendance.includes(userId),
-    );
-
-    if (newAttendances.length === 0) {
-      return res
-        .status(400)
-        .json({ message: 'All users already marked attendance' });
-    }
-
-    // Store new User IDs in `attendance`
-    event.attendance.push(...newAttendances);
-
-    // Save the updated event
-    await event.save();
-
-    res.status(200).json({
-      status: 'success',
-      message: 'Attendance marked successfully',
-      data: event,
-    });
-  } catch (error) {
-    next(error);
+  if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+    return res.status(400).json({ message: 'User IDs array is required' });
   }
+
+  // Find the event by ID
+  let event = await Event.findById(id);
+  if (!event) {
+    return res.status(404).json({ message: 'Event not found' });
+  }
+
+  // Push each user ID into the attendance array
+  event.attendance.push(...userIds);
+
+  // Update each user's eventsAttended field
+  await Promise.all(
+    userIds.map(async (userId) => {
+      const user = await User.findById(userId);
+      if (user) {
+        user.eventsAttended.push(id);
+        await user.save();
+      }
+    })
+  );
+
+  // Determine absentees.
+  // Convert participant IDs to strings to ensure a proper comparison.
+  const absentees = event.participants.filter(
+    (participant) => !userIds.includes(participant.toString())
+  );
+  console.log("Absentees: ", absentees);
+  console.log("Participants: ", userIds);
+
+  // Update each absentee's eventsMissed field
+  await Promise.all(
+    absentees.map(async (userId) => {
+      const user = await User.findById(userId);
+      if (user) {
+        user.eventsMissed.push(id);
+        await user.save();
+      }
+    })
+  );
+
+  // Save the updated event
+  await event.save();
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Attendance marked successfully',
+    data: event,
+  });
 });
+
 // exports.resizeEventImage = catchAsync(async (req, res, next) => {
 //   console.log(req.files);
 //   // console.log(req.body);

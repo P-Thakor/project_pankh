@@ -5,16 +5,21 @@ import List from "@/components/EventsList/List";
 import UserContext from "../../context/UserContext";
 
 export default function EventsParticipated({ events = [] }) {
-  const [eventList, setEventList] = useState([]);
+  const [attendedEventList, setAttendedEventList] = useState([]);
+  const [missedEventList, setMissedEventList] = useState([]);
 
   const { user } = useContext(UserContext);
 
   useEffect(() => {
     if (user) {
       let templist = events.filter((event) =>
-        user.eventsParticipated?.includes(event._id)
+        user.eventsAttended.includes(event._id)
       );
-      setEventList(templist);
+      setAttendedEventList(templist);
+      let templist2 = events.filter((event) =>
+        user.eventsMissed.includes(event._id)
+      );
+      setMissedEventList(templist2);
     }
   }, [user, events]);
 
@@ -27,12 +32,23 @@ export default function EventsParticipated({ events = [] }) {
       {/* Events Participated Section */}
       <div className="w-full p-6 bg-white rounded-lg shadow-lg">
         <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
-          Events Participated
+          Events Attended
         </h2>
-        {eventList.length > 0 ? (
-          <List list={eventList} style="ml-2" />
+        {attendedEventList.length > 0 ? (
+          <List list={attendedEventList} style="ml-2" />
         ) : (
           <p className="mt-4 text-gray-500">No events participated yet!</p>
+        )}
+      </div>
+
+      <div className="w-full p-6 bg-white rounded-lg shadow-lg">
+        <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
+          Events Missed
+        </h2>
+        {missedEventList.length > 0 ? (
+          <List list={missedEventList} style="ml-2" />
+        ) : (
+          <p className="mt-4 text-gray-500">No events missed yet!</p>
         )}
       </div>
     </>

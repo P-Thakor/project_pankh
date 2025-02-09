@@ -47,6 +47,18 @@ const userSchema = new mongoose.Schema({
       ref: 'Event',
     },
   ],
+  eventsAttended: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Event',
+    }
+  ],
+  eventsMissed: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Event',
+    }
+  ],
   contactNumber: {
     type: String,
     trim: true,

@@ -1,19 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { AuthModal } from ".";
 import Image from "next/image";
-import {
-  Combobox,
-  ComboboxButton,
-  ComboboxOption,
-  ComboboxOptions,
-  Transition,
-} from "@headlessui/react";
-import { institutes } from "@/constants";
+import { departments, institutes } from "@/constants";
+import ComboboxSelector from "./ComboboxSelector";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -21,7 +14,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [institute, setInstitute] = useState("");
-  const [showInstitutes, setShowInstitutes] = useState(true);
+  const [department, setDepartment] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   // const [modalType, setModalType] = useState(null);
@@ -72,6 +65,7 @@ const SignUp = () => {
           collegeId,
           role,
           institute,
+          department,
         }),
       });
   
@@ -123,6 +117,10 @@ const SignUp = () => {
 
   const handleSetInstitute = (value) => {
     setInstitute(value);
+  };
+
+  const handleSetDepartment = (value) => {
+    setDepartment(value);
   };
 
   return (
@@ -177,37 +175,12 @@ const SignUp = () => {
 
           <label className="block mb-2 text-sm font-medium">Institute</label>
           <div className="relative">
-            <Combobox value={institute} onChange={handleSetInstitute}>
-              <div className="w-full p-3 mb-4 rounded-lg bg-blue-50">
-                <ComboboxButton className="w-full text-sm text-left text-gray-400">
-                  {institute || "Select an institute"}
-                </ComboboxButton>
-                <Transition
-                  as={Fragment}
-                  leave="transition ease-in duration-200"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <ComboboxOptions className="absolute z-10 w-full mt-1 overflow-auto text-sm bg-white rounded-md shadow-lg max-h-60 focus:outline-none">
-                    {institutes.map((item) => (
-                      <ComboboxOption
-                        key={item}
-                        value={item}
-                        className={({ active }) =>
-                          `cursor-pointer select-none p-2 ${
-                            active
-                              ? "bg-primaryblue text-white"
-                              : "text-gray-900"
-                          }`
-                        }
-                      >
-                        {item}
-                      </ComboboxOption>
-                    ))}
-                  </ComboboxOptions>
-                </Transition>
-              </div>
-            </Combobox>
+            <ComboboxSelector value={institute} onChange={handleSetInstitute} options={institutes} />
+          </div>
+
+          <label className="block mb-2 text-sm font-medium">Department</label>
+          <div className="relative">
+            <ComboboxSelector value={department} onChange={handleSetDepartment} options={departments} />
           </div>
 
           <label className="block mb-2 text-sm font-medium">Password</label>

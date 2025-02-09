@@ -12,7 +12,9 @@ import Sidebar from "./Sidebar";
 import SearchBar from "./SearchBar";
 import ClubHero from "./ClubPage/ClubHero";
 import ClubDetails from "./ClubPage/ClubDetails";
-import DashboardComp from "./Dashboard/DashboardComp";
+import Profile from "./Dashboard/Profile";
+import EventsParticipated from "./Dashboard/EventsParticipated";
+import EventsCreated from "./Dashboard/EventsCreated";
 import successModal from "./successModal";
 import AuthModal from "./AuthModal";
 import ForgotPasswordModal from "./ForgotPasswordModal";
@@ -34,7 +36,9 @@ export {
   SearchBar,
   ClubHero,
   ClubDetails,
-  DashboardComp,
+  Profile,
+  EventsParticipated,
+  EventsCreated,
   successModal,
   AuthModal,
   ForgotPasswordModal,

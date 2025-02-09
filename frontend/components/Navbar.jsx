@@ -75,7 +75,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div>
+        {/* <div>
           <Link href="">
             <Image
               src="/assets/images/25YearLogo.png"
@@ -85,7 +85,7 @@ const Navbar = () => {
               className="hidden object-contain lg:flex"
             />
           </Link>
-        </div>
+        </div> */}
 
         <div className="flex items-center justify-center">
           <SearchBar events={events} />

@@ -11,7 +11,7 @@ router.route('/getAllUsers').get(isAuthenticated, userController.getAllUsers);
 
 router.route('/createUser').post(userController.createUser);
 
-router.route('/getUser/:id').get(isAuthenticated, userController.getOneUser);
+router.route('/getUser/:id').get( userController.getOneUser);
 
 router
   .route('/updateUser/:id')
@@ -31,5 +31,7 @@ router
 router.route('/registerEvent/:id').patch(eventController.registerEventForUser);
 
 router.route('/me').get(isAuthenticated, userController.getMe);
+
+router.route('/getUserByStudentId/:collegeId').get(userController.getOneUserByStudentId);
 
 module.exports = router;

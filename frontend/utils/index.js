@@ -90,3 +90,8 @@ export function convertToISO(date, time) {
   const [hours, minutes] = time.split(":");
   return new Date(year, month - 1, day, hours, minutes).toISOString();
 }
+
+export async function fetchUserById(id) {
+  const res = await fetch(`http://localhost:8001/api/v1/user/getUser/${id}`);
+  return res.json();
+}

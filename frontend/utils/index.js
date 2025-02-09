@@ -51,6 +51,15 @@ export async function fetchCurrentUser() {
   return data.data;
 }
 
+export async function fetchUsers() {
+  const res = await fetch("http://localhost:8001/api/v1/user/getAllUsers", {
+    cache: "no-store",
+    credentials: "include",
+  });
+  const data = await res.json();
+  return data.data; 
+}
+
 export async function forgotPassword(email) {
   const res = await fetch("http://localhost:8001/api/v1/auth/forgotPassword", {
     method: "POST",

@@ -20,6 +20,7 @@ import AuthModal from "./AuthModal";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import ReviewCardModal from "./ReviewCardModal";
 import EventParticipants from "./EventParticipants";
+import ViewFaculty from "./ViewFaculty";
 
 export {
   Navbar,
@@ -44,4 +45,5 @@ export {
   ForgotPasswordModal,
   ReviewCardModal,
   EventParticipants,
+  ViewFaculty,
 };

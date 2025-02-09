@@ -107,7 +107,8 @@ export default function EventHero({ item }) {
   return (
     <>
       <section className="relative m-5 lg:mx-10 lg:my-5 ">
-        <div className="relative w-full bg-black h-[500px]">
+        <div className="relative w-full h-[200px]  lg:h-[600px] rounded-md overflow-hidden">
+          
           {/* image */}
           {/* <Image
             src="/assets/images/EventHeroBg.png"
@@ -116,12 +117,14 @@ export default function EventHero({ item }) {
             width={1500}
             className="w-full h-full rounded-md"
           /> */}
+
           {/* black layer */}
-          <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 rounded-md" />
+          <div className="absolute top-0 left-0 w-full h-full bg-black rounded-md bg-opacity-80" />
+
           {/* text on image */}
           <div className="absolute inset-0 flex">
             <div className="flex flex-col justify-center w-2/3 px-10 lg:w-1/2 sm:w-full">
-              <h1 className="mb-6 font-bold text-white md:mb-12 text-3xl sm:text-4xl md:text-[4vw]">
+              <h1 className="mb-6 font-bold text-white md:mb-12 text-4xl sm:text-5xl md:text-[4vw]">
                 {/* event name */}
                 {item.name}
               </h1>

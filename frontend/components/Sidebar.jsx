@@ -121,6 +121,17 @@ export default function Sidebar() {
               Create Event
             </li>
           )}
+          {user?.role === "faculty-member" && (
+            <li
+              className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
+              onClick={() => {
+                router.push("/view-faculty");
+                toggleSidebar();
+              }}
+            >
+              View Faculty
+            </li>
+          )}
           <li
             className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
             onClick={() => {

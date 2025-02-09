@@ -179,7 +179,7 @@ const SignUp = () => {
           <div className="relative">
             <Combobox value={institute} onChange={handleSetInstitute}>
               <div className="w-full p-3 mb-4 rounded-lg bg-blue-50">
-                <ComboboxButton className="w-full text-sm text-left text-gray-400">
+                <ComboboxButton className="w-full text-sm text-left text-black">
                   {institute || "Select an institute"}
                 </ComboboxButton>
                 <Transition

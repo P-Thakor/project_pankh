@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import List from "@/components/EventsList/List";
 import UserContext from "../../context/UserContext";
 
-export default function DashboardComp({ events = [] }) {
+export default function EventsParticipated({ events = [] }) {
   const [eventList, setEventList] = useState([]);
 
   const { user } = useContext(UserContext);

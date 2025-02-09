@@ -323,6 +323,25 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       contactNumber: req.user.contactNumber,
     });
 
+    if (req.body.department && req.body.department.length > 0) {
+      // Create a regex pattern to match any department name in the email
+      const regexPattern = req.body.department.join('|'); // E.g., "cse|ce|it"
+
+      // Find students whose email contains any of the department names
+      const emailData = await User.find({
+        email: { $regex: regexPattern, $options: 'i' }, // Case-insensitive match
+      }).select('email');
+
+      console.log('Matching Emails:', emailData);
+
+      if (emailData.length > 0) {
+        emailData.map(async (user) => {
+          const emailData = new sendEmail(user.email, 'eventCreated');
+          await emailData.sendNewEventAlert(newEvent);
+        });
+      }
+    }
+
     const otherEmail = req.body.otherEmail;
     console.log(otherEmail);
     if (otherEmail) {
@@ -332,10 +351,6 @@ exports.createEvent = catchAsync(async (req, res, next) => {
           await emailData.sendNewEventAlert(newEvent);
         }),
       );
-      // otherEmail.forEach((email) => {
-      //   const emailData = new sendEmail(email, 'eventCreated');
-      //   emailData.sendNewEventAlert(newEvent);
-      // });
     }
     // const users = await User.find(); // Fetch all users or specific users
 
@@ -391,46 +406,62 @@ exports.deleteEvent = catchAsync(async (req, res, next) => {
 });
 
 exports.attendance = catchAsync(async (req, res, next) => {
-  try {
-    const { id } = req.params; // Event ID
-    const { userIds } = req.body; // Expecting an array of user IDs
+  const { id } = req.params; // Event ID
+  const { userIds } = req.body; // Expecting an array of user IDs
 
-    if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
-      return res.status(400).json({ message: 'User IDs array is required' });
-    }
-
-    // Find the event by ID
-    let event = await Event.findById(id);
-    if (!event) {
-      return res.status(404).json({ message: 'Event not found' });
-    }
-
-    // Filter out already marked users
-    const newAttendances = userIds.filter(
-      (userId) => !event.attendance.includes(userId),
-    );
-
-    if (newAttendances.length === 0) {
-      return res
-        .status(400)
-        .json({ message: 'All users already marked attendance' });
-    }
-
-    // Store new User IDs in `attendance`
-    event.attendance.push(...newAttendances);
-
-    // Save the updated event
-    await event.save();
-
-    res.status(200).json({
-      status: 'success',
-      message: 'Attendance marked successfully',
-      data: event,
-    });
-  } catch (error) {
-    next(error);
+  if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+    return res.status(400).json({ message: 'User IDs array is required' });
   }
+
+  // Find the event by ID
+  let event = await Event.findById(id);
+  if (!event) {
+    return res.status(404).json({ message: 'Event not found' });
+  }
+
+  // Push each user ID into the attendance array
+  event.attendance.push(...userIds);
+
+  // Update each user's eventsAttended field
+  await Promise.all(
+    userIds.map(async (userId) => {
+      const user = await User.findById(userId);
+      if (user) {
+        user.eventsAttended.push(id);
+        await user.save();
+      }
+    })
+  );
+
+  // Determine absentees.
+  // Convert participant IDs to strings to ensure a proper comparison.
+  const absentees = event.participants.filter(
+    (participant) => !userIds.includes(participant.toString())
+  );
+  console.log("Absentees: ", absentees);
+  console.log("Participants: ", userIds);
+
+  // Update each absentee's eventsMissed field
+  await Promise.all(
+    absentees.map(async (userId) => {
+      const user = await User.findById(userId);
+      if (user) {
+        user.eventsMissed.push(id);
+        await user.save();
+      }
+    })
+  );
+
+  // Save the updated event
+  await event.save();
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Attendance marked successfully',
+    data: event,
+  });
 });
+
 // exports.resizeEventImage = catchAsync(async (req, res, next) => {
 //   console.log(req.files);
 //   // console.log(req.body);

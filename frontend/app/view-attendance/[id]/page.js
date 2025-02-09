@@ -28,12 +28,18 @@ const AttendancePage = async ({ params }) => {
         <div className="bg-white shadow-lg rounded-lg p-6">
           <h2 className="text-xl font-bold mb-4 text-green-600">Attendees</h2>
           <UserList userList={attendees} />
+          {
+            <p className="mt-5">Total: {attendees.length}</p>
+          }
         </div>
 
         {/* Absentees Section */}
         <div className="bg-white shadow-lg rounded-lg p-6">
           <h2 className="text-xl font-bold mb-4 text-red-600">Absentees</h2>
           <UserList userList={absentees} />
+          {
+            <p className="mt-5">Total: {absentees.length}</p>
+          }
         </div>
       </div>
       <GenerateReportButton eventId={params.id} />

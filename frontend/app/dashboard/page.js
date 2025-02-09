@@ -1,15 +1,20 @@
 import { Profile, EventsCreated, EventsParticipated } from "@/components";
-import { fetchEvents, fetchCurrentUser } from "@/utils";
-
+import EventAttendanceChart from "@/components/EventAttendanceChart";
+import { fetchCurrentUser, fetchEvents } from "@/utils";
 export default async function Dashboard() {
   const events = await fetchEvents();
-  const userData = await fetchCurrentUser();
+  const user = await fetchCurrentUser();
 
   return (
     <main>
       <div className="flex flex-col min-h-screen p-6 space-y-6 bg-gray-100">
         <h1 className="text-3xl font-bold text-primaryblue">Dashboard</h1>
-        <Profile userData={userData} />
+        { (
+          <div className="flex flex-col space-y-6 md:flex-row md:space-x-6 md:space-y-0">
+            <Profile />
+            <EventAttendanceChart />
+          </div>
+        )}
         <EventsCreated events={events} />
         <EventsParticipated events={events} />
       </div>

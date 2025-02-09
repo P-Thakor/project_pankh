@@ -148,7 +148,7 @@ export default function DashboardComp({ events = [] }) {
             Events Created by You
           </h2>
           {createdEvents.length > 0 ? (
-            <List list={createdEvents} style="ml-2" isCreator={true} />
+            <List list={createdEvents} style="ml-2" isFaculty={true} />
           ) : (
             <p className="mt-4 text-gray-500">No events organized yet!</p>
           )}{" "}

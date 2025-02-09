@@ -19,7 +19,7 @@ export default function EventHero({ item }) {
   const [modalMessage, setModalMessage] = useState("");
   const [modalIconColor, setModalIconColor] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isCreator, setIsCreator] = useState(false);
+  const [isFaculty, setIsFaculty] = useState(false);
 
   const date = new Date();
   const { user } = useContext(UserContext);
@@ -30,8 +30,8 @@ export default function EventHero({ item }) {
       setRegistered(true);
     }
 
-    if (user && item.creator === user._id) {
-      setIsCreator(true);
+    if (user && (user.role === "faculty-member" || user.role === "admin")) {
+      setIsFaculty(true);
     }
   }, [user, item._id]);
 
@@ -148,7 +148,7 @@ export default function EventHero({ item }) {
                 <p className="mb-4 text-lg text-primaryblue">
                   {item.locations}
                 </p>
-                {isCreator ? (
+                {isFaculty ? (
                   item.attendance.length > 0 ? (
                     <button
                       onClick={handleViewAttendance}

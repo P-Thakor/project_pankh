@@ -21,12 +21,13 @@ const SearchUserPage = () => {
       }
     } catch (error) {
       console.log(error);
+      alert("User not found");
     }
   };
 
   return (
     <>
-      <div className="flex flex-col items-center w-full p-6 bg-white rounded-lg shadow-lg md:items-start">
+      <div className="flex flex-col items-center w-full p-6 bg-white rounded-lg shadow-lg md:items-start min-h-screen">
         <h2 className="text-lg font-bold mb-4">Search User</h2>
         <form className="w-full" onSubmit={handleSearch}>
           <div className="flex flex-wrap -mx-3 mb-6">

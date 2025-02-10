@@ -23,7 +23,7 @@ const ParticipatedEvents = ({ user, events }) => {
     return <div>Loading...</div>;
   }
   return (
-    <>
+    <div className="w-full p-6 bg-white rounded-lg shadow-lg space-y-4">
       {/* Events Participated Section */}
       <div className="w-full p-6 bg-white rounded-lg shadow-lg">
         <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
@@ -46,7 +46,7 @@ const ParticipatedEvents = ({ user, events }) => {
           <p className="mt-4 text-gray-500">No events missed yet!</p>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

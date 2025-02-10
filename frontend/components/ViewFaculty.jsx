@@ -43,7 +43,7 @@ const ViewFaculty = () => {
       <div className="grid w-full max-w-4xl grid-cols-1 gap-6 md:grid-cols-3">
         {departments.map((dept) => (
           <button
-            key={dept.faculty}
+            key={dept.department}
             onClick={() => handleFaculty(dept.department, dept.institute)}
             className="flex items-center justify-center p-12 text-xl font-semibold text-white transition-all duration-300 bg-blue-600 shadow-md cursor-pointer rounded-2xl hover:bg-blue-700 active:scale-95"
           >

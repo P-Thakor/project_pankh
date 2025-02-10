@@ -125,6 +125,17 @@ export default function Sidebar() {
             <li
               className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
               onClick={() => {
+                router.push("/search-user");
+                toggleSidebar();
+              }}
+            >
+              Search Student
+            </li>
+          )}
+          {user?.role === "admin" && (
+            <li
+              className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
+              onClick={() => {
                 router.push("/view-faculty");
                 toggleSidebar();
               }}
@@ -132,7 +143,7 @@ export default function Sidebar() {
               View Faculty
             </li>
           )}
-          <li
+          {/* <li
             className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
             onClick={() => {
               router.push("/club/66d6d41857092e784256b1e7");
@@ -140,7 +151,7 @@ export default function Sidebar() {
             }}
           >
             Clubs
-          </li>
+          </li> */}
           {/* <li className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue">
             Scholarships
           </li> */}

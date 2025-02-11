@@ -36,7 +36,7 @@ const SearchUserPage = () => {
                 Student ID
               </label>
               <input
-                className="w-full p-3 mb-4 text-sm leading-tight rounded-lg bg-blue-50 focus:outline-none"
+                className="w-full p-3 mb-4 text-sm leading-tight border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                 id="student-id"
                 type="text"
                 placeholder="Student ID"

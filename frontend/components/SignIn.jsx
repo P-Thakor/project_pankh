@@ -84,7 +84,7 @@ const SignIn = () => {
               <input
                 type="text"
                 placeholder="Enter email"
-                className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -95,7 +95,7 @@ const SignIn = () => {
                 <input
                   type={isPasswordVisible ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="w-full p-3 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  className="w-full p-3 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);

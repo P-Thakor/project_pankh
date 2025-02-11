@@ -44,20 +44,20 @@ export default function Profile() {
 
           {/* Profile Details */}
           <div className="w-full space-y-4">
-            <div className="p-4 border rounded-lg bg-blue-50">
+            <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
               <span className="text-sm font-semibold text-gray-600">
                 Full Name:
               </span>
               <p className="text-lg font-medium text-primaryblue">{username}</p>
             </div>
-            <div className="p-4 border rounded-lg bg-blue-50">
+            <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
               <span className="text-sm font-semibold text-gray-600">
                 Email:
               </span>
               <p className="text-lg font-medium text-primaryblue">{email}</p>
             </div>
             {collegeId && (
-              <div className="p-4 border rounded-lg bg-blue-50">
+              <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
                 <span className="text-sm font-semibold text-gray-600">
                   Student ID:
                 </span>
@@ -67,7 +67,7 @@ export default function Profile() {
               </div>
             )}
             {contactNumber && (
-              <div className="p-4 border rounded-lg bg-blue-50">
+              <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
                 <span className="text-sm font-semibold text-gray-600">
                   Mobile Number:
                 </span>
@@ -77,7 +77,7 @@ export default function Profile() {
               </div>
             )}
             {designation && (
-              <div className="p-4 border rounded-lg bg-blue-50">
+              <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
                 <span className="text-sm font-semibold text-gray-600">
                   Designation:
                 </span>
@@ -87,7 +87,7 @@ export default function Profile() {
               </div>
             )}
             {department && (
-              <div className="p-4 border rounded-lg bg-blue-50">
+              <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
                 <span className="text-sm font-semibold text-gray-600">
                   Department:
                 </span>
@@ -97,7 +97,7 @@ export default function Profile() {
               </div>
             )}
             {institute && (
-              <div className="p-4 border rounded-lg bg-blue-50">
+              <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
                 <span className="text-sm font-semibold text-gray-600">
                   Institute:
                 </span>

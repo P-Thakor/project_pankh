@@ -148,7 +148,7 @@ const SignUp = () => {
           <input
             type="text"
             placeholder="Enter your full name"
-            className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+            className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -157,7 +157,7 @@ const SignUp = () => {
           <input
             type="email"
             placeholder="Enter email address"
-            className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+            className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -168,7 +168,7 @@ const SignUp = () => {
           <input
             type="tel"
             placeholder="Enter mobile number"
-            className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+            className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
             value={contactNumber}
             onChange={(e) => setContactNumber(e.target.value)}
           />
@@ -184,7 +184,7 @@ const SignUp = () => {
           </div>
 
           <label className="block mb-2 text-sm font-medium">Password</label>
-          <div className="flex items-center w-full p-3 mb-4 rounded-lg bg-blue-50">
+          <div className="flex items-center w-full p-3 mb-4 border border-blue-100 rounded-lg bg-blue-50">
             <input
               type={isPasswordVisible ? "text" : "password"}
               placeholder="Enter your password"
@@ -231,7 +231,7 @@ const SignUp = () => {
           <input
             type="password"
             placeholder="Re-type password"
-            className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+            className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />

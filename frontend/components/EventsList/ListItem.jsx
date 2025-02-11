@@ -36,7 +36,7 @@ export default function ListItem({ item, isFaculty, isCreator }) {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return (

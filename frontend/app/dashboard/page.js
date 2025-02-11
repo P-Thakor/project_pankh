@@ -1,7 +1,7 @@
 import { Profile, EventsCreated, EventsParticipated } from "@/components";
 import EventAttendanceChart from "@/components/EventAttendanceChart";
-import { fetchCurrentUser, fetchEvents } from "@/utils";
-import axios from "axios";
+import { fetchEvents } from "@/utils";
+// import axios from "axios";
 export default async function Dashboard() {
   const events = await fetchEvents();
   // const res = await axios.get("http://localhost:8001/api/v1/user/me", {

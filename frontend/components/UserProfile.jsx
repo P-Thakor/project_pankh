@@ -1,5 +1,5 @@
 const UserProfile = ({ user }) => {
-    console.log(user);
+  // console.log(user);
   const {
     username,
     email,

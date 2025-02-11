@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import UserContext from "@/context/UserContext";
-import { fetchCurrentUser } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
@@ -34,13 +33,13 @@ export default function Sidebar() {
             setIsLoggedIn(false);
             logoutUser();
             response.json().then((data) => {
-              console.log(data);
+              // console.log(data);
             });
             router.push("/sign-in");
           }
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
         })
         .catch((error) => {
           console.error("Error:", error);

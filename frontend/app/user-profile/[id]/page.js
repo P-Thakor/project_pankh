@@ -8,7 +8,7 @@ const UserProfilePage = async ({ params }) => {
   const { id } = params;
   const res = await fetchUserById(id);
   const user = res.data;
-  console.log(user.role);
+  // console.log(user.role);
   const events = await fetchEvents();
 
   return (

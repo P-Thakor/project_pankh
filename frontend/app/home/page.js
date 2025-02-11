@@ -1,10 +1,10 @@
 "use client";
 
-import { AddNewEventTab, CustomFilter, Hero } from "@/components";
+import { AddNewEventTab, Hero } from "@/components";
 import List from "@/components/EventsList/List";
-import { Days, EventCategory, EventMode, EventType } from "@/constants";
+// import { Days, EventCategory, EventMode, EventType } from "@/constants";
 import UserContext from "@/context/UserContext";
-import { fetchCurrentUser, fetchEvents } from "@/utils";
+import { fetchEvents } from "@/utils";
 import { useContext, useEffect, useState } from "react";
 
 const page = () => {
@@ -39,7 +39,7 @@ const page = () => {
       setUpcomingList(upcomingEvents);
       setOngoingList(ongoingEvents);
       setPastList(pastEvents);
-      console.log(upcomingEvents);
+      // console.log(upcomingEvents);
     });
   }, []);
   // useEffect(() => {

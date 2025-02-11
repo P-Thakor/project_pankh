@@ -68,9 +68,9 @@ const SignUp = () => {
           department,
         }),
       });
-  
+
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (response.status === 201) {
         setModalTitle("Registration Successful!");
         switch (role) {
@@ -86,7 +86,7 @@ const SignUp = () => {
             );
             setModalIconColor("bg-green-500");
             break;
-  
+
           default:
             setModalMessage(
               "Welcome! You have successfully registered as a user."
@@ -175,12 +175,20 @@ const SignUp = () => {
 
           <label className="block mb-2 text-sm font-medium">Institute</label>
           <div className="relative">
-            <ComboboxSelector value={institute} onChange={handleSetInstitute} options={institutes} />
+            <ComboboxSelector
+              value={institute}
+              onChange={handleSetInstitute}
+              options={institutes}
+            />
           </div>
 
           <label className="block mb-2 text-sm font-medium">Department</label>
           <div className="relative">
-            <ComboboxSelector value={department} onChange={handleSetDepartment} options={departments} />
+            <ComboboxSelector
+              value={department}
+              onChange={handleSetDepartment}
+              options={departments}
+            />
           </div>
 
           <label className="block mb-2 text-sm font-medium">Password</label>

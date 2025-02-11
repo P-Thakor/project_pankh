@@ -1,36 +1,14 @@
-"use client";
-
-import { useContext, useState } from "react";
-import UserContext from "../../context/UserContext";
-import { useRouter } from "next/navigation";
-import { ForgotPasswordModal } from "..";
-
-export default function Profile() {
-  const { user } = useContext(UserContext);
-  const router = useRouter();
-
-  const [resetPasswordModalOpen, setResetPasswordModalOpen] = useState(false);
-
-  if (!user) {
-    return <div>Loading...</div>;
-  }
-
-  if (user) {
-    var {
-      username = "",
-      email = "",
-      collegeId = "",
-      contactNumber = "",
-      designation = "",
-      department = "",
-      institute = "",
-    } = user;
-  } else {
-    var username = (email = "");
-    setUser({});
-    setEventList([]);
-  }
-
+const UserProfile = ({ user }) => {
+  // console.log(user);
+  const {
+    username,
+    email,
+    collegeId,
+    contactNumber,
+    designation,
+    department,
+    institute,
+  } = user;
   return (
     <>
       <div className="flex flex-col items-center w-full p-6 bg-white rounded-lg shadow-lg md:items-start">
@@ -44,20 +22,20 @@ export default function Profile() {
 
           {/* Profile Details */}
           <div className="w-full space-y-4">
-            <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
+            <div className="p-4 border rounded-lg bg-blue-50">
               <span className="text-sm font-semibold text-gray-600">
                 Full Name:
               </span>
               <p className="text-lg font-medium text-primaryblue">{username}</p>
             </div>
-            <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
+            <div className="p-4 border rounded-lg bg-blue-50">
               <span className="text-sm font-semibold text-gray-600">
                 Email:
               </span>
               <p className="text-lg font-medium text-primaryblue">{email}</p>
             </div>
             {collegeId && (
-              <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
+              <div className="p-4 border rounded-lg bg-blue-50">
                 <span className="text-sm font-semibold text-gray-600">
                   Student ID:
                 </span>
@@ -67,7 +45,7 @@ export default function Profile() {
               </div>
             )}
             {contactNumber && (
-              <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
+              <div className="p-4 border rounded-lg bg-blue-50">
                 <span className="text-sm font-semibold text-gray-600">
                   Mobile Number:
                 </span>
@@ -77,7 +55,7 @@ export default function Profile() {
               </div>
             )}
             {designation && (
-              <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
+              <div className="p-4 border rounded-lg bg-blue-50">
                 <span className="text-sm font-semibold text-gray-600">
                   Designation:
                 </span>
@@ -87,7 +65,7 @@ export default function Profile() {
               </div>
             )}
             {department && (
-              <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
+              <div className="p-4 border rounded-lg bg-blue-50">
                 <span className="text-sm font-semibold text-gray-600">
                   Department:
                 </span>
@@ -97,7 +75,7 @@ export default function Profile() {
               </div>
             )}
             {institute && (
-              <div className="p-4 border border-blue-100 rounded-lg bg-blue-50">
+              <div className="p-4 border rounded-lg bg-blue-50">
                 <span className="text-sm font-semibold text-gray-600">
                   Institute:
                 </span>
@@ -108,27 +86,9 @@ export default function Profile() {
             )}
           </div>
         </div>
-
-        {/* Buttons */}
-        <div className="flex mt-4 space-x-4">
-          <button
-            className="px-4 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
-            onClick={() => router.push("/edit-profile")}
-          >
-            Edit Profile
-          </button>
-          <button className="px-4 py-2 border rounded-md border-primaryblue text-primaryblue hover:bg-primaryblue hover:text-white" onClick={() => setResetPasswordModalOpen(true)}>
-            Reset Password
-          </button>
-        </div>
       </div>
-      {resetPasswordModalOpen && (
-        <ForgotPasswordModal
-          onClose={() => {
-            setResetPasswordModalOpen(false);
-          }}
-        />
-      )}
     </>
   );
-}
+};
+
+export default UserProfile;

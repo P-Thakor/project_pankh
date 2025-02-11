@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { AuthModal } from ".";
 import ForgotPasswordModal from "./ForgotPasswordModal";
@@ -58,7 +57,7 @@ const SignIn = () => {
       const data = await response.json();
       setModalTitle("Login Unsuccessful");
       setModalMessage(data.message);
-      console.log(data);
+      // console.log(data);
       setModalIconColor("bg-red-500");
       setIsvisible(true);
       // alert("Login failed.");
@@ -84,7 +83,7 @@ const SignIn = () => {
               <input
                 type="text"
                 placeholder="Enter email"
-                className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -95,7 +94,7 @@ const SignIn = () => {
                 <input
                   type={isPasswordVisible ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="w-full p-3 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  className="w-full p-3 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);

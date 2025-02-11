@@ -1,6 +1,6 @@
 "use client";
 
-import UserContext from "@/context/UserContext";
+// import UserContext from "@/context/UserContext";
 import { convertToISO } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,7 +17,7 @@ const CreateEvent = () => {
   const [location, setLocation] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventPoster, setEventPoster] = useState("");
-  const [externalLink, setExternalLink] = useState("");
+  // const [externalLink, setExternalLink] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [message, setMessage] = useState("");
@@ -137,14 +137,14 @@ const CreateEvent = () => {
           setIconColor("bg-green-500");
           setIsModalVisible(true);
           response.json().then((data) => {
-            console.log(data);
+            // console.log(data);
             router.push(`/view-event/${data.data._id}`);
           });
         } else {
           setModalTitle("Event Creation Unsuccessful.");
           response.json().then((data) => {
             setMessage(data.message);
-            console.log(data);
+            // console.log(data);
           });
           if (response.status === 403) {
             setMessage("You are not authorized to create events.");
@@ -155,7 +155,7 @@ const CreateEvent = () => {
         }
       })
       .catch((error) => {
-        console.log("Error:", error);
+        console.error("Error:", error);
       })
       .finally(() => {
         setLoading(false);
@@ -179,7 +179,7 @@ const CreateEvent = () => {
                 <input
                   type="text"
                   placeholder="Enter Event Title"
-                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -193,7 +193,7 @@ const CreateEvent = () => {
                 <input
                   type="text"
                   placeholder="Enter Event Venue"
-                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   required
@@ -243,7 +243,7 @@ const CreateEvent = () => {
                   type="date"
                   value={startDate}
                   onChange={handleStartDateChange}
-                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                   required
                 />
               </div>
@@ -269,7 +269,7 @@ const CreateEvent = () => {
                   type="time"
                   value={startTime}
                   onChange={handleStartTimeChange}
-                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                   required
                 />
               </div>
@@ -283,13 +283,13 @@ const CreateEvent = () => {
                   value={endTime}
                   min={startTime} // Prevent selecting an invalid time
                   onChange={handleEndTimeChange}
-                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                   required
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-2 items-center gap-6 mt-5">
+            <div className="grid items-center grid-cols-2 gap-6 mt-5">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Registration Deadline Date
@@ -298,7 +298,7 @@ const CreateEvent = () => {
                   type="date"
                   value={deadlineDate}
                   onChange={(e) => setDeadlineDate(e.target.value)}
-                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                   defaultValue={startDate}
                   required
                 />
@@ -313,7 +313,7 @@ const CreateEvent = () => {
                   value={deadlineTime}
                   max={startTime} // Prevent selecting an invalid time
                   onChange={(e) => setDeadlineTime(e.target.value)}
-                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  className="w-full p-3 mb-8 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                   defaultValue={startTime}
                   required
                 />
@@ -331,7 +331,7 @@ const CreateEvent = () => {
                   placeholder="Enter email"
                   value={otherEmailInput}
                   onChange={(e) => setOtherEmailInput(e.target.value)}
-                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                 />
                 <button
                   type="button"
@@ -343,7 +343,7 @@ const CreateEvent = () => {
               </div>
               {/* Display the list of added emails */}
               {otherEmails.length > 0 && (
-                <ul className="mb-4 list-disc pl-5 text-sm text-gray-700">
+                <ul className="pl-5 mb-4 text-sm text-gray-700 list-disc">
                   {otherEmails.map((email, index) => (
                     <li key={index}>{email}</li>
                   ))}
@@ -357,7 +357,7 @@ const CreateEvent = () => {
               </label>
               <input
                 placeholder="Cognizance is a tech fest organized by the students of CHARUSAT"
-                className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                 value={eventDescription}
                 onChange={(e) => setEventDescription(e.target.value)}
                 required
@@ -372,7 +372,7 @@ const CreateEvent = () => {
                 type="file"
                 accept="image/*"
                 onChange={(e) => setEventPoster(e.target.files[0])}
-                className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
               />
             </div>
 

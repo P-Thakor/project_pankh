@@ -12,6 +12,7 @@
     "@floating-ui/core": "^1.6.8",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
+    "axios": "^1.7.9",
     "chart.js": "^4.4.7",
     "cropperjs": "^1.6.2",
     "framer-motion": "^11.14.4",

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 
-export default function ListItem({ item, isFaculty }) {
+export default function ListItem({ item, isFaculty, isCreator }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,7 +36,7 @@ export default function ListItem({ item, isFaculty }) {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return (
@@ -104,7 +104,7 @@ export default function ListItem({ item, isFaculty }) {
               </div>
             )}
           </div>
-          {isFaculty && (
+          {isCreator && (
             <div>
               {/* <button
               className="z-10 px-2 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"

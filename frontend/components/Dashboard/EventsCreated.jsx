@@ -32,7 +32,7 @@ export default function EventsCreated({ events = [] }) {
             Events You Created
           </h2>
           {createdEvents.length > 0 ? (
-            <List list={createdEvents} style="ml-2" isFaculty={true} />
+            <List list={createdEvents} style="ml-2" isFaculty={true} isCreator={true} />
           ) : (
             <p className="mt-4 text-gray-500">No events organized yet!</p>
           )}{" "}

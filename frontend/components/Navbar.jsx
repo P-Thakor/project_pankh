@@ -14,10 +14,10 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [events, setEvents] = useState([]);
 
-  useEffect( () => {
+  useEffect(() => {
     (async () => {
-    const eventList = await fetchEvents();
-    setEvents(eventList);
+      const eventList = await fetchEvents();
+      setEvents(eventList);
     })();
   }, []);
 
@@ -34,13 +34,13 @@ const Navbar = () => {
           setIsLoggedIn(false);
           logoutUser();
           response.json().then((data) => {
-            console.log(data);
+            // console.log(data);
           });
           router.push("/sign-in");
         }
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
       })
       .catch((error) => {
         console.error("Error:", error);

@@ -4,6 +4,8 @@ import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import UserContext from "@/context/UserContext";
 import { AuthModal } from "@/components";
+import ComboboxSelector from "@/components/ComboboxSelector";
+import { departments, institutes } from "@/constants";
 
 const EditProfilePage = () => {
   const { user } = useContext(UserContext);
@@ -89,7 +91,7 @@ const EditProfilePage = () => {
       setIconColor("bg-red-500");
       setShowModal(true);
     }
-    console.log(res);
+    // console.log(res);
     // .then((res) => {
     //   res.json();
     //   console.log(res);
@@ -110,13 +112,13 @@ const EditProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8">
-      <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
+    <div className="min-h-screen py-8 bg-gray-100">
+      <div className="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow-md">
+        <h1 className="mb-6 text-2xl font-bold">Edit Profile</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block mb-2 text-sm font-bold text-gray-700"
               htmlFor="username"
             >
               Full Name
@@ -126,14 +128,14 @@ const EditProfilePage = () => {
               id="username"
               name="username"
               value={username}
-              onChange={(e)=>setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block mb-2 text-sm font-bold text-gray-700"
               htmlFor="photo"
             >
               Photo URL
@@ -150,7 +152,7 @@ const EditProfilePage = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block mb-2 text-sm font-bold text-gray-700"
               htmlFor="contactNumber"
             >
               Contact Number
@@ -160,14 +162,14 @@ const EditProfilePage = () => {
               id="contactNumber"
               name="contactNumber"
               value={contactNumber}
-              onChange={(e)=>setContactNumber(e.target.value)}
+              onChange={(e) => setContactNumber(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block mb-2 text-sm font-bold text-gray-700"
               htmlFor="institute"
             >
               Designation
@@ -177,69 +179,47 @@ const EditProfilePage = () => {
               id="designation"
               name="designation"
               value={designation}
-              onChange={(e)=>setDesignation(e.target.value)}
+              onChange={(e) => setDesignation(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block mb-2 text-sm font-bold text-gray-700"
               htmlFor="institute"
             >
               Institute
             </label>
-            <select
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              id="institute"
-              name="institute"
-              // value={formData.institute}
-              onChange={(e)=>setInstitute(e.target.value)}
-              defaultValue={institute}
-            >
-              <option value="DEPSTAR">DEPSTAR</option>
-              <option value="CSPIT">CSPIT</option>
-              <option value="IIIM">IIIM</option>
-              <option value="CMPICA">CMPICA</option>
-              <option value="RPCP">RPCP</option>
-              <option value="PDPIAS">PDPIAS</option>
-              <option value="MTIN">MTIN</option>
-              <option value="ARIP">ARIP</option>
-              <option value="BDIPS">BDIPS</option>
-            </select>
+            <div>
+              <ComboboxSelector
+                value={institute}
+                onChange={(e) => setInstitute(e)}
+                options={institutes}
+              />
+            </div>
           </div>
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block mb-2 text-sm font-bold text-gray-700"
               htmlFor="department"
             >
               Department
             </label>
-            <select
-              id="department"
-              name="department"
-              // value={formData.department}
-              onChange={(e)=>setDepartment(e.target.value)}
-              defaultValue={department}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value=""></option>
-              <option value="CSE">CSE</option>
-              <option value="IT">IT</option>
-              <option value="CE">CE</option>
-              <option value="EC">EC</option>
-              <option value="EE">EE</option>
-              <option value="MECH">MECH</option>
-              <option value="CVL">CVL</option>
-              <option value="AIML">AIML</option>
-            </select>
+            <div>
+              <ComboboxSelector
+                value={department}
+                onChange={(e) => setDepartment(e)}
+                options={departments}
+              />
+            </div>
           </div>
 
           <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               Save Changes
             </button>

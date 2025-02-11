@@ -68,9 +68,9 @@ const SignUp = () => {
           department,
         }),
       });
-  
+
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (response.status === 201) {
         setModalTitle("Registration Successful!");
         switch (role) {
@@ -86,7 +86,7 @@ const SignUp = () => {
             );
             setModalIconColor("bg-green-500");
             break;
-  
+
           default:
             setModalMessage(
               "Welcome! You have successfully registered as a user."
@@ -148,7 +148,7 @@ const SignUp = () => {
           <input
             type="text"
             placeholder="Enter your full name"
-            className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+            className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -157,7 +157,7 @@ const SignUp = () => {
           <input
             type="email"
             placeholder="Enter email address"
-            className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+            className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -168,23 +168,31 @@ const SignUp = () => {
           <input
             type="tel"
             placeholder="Enter mobile number"
-            className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+            className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
             value={contactNumber}
             onChange={(e) => setContactNumber(e.target.value)}
           />
 
           <label className="block mb-2 text-sm font-medium">Institute</label>
           <div className="relative">
-            <ComboboxSelector value={institute} onChange={handleSetInstitute} options={institutes} />
+            <ComboboxSelector
+              value={institute}
+              onChange={handleSetInstitute}
+              options={institutes}
+            />
           </div>
 
           <label className="block mb-2 text-sm font-medium">Department</label>
           <div className="relative">
-            <ComboboxSelector value={department} onChange={handleSetDepartment} options={departments} />
+            <ComboboxSelector
+              value={department}
+              onChange={handleSetDepartment}
+              options={departments}
+            />
           </div>
 
           <label className="block mb-2 text-sm font-medium">Password</label>
-          <div className="flex items-center w-full p-3 mb-4 rounded-lg bg-blue-50">
+          <div className="flex items-center w-full p-3 mb-4 border border-blue-100 rounded-lg bg-blue-50">
             <input
               type={isPasswordVisible ? "text" : "password"}
               placeholder="Enter your password"
@@ -231,7 +239,7 @@ const SignUp = () => {
           <input
             type="password"
             placeholder="Re-type password"
-            className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+            className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />

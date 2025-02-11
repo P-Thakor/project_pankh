@@ -24,6 +24,17 @@ exports.getOneUser = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getOneUserByStudentId = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ collegeId: req.params.collegeId });
+  if (!user) {
+    return next(new AppError(404, 'User not found'));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: user,
+  });
+})
+
 exports.createUser = catchAsync(async (req, res, next) => {
   // const newUser = await User.create(req.body);
   const newUser = await User.create({

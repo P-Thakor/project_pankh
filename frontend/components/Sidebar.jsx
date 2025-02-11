@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import UserContext from "@/context/UserContext";
-import { fetchCurrentUser } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
@@ -34,13 +33,13 @@ export default function Sidebar() {
             setIsLoggedIn(false);
             logoutUser();
             response.json().then((data) => {
-              console.log(data);
+              // console.log(data);
             });
             router.push("/sign-in");
           }
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -110,7 +109,7 @@ export default function Sidebar() {
               Dashboard
             </li>
           )}
-          {user?.role === "faculty-member" && (
+          {user?.role !== "user" && (
             <li
               className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
               onClick={() => {
@@ -121,7 +120,18 @@ export default function Sidebar() {
               Create Event
             </li>
           )}
-          {user?.role === "faculty-member" && (
+          {user?.role !== "user" && (
+            <li
+              className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
+              onClick={() => {
+                router.push("/search-user");
+                toggleSidebar();
+              }}
+            >
+              Search Student
+            </li>
+          )}
+          {user?.role === "admin" && (
             <li
               className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
               onClick={() => {
@@ -132,7 +142,7 @@ export default function Sidebar() {
               View Faculty
             </li>
           )}
-          <li
+          {/* <li
             className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
             onClick={() => {
               router.push("/club/66d6d41857092e784256b1e7");
@@ -140,7 +150,7 @@ export default function Sidebar() {
             }}
           >
             Clubs
-          </li>
+          </li> */}
           {/* <li className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue">
             Scholarships
           </li> */}

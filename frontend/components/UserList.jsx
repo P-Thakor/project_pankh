@@ -1,10 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Profile, EventsCreated } from "@/components";
+import { EventsCreated } from "@/components";
+import { useRouter } from "next/navigation";
+import UserProfile from "./UserProfile";
 
 const UserList = ({ userList, events }) => {
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const router = useRouter();
 
   if (!Array.isArray(userList) || userList.length === 0) {
     return (
@@ -13,7 +17,8 @@ const UserList = ({ userList, events }) => {
   }
 
   const handleUserClick = (user) => {
-    setSelectedUser(selectedUser?._id === user._id ? null : user);
+    // setSelectedUser(selectedUser?._id === user._id ? null : user);
+    router.push(`/user-profile/${user._id}`);
   };
 
   return (
@@ -28,10 +33,12 @@ const UserList = ({ userList, events }) => {
             <span className="font-medium">{user.collegeId}</span>
           )}{" "}
           - <span className="text-gray-600">{user.username}</span>
-
           {selectedUser?._id === user._id && (
             <>
-              <Profile userData={selectedUser} />
+              {/* <Profile userData={selectedUser} /> */}
+              {/* <EventsCreated events={events} user={selectedUser} /> */}
+
+              <UserProfile user={selectedUser} events={events} />
               <EventsCreated events={events} user={selectedUser} />
             </>
           )}

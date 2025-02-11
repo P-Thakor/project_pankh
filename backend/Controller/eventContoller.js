@@ -323,6 +323,10 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       contactNumber: req.user.contactNumber,
     });
 
+    await new sendEmail(req.user.email, 'eventCreated').sendNewEventAlert(
+      newEvent,
+    );
+
     if (req.body.department && req.body.department.length > 0) {
       // Create a regex pattern to match any department name in the email
       const regexPattern = req.body.department.join('|'); // E.g., "cse|ce|it"
@@ -430,16 +434,16 @@ exports.attendance = catchAsync(async (req, res, next) => {
         user.eventsAttended.push(id);
         await user.save();
       }
-    })
+    }),
   );
 
   // Determine absentees.
   // Convert participant IDs to strings to ensure a proper comparison.
   const absentees = event.participants.filter(
-    (participant) => !userIds.includes(participant.toString())
+    (participant) => !userIds.includes(participant.toString()),
   );
-  console.log("Absentees: ", absentees);
-  console.log("Participants: ", userIds);
+  console.log('Absentees: ', absentees);
+  console.log('Participants: ', userIds);
 
   // Update each absentee's eventsMissed field
   await Promise.all(
@@ -449,7 +453,7 @@ exports.attendance = catchAsync(async (req, res, next) => {
         user.eventsMissed.push(id);
         await user.save();
       }
-    })
+    }),
   );
 
   // Save the updated event

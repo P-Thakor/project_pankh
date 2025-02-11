@@ -1,29 +1,34 @@
-//- Email template adapted from https://github.com/leemunroe/responsive-html-email-template
-//- Converted from HTML using https://html2pug.now.sh/
-
 doctype html
 html
   head
-    meta(name='viewport', content='width=device-width')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
     title= subject
 
     include _style
   body
-    table.body(role='presentation', border='0', cellpadding='0', cellspacing='0')
+    table.body(role='presentation', border='0', cellpadding='0', cellspacing='0', width='100%')
       tbody
         tr
           td
           td.container
             .content
               // START CENTERED WHITE CONTAINER
-              table.main(role='presentation')
-
-                // START MAIN AREA
+              table.main(role='presentation', width='100%')
                 tbody
+                  // LOGO SECTION
+                  tr
+                    td(style='text-align:center; padding:20px;')
+                      img(
+                        src='https://res.cloudinary.com/dosqfitt3/image/upload/v1739289688/ighscswzdigd3gngltwb.png' 
+                        alt='Logo' 
+                        style='border-radius: 50%; max-width: 15%; height: auto; display: block; margin: 0 auto;'
+                      )
+
+                  // START MAIN AREA
                   tr
                     td.wrapper
-                      table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+                      table(role='presentation', border='0', cellpadding='0', cellspacing='0', width='100%')
                         tbody
                           tr
                             td
@@ -32,12 +37,11 @@ html
 
               // START FOOTER
               .footer
-                table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+                table(role='presentation', border='0', cellpadding='0', cellspacing='0', width='100%')
                   tbody
                     tr
                       td.content-block
-                        span.apple-link PANKH inc, Charusat University, Changa CA 388421
+                        span.apple-link PANKH Inc, Charusat University, Changa 388421
                         br
-                        |  Don't like these emails? 
+                        | Don't like these emails? 
                         a(href='google.com') Unsubscribe
-          //- td  

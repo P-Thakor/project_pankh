@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { AuthModal } from ".";
 import ForgotPasswordModal from "./ForgotPasswordModal";
@@ -58,7 +57,7 @@ const SignIn = () => {
       const data = await response.json();
       setModalTitle("Login Unsuccessful");
       setModalMessage(data.message);
-      console.log(data);
+      // console.log(data);
       setModalIconColor("bg-red-500");
       setIsvisible(true);
       // alert("Login failed.");

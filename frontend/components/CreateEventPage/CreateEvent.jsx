@@ -1,6 +1,6 @@
 "use client";
 
-import UserContext from "@/context/UserContext";
+// import UserContext from "@/context/UserContext";
 import { convertToISO } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,7 +17,7 @@ const CreateEvent = () => {
   const [location, setLocation] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventPoster, setEventPoster] = useState("");
-  const [externalLink, setExternalLink] = useState("");
+  // const [externalLink, setExternalLink] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [message, setMessage] = useState("");
@@ -137,14 +137,14 @@ const CreateEvent = () => {
           setIconColor("bg-green-500");
           setIsModalVisible(true);
           response.json().then((data) => {
-            console.log(data);
+            // console.log(data);
             router.push(`/view-event/${data.data._id}`);
           });
         } else {
           setModalTitle("Event Creation Unsuccessful.");
           response.json().then((data) => {
             setMessage(data.message);
-            console.log(data);
+            // console.log(data);
           });
           if (response.status === 403) {
             setMessage("You are not authorized to create events.");
@@ -155,7 +155,7 @@ const CreateEvent = () => {
         }
       })
       .catch((error) => {
-        console.log("Error:", error);
+        console.error("Error:", error);
       })
       .finally(() => {
         setLoading(false);

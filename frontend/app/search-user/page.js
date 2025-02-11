@@ -8,7 +8,7 @@ const SearchUserPage = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    console.log(studentId);
+    // console.log(studentId);
     try {
       const response = await fetch(
         `/api/v1/user/getUserByStudentId/${studentId}`

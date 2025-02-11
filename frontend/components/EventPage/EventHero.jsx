@@ -1,7 +1,7 @@
 "use client";
 
-import { fetchCurrentUser, formattedDate, formattedTime } from "@/utils";
-import Image from "next/image";
+import { formattedDate, formattedTime } from "@/utils";
+// import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 // import SuccessModal from "../successModal";
 import UserContext from "@/context/UserContext";
@@ -89,7 +89,7 @@ export default function EventHero({ item }) {
             setModalIconColor("bg-red-500");
             setIsModalVisible(true);
           }
-          console.log(data);
+          // console.log(data);
           return data;
         });
       })

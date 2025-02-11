@@ -91,7 +91,7 @@ const EditProfilePage = () => {
       setIconColor("bg-red-500");
       setShowModal(true);
     }
-    console.log(res);
+    // console.log(res);
     // .then((res) => {
     //   res.json();
     //   console.log(res);
@@ -112,13 +112,13 @@ const EditProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8">
-      <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
+    <div className="min-h-screen py-8 bg-gray-100">
+      <div className="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow-md">
+        <h1 className="mb-6 text-2xl font-bold">Edit Profile</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block mb-2 text-sm font-bold text-gray-700"
               htmlFor="username"
             >
               Full Name
@@ -135,7 +135,7 @@ const EditProfilePage = () => {
 
           {/* <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block mb-2 text-sm font-bold text-gray-700"
               htmlFor="photo"
             >
               Photo URL
@@ -152,7 +152,7 @@ const EditProfilePage = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block mb-2 text-sm font-bold text-gray-700"
               htmlFor="contactNumber"
             >
               Contact Number
@@ -169,7 +169,7 @@ const EditProfilePage = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block mb-2 text-sm font-bold text-gray-700"
               htmlFor="institute"
             >
               Designation
@@ -186,7 +186,7 @@ const EditProfilePage = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block mb-2 text-sm font-bold text-gray-700"
               htmlFor="institute"
             >
               Institute
@@ -202,7 +202,7 @@ const EditProfilePage = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block mb-2 text-sm font-bold text-gray-700"
               htmlFor="department"
             >
               Department
@@ -219,7 +219,7 @@ const EditProfilePage = () => {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               Save Changes
             </button>

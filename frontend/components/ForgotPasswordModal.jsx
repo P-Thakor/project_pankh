@@ -5,7 +5,6 @@ import { Transition, TransitionChild } from "@headlessui/react";
 import {
   CheckCircleIcon,
   XMarkIcon,
-  ExclamationTriangleIcon,
 } from "@heroicons/react/24/solid";
 import { forgotPassword, resetPassword } from "@/utils";
 
@@ -130,8 +129,8 @@ const ForgotPasswordModal = ({ onClose }) => {
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 translate-y-4"
         >
-          <div className="bg-white p-6 rounded shadow-lg max-w-lg w-full">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">
+          <div className="w-full max-w-lg p-6 bg-white rounded shadow-lg">
+            <h3 className="mb-4 text-lg font-medium text-gray-900">
               Forgot Password
             </h3>
             {message && (
@@ -145,9 +144,9 @@ const ForgotPasswordModal = ({ onClose }) => {
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
                     {messageType === "success" ? (
-                      <CheckCircleIcon className="h-5 w-5" />
+                      <CheckCircleIcon className="w-5 h-5" />
                     ) : (
-                      <XMarkIcon className="h-5 w-5" />
+                      <XMarkIcon className="w-5 h-5" />
                     )}
                   </div>
                   <p className="ml-3 text-sm">{message}</p>
@@ -160,12 +159,12 @@ const ForgotPasswordModal = ({ onClose }) => {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="border border-gray-300 rounded px-4 py-2 w-full"
+                  className="w-full px-4 py-2 border border-gray-300 rounded"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+                  className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
                   onClick={handleSendOtp}
                   disabled={loading}
                 >
@@ -179,12 +178,12 @@ const ForgotPasswordModal = ({ onClose }) => {
                 <input
                   type="text"
                   placeholder="Enter OTP"
-                  className="border border-gray-300 rounded px-4 py-2 w-full"
+                  className="w-full px-4 py-2 border border-gray-300 rounded"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
                 />
                 <button
-                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full"
+                  className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded hover:bg-green-700"
                   onClick={handleVerifyOtp}
                   disabled={loading}
                 >
@@ -198,19 +197,19 @@ const ForgotPasswordModal = ({ onClose }) => {
                 <input
                   type="password"
                   placeholder="New Password"
-                  className="border border-gray-300 rounded px-4 py-2 w-full"
+                  className="w-full px-4 py-2 border border-gray-300 rounded"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                 />
                 <input
                   type="password"
                   placeholder="Confirm New Password"
-                  className="border border-gray-300 rounded px-4 py-2 w-full"
+                  className="w-full px-4 py-2 border border-gray-300 rounded"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+                  className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
                   onClick={handleResetPassword}
                   disabled={loading}
                 >

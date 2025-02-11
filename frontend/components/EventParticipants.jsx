@@ -43,7 +43,7 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
     setLoading(true);
 
     try {
-      console.log("Submitting attendance for:", selectedParticipants);
+      // console.log("Submitting attendance for:", selectedParticipants);
 
       if (event.attendance.length > 0) {
         setTitle("Attendance Already Submitted");
@@ -63,7 +63,7 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
       );
 
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       if (res.ok) {
         setTitle("Attendance Submitted");
         setMessage("Attendance submitted successfully!");
@@ -93,7 +93,7 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
       <h2 className="mb-4 text-2xl font-semibold text-blue-600">
         Participants
       </h2>
-      {<h3 className="text-xl text-gray-700 mt-1 ml-4">({participants.length})</h3>}
+      {<h3 className="mt-1 ml-4 text-xl text-gray-700">({participants.length})</h3>}
       </div>
       {loading ? (
         <p className="text-gray-500">Loading participants...</p>

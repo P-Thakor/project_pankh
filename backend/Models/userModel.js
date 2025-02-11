@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
   collegeId: {
     type: String,
     unique: true,
+    sparse: true,
     trim: true,
     set: (value) => (value === '' ? null : value),
   },
@@ -51,13 +52,13 @@ const userSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.ObjectId,
       ref: 'Event',
-    }
+    },
   ],
   eventsMissed: [
     {
       type: mongoose.Schema.ObjectId,
       ref: 'Event',
-    }
+    },
   ],
   contactNumber: {
     type: String,
@@ -89,6 +90,14 @@ const userSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 });
+
+userSchema.pre('validate', function (next) {
+  if (this.role === 'user' && !this.collegeId) {
+    return next(new Error('College ID is Required'));
+  }
+  next();
+});
+
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' }); // Use email for authentication instead of username;
 
 userSchema.methods.createPasswordResetToken = function () {

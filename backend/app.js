@@ -31,6 +31,7 @@ app.use(bodyParser.json());
 
 app.use(
   session({
+    // secret: 1234234554657,
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,

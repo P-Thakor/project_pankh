@@ -289,7 +289,7 @@ const CreateEvent = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 items-center gap-6 mt-5">
+            <div className="grid items-center grid-cols-2 gap-6 mt-5">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Registration Deadline Date
@@ -313,7 +313,7 @@ const CreateEvent = () => {
                   value={deadlineTime}
                   max={startTime} // Prevent selecting an invalid time
                   onChange={(e) => setDeadlineTime(e.target.value)}
-                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  className="w-full p-3 mb-8 text-sm rounded-lg bg-blue-50 focus:outline-none"
                   defaultValue={startTime}
                   required
                 />
@@ -343,7 +343,7 @@ const CreateEvent = () => {
               </div>
               {/* Display the list of added emails */}
               {otherEmails.length > 0 && (
-                <ul className="mb-4 list-disc pl-5 text-sm text-gray-700">
+                <ul className="pl-5 mb-4 text-sm text-gray-700 list-disc">
                   {otherEmails.map((email, index) => (
                     <li key={index}>{email}</li>
                   ))}

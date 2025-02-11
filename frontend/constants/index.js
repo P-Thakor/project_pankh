@@ -4,7 +4,7 @@ export const footerLinks = [
       { title: "Home", url: "/home" },
       { title: "Events", url: "/home" },
       { title: "Clubs", url: "/home" },
-      { title: "About Us", url: "/home" },
+      { title: "Contact Us", url: "/contact-us" },
     ],
   },
 ];

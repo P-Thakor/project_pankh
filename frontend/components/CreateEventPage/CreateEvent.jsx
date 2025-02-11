@@ -1,6 +1,5 @@
 "use client";
 
-// import UserContext from "@/context/UserContext";
 import { convertToISO } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,7 +16,6 @@ const CreateEvent = () => {
   const [location, setLocation] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventPoster, setEventPoster] = useState("");
-  // const [externalLink, setExternalLink] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [message, setMessage] = useState("");
@@ -26,9 +24,12 @@ const CreateEvent = () => {
   const [deadlineDate, setDeadlineDate] = useState("");
   const [deadlineTime, setDeadlineTime] = useState("");
 
-  // New state variables for the "Other Emails" feature.
+  // State for "Other Emails"
   const [otherEmailInput, setOtherEmailInput] = useState("");
   const [otherEmails, setOtherEmails] = useState([]);
+
+  // New state for department checkboxes.
+  const [selectedDepartments, setSelectedDepartments] = useState([]);
 
   const router = useRouter();
 
@@ -36,12 +37,9 @@ const CreateEvent = () => {
     const selectedDate = e.target.value;
     setStartDate(selectedDate);
 
-    // For a single-day event, auto-set the end date to the same value.
     if (!isMultipleDays) {
       setEndDate(selectedDate);
     }
-
-    // Optionally, set the registration deadline date to the start date by default.
     setDeadlineDate(selectedDate);
   };
 
@@ -54,23 +52,17 @@ const CreateEvent = () => {
   const handleStartTimeChange = (e) => {
     const selectedTime = e.target.value;
     setStartTime(selectedTime);
-
-    // For single-day events, ensure end time is not earlier than start time.
     if (!isMultipleDays && endTime && selectedTime > endTime) {
       setEndTime(selectedTime);
     }
-
-    // Optionally, set the registration deadline time to the start time by default.
     setDeadlineTime(selectedTime);
   };
 
   const handleEndTimeChange = (e) => {
     const selectedTime = e.target.value;
-
-    // Ensure End Time is greater than Start Time for single-day events.
     if (!isMultipleDays && selectedTime <= startTime) {
       alert("End Time must be later than Start Time.");
-      setEndTime(startTime); // Reset to Start Time to force correction.
+      setEndTime(startTime);
     } else {
       setEndTime(selectedTime);
     }
@@ -78,12 +70,10 @@ const CreateEvent = () => {
 
   const toggleEventDuration = (multipleDays) => {
     setIsMultipleDays(multipleDays);
-
     if (!multipleDays) {
-      // For single-day events, set the end date to the same as the start date.
       setEndDate(startDate);
       if (endTime < startTime) {
-        setEndTime(startTime); // Ensure valid end time.
+        setEndTime(startTime);
       }
     }
   };
@@ -92,9 +82,25 @@ const CreateEvent = () => {
   const handleAddEmail = () => {
     const trimmedEmail = otherEmailInput.trim();
     if (trimmedEmail) {
-      // Optionally, you can add more robust email validation here.
       setOtherEmails((prevEmails) => [...prevEmails, trimmedEmail]);
       setOtherEmailInput("");
+    }
+  };
+
+  // Handler for removing an email from the "otherEmails" array.
+  const handleRemoveEmail = (emailToRemove) => {
+    setOtherEmails((prevEmails) =>
+      prevEmails.filter((email) => email !== emailToRemove)
+    );
+  };
+
+  // Handler for department checkbox changes.
+  const handleDepartmentChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setSelectedDepartments((prev) => [...prev, value]);
+    } else {
+      setSelectedDepartments((prev) => prev.filter((dept) => dept !== value));
     }
   };
 
@@ -107,11 +113,9 @@ const CreateEvent = () => {
 
     console.log("Event Start:", beginEvent, "Event End:", endEvent);
 
-    // Create a Registration object with the converted deadline value.
     const Registration = {
       deadline: convertToISO(deadlineDate, deadlineTime),
     };
-    console.log("Registration:", Registration);
 
     const formData = new FormData();
     formData.append("coverImage", eventPoster);
@@ -124,6 +128,9 @@ const CreateEvent = () => {
     formData.append("description", eventDescription);
     formData.append("Registration[deadline]", Registration.deadline);
     otherEmails.forEach((email) => formData.append("otherEmail[]", email));
+    selectedDepartments.forEach((dept) =>
+      formData.append("department[]", dept)
+    );
 
     fetch("http://localhost:8001/api/v1/event/createEvent", {
       method: "POST",
@@ -137,14 +144,12 @@ const CreateEvent = () => {
           setIconColor("bg-green-500");
           setIsModalVisible(true);
           response.json().then((data) => {
-            // console.log(data);
             router.push(`/view-event/${data.data._id}`);
           });
         } else {
           setModalTitle("Event Creation Unsuccessful.");
           response.json().then((data) => {
             setMessage(data.message);
-            // console.log(data);
           });
           if (response.status === 403) {
             setMessage("You are not authorized to create events.");
@@ -281,7 +286,7 @@ const CreateEvent = () => {
                 <input
                   type="time"
                   value={endTime}
-                  min={startTime} // Prevent selecting an invalid time
+                  min={startTime}
                   onChange={handleEndTimeChange}
                   className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                   required
@@ -311,7 +316,7 @@ const CreateEvent = () => {
                 <input
                   type="time"
                   value={deadlineTime}
-                  max={startTime} // Prevent selecting an invalid time
+                  max={startTime}
                   onChange={(e) => setDeadlineTime(e.target.value)}
                   className="w-full p-3 mb-8 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                   defaultValue={startTime}
@@ -320,7 +325,64 @@ const CreateEvent = () => {
               </div>
             </div>
 
-            {/* New Field for Other Emails */}
+            {/* New Field: Email to Department Checkboxes */}
+            <div className="col-span-2 mb-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Email to Department
+              </label>
+              <div className="flex space-x-4 mt-2">
+                <div>
+                  <input
+                    type="checkbox"
+                    id="dept-cse"
+                    value="dcs"
+                    onChange={handleDepartmentChange}
+                    checked={selectedDepartments.includes("dcs")}
+                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                  />
+                  <label
+                    htmlFor="dept-cse"
+                    className="ml-2 text-sm text-gray-900"
+                  >
+                    CSE
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    id="dept-ce"
+                    value="dce"
+                    onChange={handleDepartmentChange}
+                    checked={selectedDepartments.includes("dce")}
+                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                  />
+                  <label
+                    htmlFor="dept-ce"
+                    className="ml-2 text-sm text-gray-900"
+                  >
+                    CE
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    id="dept-it"
+                    value="dit"
+                    onChange={handleDepartmentChange}
+                    checked={selectedDepartments.includes("dit")}
+                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                  />
+                  <label
+                    htmlFor="dept-it"
+                    className="ml-2 text-sm text-gray-900"
+                  >
+                    IT
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* Field for Additional Emails */}
             <div className="col-span-2">
               <label className="block text-sm font-medium text-gray-700">
                 Additional Emails
@@ -341,11 +403,22 @@ const CreateEvent = () => {
                   Add
                 </button>
               </div>
-              {/* Display the list of added emails */}
               {otherEmails.length > 0 && (
                 <ul className="pl-5 mb-4 text-sm text-gray-700 list-disc">
                   {otherEmails.map((email, index) => (
-                    <li key={index}>{email}</li>
+                    <li
+                      key={index}
+                      className="flex items-center justify-between"
+                    >
+                      <span>{email}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveEmail(email)}
+                        className="text-red-500 hover:underline"
+                      >
+                        Remove
+                      </button>
+                    </li>
                   ))}
                 </ul>
               )}
@@ -381,7 +454,12 @@ const CreateEvent = () => {
               className="w-full px-4 py-2 mt-6 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               {loading ? (
-                <TailSpin type="Tailspin" color="#FFFFFF" height={25} width={25} />
+                <TailSpin
+                  type="Tailspin"
+                  color="#FFFFFF"
+                  height={25}
+                  width={25}
+                />
               ) : (
                 "Create Event"
               )}

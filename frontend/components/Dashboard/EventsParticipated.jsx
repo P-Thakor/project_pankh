@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useContext, useEffect, useState } from "react";
-import List from "@/components/EventsList/List";
-import UserContext from "../../context/UserContext";
+import { useContext, useEffect, useState } from 'react';
+import List from '@/components/EventsList/List';
+import UserContext from '../../context/UserContext';
 
 export default function EventsParticipated({ events = [] }) {
   const [attendedEventList, setAttendedEventList] = useState([]);
@@ -30,40 +30,31 @@ export default function EventsParticipated({ events = [] }) {
   }
 
   return (
-    <>
-      {/* Events Participated Section */}
-      <div className="w-full p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
-          Events Registered
-        </h2>
-        {attendedEventList.length > 0 ? (
-          <List list={registeredEventList} style="ml-2" />
-        ) : (
-          <p className="mt-4 text-gray-500">No events attended yet!</p>
-        )}
-      </div>
+    user.role !== 'user' && (
+      <>
+        {/* Events Participated Section */}
+        <div className="w-full p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
+            Events Attended
+          </h2>
+          {attendedEventList.length > 0 ? (
+            <List list={attendedEventList} style="ml-2" />
+          ) : (
+            <p className="mt-4 text-gray-500">No events participated yet!</p>
+          )}
+        </div>
 
-      <div className="w-full p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
-          Events Attended
-        </h2>
-        {attendedEventList.length > 0 ? (
-          <List list={attendedEventList} style="ml-2" />
-        ) : (
-          <p className="mt-4 text-gray-500">No events attended yet!</p>
-        )}
-      </div>
-
-      <div className="w-full p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
-          Events Missed
-        </h2>
-        {missedEventList.length > 0 ? (
-          <List list={missedEventList} style="ml-2" />
-        ) : (
-          <p className="mt-4 text-gray-500">No events missed yet!</p>
-        )}
-      </div>
-    </>
+        <div className="w-full p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
+            Events Missed
+          </h2>
+          {missedEventList.length > 0 ? (
+            <List list={missedEventList} style="ml-2" />
+          ) : (
+            <p className="mt-4 text-gray-500">No events missed yet!</p>
+          )}
+        </div>
+      </>
+    )
   );
 }

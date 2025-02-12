@@ -7,6 +7,7 @@ import UserContext from "../../context/UserContext";
 export default function EventsParticipated({ events = [] }) {
   const [attendedEventList, setAttendedEventList] = useState([]);
   const [missedEventList, setMissedEventList] = useState([]);
+  const [registeredEventList, setRegisteredEventList] = useState([]);
 
   const { user } = useContext(UserContext);
 
@@ -20,6 +21,7 @@ export default function EventsParticipated({ events = [] }) {
         user.eventsMissed.includes(event._id)
       );
       setMissedEventList(templist2);
+      setRegisteredEventList(user.eventsParticipated);
     }
   }, [user, events]);
 
@@ -32,12 +34,23 @@ export default function EventsParticipated({ events = [] }) {
       {/* Events Participated Section */}
       <div className="w-full p-6 bg-white rounded-lg shadow-lg">
         <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
+          Events Registered
+        </h2>
+        {attendedEventList.length > 0 ? (
+          <List list={registeredEventList} style="ml-2" />
+        ) : (
+          <p className="mt-4 text-gray-500">No events attended yet!</p>
+        )}
+      </div>
+
+      <div className="w-full p-6 bg-white rounded-lg shadow-lg">
+        <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
           Events Attended
         </h2>
         {attendedEventList.length > 0 ? (
           <List list={attendedEventList} style="ml-2" />
         ) : (
-          <p className="mt-4 text-gray-500">No events participated yet!</p>
+          <p className="mt-4 text-gray-500">No events attended yet!</p>
         )}
       </div>
 

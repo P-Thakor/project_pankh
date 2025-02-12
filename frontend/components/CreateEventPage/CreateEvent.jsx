@@ -428,12 +428,13 @@ const CreateEvent = () => {
               <label className="block text-sm font-medium text-gray-700">
                 Event Description<span className="text-red-500">*</span>
               </label>
-              <input
+              <textarea
                 placeholder="Cognizance is a tech fest organized by the students of CHARUSAT"
                 className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
                 value={eventDescription}
                 onChange={(e) => setEventDescription(e.target.value)}
                 required
+                rows={4} // Adjust rows as needed for desired height
               />
             </div>
 

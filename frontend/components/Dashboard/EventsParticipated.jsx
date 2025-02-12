@@ -30,7 +30,7 @@ export default function EventsParticipated({ events = [] }) {
   }
 
   return (
-    user.role !== 'user' && (
+    user.role === 'user' && (
       <>
         {/* Events Participated Section */}
         <div className="w-full p-6 bg-white rounded-lg shadow-lg">

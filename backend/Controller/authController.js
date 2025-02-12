@@ -46,7 +46,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const verificationUrl = `http://localhost:8001/api/v1/auth/verify-email?token=${token}`;
 
   try {
-    await new SendEmail(user.email, verificationUrl).sendVerificationEmail();
+    await new SendEmail(newUser, verificationUrl).sendVerificationEmail();
     console.log('Sent Email');
   } catch (err) {
     return next(

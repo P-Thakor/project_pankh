@@ -439,7 +439,7 @@ const CreateEvent = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Event Poster
+                Event Poster (size limit: 10MB)
               </label>
               <input
                 type="file"

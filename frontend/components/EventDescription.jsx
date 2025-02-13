@@ -10,7 +10,7 @@ const EventDescription = ({ event }) => {
         <h2 className="mb-4 text-xl font-semibold text-primaryblue">
           Event Poster
         </h2>
-        <Link href="/view-event/[id]" as={`/view-event/${event._id}`}>
+        <Link href={`/view-event/${event._id}`}>
           <Image
             src={event.coverImage || "/Event.png"}
             alt="Event Poster"

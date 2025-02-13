@@ -27,9 +27,12 @@ export default function ListItem({ item, isFaculty, isCreator }) {
     try {
       if (confirm("Are you sure you want to delete this event?")) {
         setIsLoading(true);
-        const res = await fetch(`http://localhost:8001/api/v1/event/deleteEvent/${item._id}`, {
-          method: "DELETE",
-        });
+        const res = await fetch(
+          `http://localhost:8001/api/v1/event/deleteEvent/${item._id}`,
+          {
+            method: "DELETE",
+          }
+        );
         if (res.ok) {
           setIsLoading(false);
           router.reload();
@@ -76,33 +79,35 @@ export default function ListItem({ item, isFaculty, isCreator }) {
               className="max-w-[350px] text-wrap"
               onClick={() => handleRedirect(`/view-event/${item._id}`)}
             >
-              <h3 className="my-4 font-sans text-lg font-semibold">
+              <h3 className="my-4 font-sans text-lg font-semibold overflow-ellipsis">
                 {item.name}
               </h3>
+              <div className="flex items-center justify-between">
               <p className="text-sm text-primaryblue">
                 {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
               </p>
+              {isFaculty && (
+                <div className="">
+                  {item.attendance && item.attendance.length > 0 ? (
+                    <button
+                      className="z-10 px-2 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
+                      onClick={handleViewAttendance}
+                    >
+                      View Attendance
+                    </button>
+                  ) : (
+                    <button
+                      className="z-10 px-2 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
+                      onClick={handleViewParticipants}
+                    >
+                      View Participants
+                    </button>
+                  )}
+                </div>
+              )}
+              </div>
               <p className="mt-4 text-gray-500">{item.locations}</p>
             </div>
-            {isFaculty && (
-              <div>
-                {item.attendance && item.attendance.length > 0 ? (
-                  <button
-                    className="z-10 px-2 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
-                    onClick={handleViewAttendance}
-                  >
-                    View Attendance
-                  </button>
-                ) : (
-                  <button
-                    className="z-10 px-2 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
-                    onClick={handleViewParticipants}
-                  >
-                    View Participants
-                  </button>
-                )}
-              </div>
-            )}
           </div>
           {isCreator && (
             <div>

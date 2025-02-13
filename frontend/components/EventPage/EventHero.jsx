@@ -192,7 +192,7 @@ export default function EventHero({ item }) {
                   >
                     Registered
                   </button>
-                ) : new Date(item.startDate) < date ? (
+                ) : (new Date(item.startDate) < date || new Date(item.Registration?.deadline) < date) ? (
                   <button
                     className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
                     disabled

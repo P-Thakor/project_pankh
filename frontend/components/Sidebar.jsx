@@ -109,7 +109,7 @@ export default function Sidebar() {
               Dashboard
             </li>
           )}
-          {user?.role !== "user" && (
+          {user && user?.role !== "user" && (
             <li
               className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
               onClick={() => {
@@ -120,7 +120,7 @@ export default function Sidebar() {
               Create Event
             </li>
           )}
-          {user?.role !== "user" && (
+          { user && user?.role !== "user" && (
             <li
               className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
               onClick={() => {
@@ -131,7 +131,7 @@ export default function Sidebar() {
               Search Student
             </li>
           )}
-          {user?.role === "admin" && (
+          {user && user?.role === "admin" && (
             <li
               className="p-4 cursor-pointer hover:text-white hover:bg-primaryblue"
               onClick={() => {

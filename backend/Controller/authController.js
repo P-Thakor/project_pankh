@@ -82,9 +82,24 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 // Login
 exports.login = (req, res, next) => {
-  passport.authenticate('local', (err, user) => {
+  passport.authenticate('local', (err, user, info) => {
     if (err) return next(err);
-    if (!user) return next(new AppError('Incorrect username or password', 401));
+
+    if (!user) {
+      // console.log('Authentication failed:', info?.message || 'User not found');
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Incorrect username or password',
+      });
+    }
+
+    if (!user.isVerifiedEmail) {
+      // console.log('User email is not verified.');
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Please verify your email before logging in.',
+      });
+    }
 
     req.login(user, (error) => {
       if (error) return next(error);

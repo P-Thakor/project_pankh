@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
   },
   collegeId: {
     type: String,
-    unique: true,
+    // unique: true,
     sparse: true,
     trim: true,
     set: (value) => (value === '' ? null : value),
@@ -60,6 +60,10 @@ const userSchema = new mongoose.Schema({
       ref: 'Event',
     },
   ],
+  missedEventCounter: {
+    type: Number,
+    default: 0,
+  },
   contactNumber: {
     type: String,
     trim: true,

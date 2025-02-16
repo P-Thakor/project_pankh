@@ -4,13 +4,13 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const cron = require('node-cron');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const dotenv = require('dotenv');
-const cron = require('node-cron');
 
 const reviewRouter = require('./Routes/reviewRouter');
 const eventRouter = require('./Routes/eventRouter');
@@ -22,7 +22,6 @@ const sessionRoutes = require('./Routes/sessionRoutes');
 const User = require('./Models/userModel');
 const globalErrorHandler = require('./Controller/errorController');
 const sendReminderEmails = require('./Controller/remainderController');
-
 dotenv.config({ path: './config.env' });
 
 const app = express();
@@ -35,6 +34,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+
     cookie: {
       httpOnly: true,
       maxAge: 3600000,
@@ -47,9 +47,20 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(User.createStrategy());
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
+passport.serializeUser((user, done) => {
+  done(null, user.id); // Store only the user ID
+});
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user); // Fetch full user object when needed
+  } catch (err) {
+    done(err);
+  }
+});
 
 // Schedule task to run every day at 8 AM
 cron.schedule('0 8 * * *', () => {

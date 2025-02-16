@@ -20,11 +20,17 @@ exports.userRole = (req, _, next) => {
   return next();
 };
 
-exports.isVerifiedEmail = async (req, _, next) => {
-  const {email} = req.body;
+exports.isVerifiedEmail = async (req, res, next) => {
+  const { email } = req.body;
   const user = await User.findOne({
     email,
   });
+  if (!user) {
+    return res.status(401).json({
+      status: 'fail',
+      message: 'Incorrect email or password',
+    });
+  }
 
   if (user.isVerifiedEmail) {
     return next();
@@ -35,4 +41,4 @@ exports.isVerifiedEmail = async (req, _, next) => {
       401,
     ),
   );
-}
+};

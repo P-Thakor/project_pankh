@@ -15,6 +15,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     role,
     contactNumber,
     institute,
+    department,
   } = req.body;
   // console.log(collegeId);
 
@@ -25,6 +26,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     role,
     contactNumber,
     institute,
+    department,
   });
 
   await User.register(newUser, password);

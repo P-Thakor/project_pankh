@@ -77,7 +77,7 @@ export default function ListItem({ item, isFaculty, isCreator }) {
           <div className="flex items-center justify-between mt-4">
             <div
               className="max-w-[350px] text-wrap"
-              onClick={() => handleRedirect(`/view-event/${item._id}`)}
+              // onClick={() => handleRedirect(`/view-event/${item._id}`)}
             >
               <h3 className="my-4 font-sans text-lg font-semibold overflow-ellipsis">
                 {item.name}

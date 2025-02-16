@@ -21,9 +21,11 @@ export default function EventsParticipated({ events = [] }) {
         user.eventsMissed.includes(event._id)
       );
       setMissedEventList(templist2);
-      let templist3 = events.filter((event) =>{
+      let templist3 = events.filter((event) =>
         user.eventsParticipated.includes(event._id)
-      })
+      )
+      console.log(user.eventsParticipated);
+      console.log(templist3);
       setRegisteredEventList(templist3);
     }
   }, [user, events]);
@@ -40,7 +42,7 @@ export default function EventsParticipated({ events = [] }) {
           <h2 className="mb-4 text-2xl font-semibold text-primaryblue">
             Events Registered
           </h2>
-          {attendedEventList.length > 0 ? (
+          {registeredEventList.length > 0 ? (
             <List list={registeredEventList} style="ml-2" />
           ) : (
             <p className="mt-4 text-gray-500">No events participated yet!</p>

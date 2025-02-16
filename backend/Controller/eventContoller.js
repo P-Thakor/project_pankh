@@ -146,23 +146,34 @@ exports.getAllEvents = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getOneEvent = catchAsync(async (req, res, next) => {
+exports.getOneEvent = catchAsync(async (req, res, next) => { 
   const event = await Event.findById(req.params.id)
     .populate({
       path: 'reviews',
       populate: { path: 'author' },
     })
     .populate({
-      path: 'participants', // Populating the participants
-      select: 'username collegeId email', // Only select the 'email' field from participants
+      path: 'participants', 
+      select: 'username collegeId email',
     })
     .populate({
       path: 'attendance',
       select: 'username collegeId email',
     });
+
   if (!event) {
     return next(new AppError(404, 'Event not found'));
   }
+
+  // Manually sort the populated fields
+  if (event.participants) {
+    event.participants.sort((a, b) => a.collegeId.localeCompare(b.collegeId));
+  }
+
+  if (event.attendance) {
+    event.attendance.sort((a, b) => a.collegeId.localeCompare(b.collegeId));
+  }
+
   res.status(200).json({
     status: 'success',
     data: event,

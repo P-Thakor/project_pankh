@@ -12,19 +12,33 @@ const ViewFaculty = () => {
 
   useEffect(() => {
     const getUsers = async () => {
-      const allUsers = await fetchUsers();
-      setUsers(allUsers);
+      try {
+        const allUsers = await fetchUsers();
+        console.log("Fetched Users:", allUsers);
+        setUsers(allUsers);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
     };
     getUsers();
   }, []);
 
+  // Automatically update the filtered users when users or selection changes.
+  useEffect(() => {
+    if (selectedDepartment && selectedInstitute) {
+      const filtered = users.filter(
+        (user) =>
+          user.role === "faculty-member" &&
+          user.department === selectedDepartment &&
+          user.institute === selectedInstitute
+      );
+      setFilteredUsers(filtered);
+    }
+  }, [users, selectedDepartment, selectedInstitute]);
+
   const handleFaculty = (department, institute) => {
     setSelectedDepartment(department);
     setSelectedInstitute(institute);
-    const filtered = users.filter(
-      (user) => user.role === "faculty-member" && user.department === department && user.institute === institute
-    );
-    setFilteredUsers(filtered);
   };
 
   const departments = [
@@ -40,18 +54,18 @@ const ViewFaculty = () => {
       </h1>
 
       <div className="flex items-center justify-center flex-grow">
-      <div className="grid w-full max-w-4xl grid-cols-1 gap-6 md:grid-cols-3">
-        {departments.map((dept) => (
-          <button
-            key={dept.department}
-            onClick={() => handleFaculty(dept.department, dept.institute)}
-            className="flex items-center justify-center p-12 text-xl font-semibold text-white transition-all duration-300 bg-blue-600 shadow-md cursor-pointer rounded-2xl hover:bg-blue-700 active:scale-95"
-          >
-            {dept.name}
-          </button>
-        ))}
+        <div className="grid w-full max-w-4xl grid-cols-1 gap-6 md:grid-cols-3">
+          {departments.map((dept) => (
+            <button
+              key={dept.department}
+              onClick={() => handleFaculty(dept.department, dept.institute)}
+              className="flex items-center justify-center p-12 text-xl font-semibold text-white transition-all duration-300 bg-blue-600 shadow-md cursor-pointer rounded-2xl hover:bg-blue-700 active:scale-95"
+            >
+              {dept.name}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
 
       {selectedDepartment && selectedInstitute && (
         <div className="p-6 mt-8 bg-white rounded-lg shadow-lg">

@@ -74,7 +74,7 @@ const ContactUsPage = () => {
         <h2 className="text-xl">Backend Developer</h2>
         <div className="flex items-center justify-center">
           <h3 className="text-lg">Phone:</h3>
-          <p className="ml-2 text-blue-600">+91 9023662166</p>
+          <p className="ml-2 text-blue-600">+91 7096740206</p>
         </div>
         <div className="flex justify-center">
           <h3>Email:</h3>

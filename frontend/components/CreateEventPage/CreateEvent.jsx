@@ -31,6 +31,8 @@ const CreateEvent = () => {
   // New state for department checkboxes.
   const [selectedDepartments, setSelectedDepartments] = useState([]);
 
+  const [selectedYears, setSelectedYears] = useState([]);
+
   const router = useRouter();
 
   const handleStartDateChange = (e) => {
@@ -104,6 +106,16 @@ const CreateEvent = () => {
     }
   };
 
+  const handleYearChange = (e) => {
+    const { value, checked } = e.target;
+    const yearValue = Number(value);
+    if (checked) {
+      setSelectedYears((prev) => [...prev, yearValue]);
+    } else {
+      setSelectedYears((prev) => prev.filter((year) => year !== yearValue));
+    }
+  };
+
   const handleCreateEvent = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -131,6 +143,7 @@ const CreateEvent = () => {
     selectedDepartments.forEach((dept) =>
       formData.append("department[]", dept)
     );
+    selectedYears.forEach((year) => formData.append("year[]", year));
 
     fetch("http://localhost:8001/api/v1/event/createEvent", {
       method: "POST",
@@ -169,156 +182,154 @@ const CreateEvent = () => {
 
   return (
     <>
-      <section className="flex items-center justify-center w-full min-h-screen p-6 bg-gray-100">
-        <div className="w-full max-w-5xl p-6 bg-white rounded-lg shadow-md">
-          <h1 className="mb-8 text-3xl font-semibold text-center text-blue-600">
+      <section className='flex items-center justify-center w-full min-h-screen p-6 bg-gray-100'>
+        <div className='w-full max-w-5xl p-6 bg-white rounded-lg shadow-md'>
+          <h1 className='mb-8 text-3xl font-semibold text-center text-blue-600'>
             Create Event
           </h1>
 
           <form onSubmit={handleCreateEvent}>
-            <div className="grid grid-cols-2 gap-6">
-              <div className="col-span-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Event Title<span className="text-red-500">*</span>
+            <div className='grid grid-cols-2 gap-6'>
+              <div className='col-span-2'>
+                <label className='block text-sm font-medium text-gray-700'>
+                  Event Title<span className='text-red-500'>*</span>
                 </label>
                 <input
-                  type="text"
-                  placeholder="Enter Event Title"
-                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
+                  type='text'
+                  placeholder='Enter Event Title'
+                  className='w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
               </div>
 
-              <div className="col-span-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Event Venue<span className="text-red-500">*</span>
+              <div className='col-span-2'>
+                <label className='block text-sm font-medium text-gray-700'>
+                  Event Venue<span className='text-red-500'>*</span>
                 </label>
                 <input
-                  type="text"
-                  placeholder="Enter Event Venue"
-                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
+                  type='text'
+                  placeholder='Enter Event Venue'
+                  className='w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   required
                 />
               </div>
 
-              <div className="flex items-center col-span-2 space-x-4">
+              <div className='flex items-center col-span-2 space-x-4'>
                 <div>
                   <input
-                    type="radio"
-                    id="single-day"
-                    name="duration"
-                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    type='radio'
+                    id='single-day'
+                    name='duration'
+                    className='w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500'
                     checked={!isMultipleDays}
                     onChange={() => toggleEventDuration(false)}
                   />
                   <label
-                    htmlFor="single-day"
-                    className="ml-2 text-sm text-gray-900"
-                  >
+                    htmlFor='single-day'
+                    className='ml-2 text-sm text-gray-900'>
                     Single Day
                   </label>
                 </div>
                 <div>
                   <input
-                    type="radio"
-                    id="multiple-days"
-                    name="duration"
-                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    type='radio'
+                    id='multiple-days'
+                    name='duration'
+                    className='w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500'
                     checked={isMultipleDays}
                     onChange={() => toggleEventDuration(true)}
                   />
                   <label
-                    htmlFor="multiple-days"
-                    className="ml-2 text-sm text-gray-900"
-                  >
+                    htmlFor='multiple-days'
+                    className='ml-2 text-sm text-gray-900'>
                     Multiple Days
                   </label>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Start Date<span className="text-red-500">*</span>
+                <label className='block text-sm font-medium text-gray-700'>
+                  Start Date<span className='text-red-500'>*</span>
                 </label>
                 <input
-                  type="date"
+                  type='date'
                   value={startDate}
                   onChange={handleStartDateChange}
-                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
+                  className='w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className='block text-sm font-medium text-gray-700'>
                   End Date
                 </label>
                 <input
-                  type="date"
+                  type='date'
                   value={endDate}
                   onChange={handleEndDateChange}
-                  className="w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none"
+                  className='w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none'
                   disabled={!isMultipleDays}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Start Time<span className="text-red-500">*</span>
+                <label className='block text-sm font-medium text-gray-700'>
+                  Start Time<span className='text-red-500'>*</span>
                 </label>
                 <input
-                  type="time"
+                  type='time'
                   value={startTime}
                   onChange={handleStartTimeChange}
-                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
+                  className='w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  End Time<span className="text-red-500">*</span>
+                <label className='block text-sm font-medium text-gray-700'>
+                  End Time<span className='text-red-500'>*</span>
                 </label>
                 <input
-                  type="time"
+                  type='time'
                   value={endTime}
                   min={startTime}
                   onChange={handleEndTimeChange}
-                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
+                  className='w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
                   required
                 />
               </div>
             </div>
 
-            <div className="grid items-center grid-cols-2 gap-6 mt-5">
+            <div className='grid items-center grid-cols-2 gap-6 mt-5'>
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className='block text-sm font-medium text-gray-700'>
                   Registration Deadline Date
                 </label>
                 <input
-                  type="date"
+                  type='date'
                   value={deadlineDate}
                   onChange={(e) => setDeadlineDate(e.target.value)}
-                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
+                  className='w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
                   defaultValue={startDate}
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className='block text-sm font-medium text-gray-700'>
                   Deadline Time
                 </label>
                 <input
-                  type="time"
+                  type='time'
                   value={deadlineTime}
                   max={startTime}
                   onChange={(e) => setDeadlineTime(e.target.value)}
-                  className="w-full p-3 mb-8 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
+                  className='w-full p-3 mb-8 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
                   defaultValue={startTime}
                   required
                 />
@@ -326,96 +337,155 @@ const CreateEvent = () => {
             </div>
 
             {/* New Field: Email to Department Checkboxes */}
-            <div className="col-span-2 mb-4">
-              <label className="block text-sm font-medium text-gray-700">
+            <div className='col-span-2 mb-4'>
+              <label className='block text-sm font-medium text-gray-700'>
                 Email to Department
               </label>
-              <div className="flex space-x-4 mt-2">
+              <div className='flex space-x-4 mt-2'>
                 <div>
                   <input
-                    type="checkbox"
-                    id="dept-cse"
-                    value="dcs"
+                    type='checkbox'
+                    id='dept-cse'
+                    value='dcs'
                     onChange={handleDepartmentChange}
                     checked={selectedDepartments.includes("dcs")}
-                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    className='w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500'
                   />
                   <label
-                    htmlFor="dept-cse"
-                    className="ml-2 text-sm text-gray-900"
-                  >
+                    htmlFor='dept-cse'
+                    className='ml-2 text-sm text-gray-900'>
                     CSE
                   </label>
                 </div>
                 <div>
                   <input
-                    type="checkbox"
-                    id="dept-ce"
-                    value="dce"
+                    type='checkbox'
+                    id='dept-ce'
+                    value='dce'
                     onChange={handleDepartmentChange}
                     checked={selectedDepartments.includes("dce")}
-                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    className='w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500'
                   />
                   <label
-                    htmlFor="dept-ce"
-                    className="ml-2 text-sm text-gray-900"
-                  >
+                    htmlFor='dept-ce'
+                    className='ml-2 text-sm text-gray-900'>
                     CE
                   </label>
                 </div>
                 <div>
                   <input
-                    type="checkbox"
-                    id="dept-it"
-                    value="dit"
+                    type='checkbox'
+                    id='dept-it'
+                    value='dit'
                     onChange={handleDepartmentChange}
                     checked={selectedDepartments.includes("dit")}
-                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    className='w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500'
                   />
                   <label
-                    htmlFor="dept-it"
-                    className="ml-2 text-sm text-gray-900"
-                  >
+                    htmlFor='dept-it'
+                    className='ml-2 text-sm text-gray-900'>
                     IT
+                  </label>
+                </div>
+              </div>
+              <label className='mt-4 block text-sm font-medium text-gray-700'>
+                Year
+              </label>
+              <div className='flex space-x-4 mt-2'>
+                <div>
+                  <input
+                    type='checkbox'
+                    id='year-1'
+                    value={1}
+                    onChange={handleYearChange}
+                    checked={selectedYears.includes(1)}
+                    className='w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='year-1'
+                    className='ml-2 text-sm text-gray-900'>
+                    1
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type='checkbox'
+                    id='year-2'
+                    value={2}
+                    onChange={handleYearChange}
+                    checked={selectedYears.includes(2)}
+                    className='w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='year-2'
+                    className='ml-2 text-sm text-gray-900'>
+                    2
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type='checkbox'
+                    id='year-3'
+                    value={3}
+                    onChange={handleYearChange}
+                    checked={selectedYears.includes(3)}
+                    className='w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='year-3'
+                    className='ml-2 text-sm text-gray-900'>
+                    3
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type='checkbox'
+                    id='year-4'
+                    value={4}
+                    onChange={handleYearChange}
+                    checked={selectedYears.includes(4)}
+                    className='w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='year-4'
+                    className='ml-2 text-sm text-gray-900'>
+                    4
                   </label>
                 </div>
               </div>
             </div>
 
             {/* Field for Additional Emails */}
-            <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-700">
+            <div className='col-span-2'>
+              <label className='block text-sm font-medium text-gray-700'>
                 Additional Emails
               </label>
-              <div className="flex items-center space-x-2">
+              <div className='flex items-center space-x-2'>
                 <input
-                  type="email"
-                  placeholder="Enter email"
+                  type='email'
+                  placeholder='Enter email'
                   value={otherEmailInput}
                   onChange={(e) => setOtherEmailInput(e.target.value)}
-                  className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
+                  className='w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
                 />
                 <button
-                  type="button"
+                  type='button'
                   onClick={handleAddEmail}
-                  className="px-4 py-2 mb-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none"
-                >
+                  className='px-4 py-2 mb-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none'>
                   Add
                 </button>
               </div>
               {otherEmails.length > 0 && (
-                <ul className="pl-5 mb-4 text-sm text-gray-700 list-disc">
+                <ul className='pl-5 mb-4 text-sm text-gray-700 list-disc'>
                   {otherEmails.map((email, index) => (
                     <li
                       key={index}
-                      className="flex items-center justify-between"
-                    >
+                      className='flex items-center justify-between'>
                       <span>{email}</span>
                       <button
-                        type="button"
+                        type='button'
                         onClick={() => handleRemoveEmail(email)}
-                        className="text-red-500 hover:underline"
-                      >
+                        className='text-red-500 hover:underline'>
                         Remove
                       </button>
                     </li>
@@ -424,13 +494,13 @@ const CreateEvent = () => {
               )}
             </div>
 
-            <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700">
-                Event Description<span className="text-red-500">*</span>
+            <div className='mt-6'>
+              <label className='block text-sm font-medium text-gray-700'>
+                Event Description<span className='text-red-500'>*</span>
               </label>
               <textarea
-                placeholder="Cognizance is a tech fest organized by the students of CHARUSAT"
-                className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
+                placeholder='Cognizance is a tech fest organized by the students of CHARUSAT'
+                className='w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
                 value={eventDescription}
                 onChange={(e) => setEventDescription(e.target.value)}
                 required
@@ -439,25 +509,24 @@ const CreateEvent = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className='block text-sm font-medium text-gray-700'>
                 Event Poster (size limit: 10MB)
               </label>
               <input
-                type="file"
-                accept="image/*"
+                type='file'
+                accept='image/*'
                 onChange={(e) => setEventPoster(e.target.files[0])}
-                className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
+                className='w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
               />
             </div>
 
             <button
-              type="submit"
-              className="w-full px-4 py-2 mt-6 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
+              type='submit'
+              className='w-full px-4 py-2 mt-6 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'>
               {loading ? (
                 <TailSpin
-                  type="Tailspin"
-                  color="#FFFFFF"
+                  type='Tailspin'
+                  color='#FFFFFF'
                   height={25}
                   width={25}
                 />

@@ -67,7 +67,7 @@ const userSchema = new mongoose.Schema({
   contactNumber: {
     type: String,
     trim: true,
-    required: true,
+    // required: true,
   },
   institute: {
     type: String,

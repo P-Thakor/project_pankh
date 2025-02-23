@@ -371,14 +371,14 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       console.log('Email Students:', emailData1);
       console.log('Matching Emails:', emailData);
 
-      // if (emailData.length > 0) {
-      //   await Promise.all(
-      //     emailData.map(async (user) => {
-      //       const emailData = new sendEmail(user.email, 'eventCreated');
-      //       await emailData.sendNewEventAlert(newEvent);
-      //     }),
-      //   );
-      // }
+      if (emailData.length > 0) {
+        await Promise.all(
+          emailData.map(async (user) => {
+            const emailData = new sendEmail(user.email, 'eventCreated');
+            await emailData.sendNewEventAlert(newEvent);
+          }),
+        );
+      }
     } else {
       if (req.body.department && req.body.department.length > 0) {
         // Create a regex pattern to match any department name in the email
@@ -391,14 +391,14 @@ exports.createEvent = catchAsync(async (req, res, next) => {
 
         console.log('Matching Emails:', emailData);
 
-        //   if (emailData.length > 0) {
-        //     await Promise.all(
-        //       emailData.map(async (user) => {
-        //         const emailData = new sendEmail(user.email, 'eventCreated');
-        //         await emailData.sendNewEventAlert(newEvent);
-        //       }),
-        //     );
-        //   }
+        if (emailData.length > 0) {
+          await Promise.all(
+            emailData.map(async (user) => {
+              const emailData = new sendEmail(user.email, 'eventCreated');
+              await emailData.sendNewEventAlert(newEvent);
+            }),
+          );
+        }
       }
       if (req.body.year && req.body.year.length > 0) {
         const currentYear = new Date().getFullYear();
@@ -415,26 +415,26 @@ exports.createEvent = catchAsync(async (req, res, next) => {
         console.log('Year Patterns:', yearPatterns);
         console.log('Matching Years:', yearData);
 
-        // if (yearData.length > 0) {
-        //   await Promise.all(
-        //     yearData.map(async (user) => {
-        //       const emailData = new sendEmail(user.email, 'eventCreated');
-        //       await emailData.sendNewEventAlert(newEvent);
-        //     }),
-        //   );
-        // }
+        if (yearData.length > 0) {
+          await Promise.all(
+            yearData.map(async (user) => {
+              const emailData = new sendEmail(user.email, 'eventCreated');
+              await emailData.sendNewEventAlert(newEvent);
+            }),
+          );
+        }
       }
     }
-    // const otherEmail = req.body.otherEmail;
-    // console.log(otherEmail);
-    // if (otherEmail) {
-    //   await Promise.all(
-    //     otherEmail.map(async (email) => {
-    //       const emailData = new sendEmail(email, 'eventCreated');
-    //       await emailData.sendNewEventAlert(newEvent);
-    //     }),
-    //   );
-    // }
+    const otherEmail = req.body.otherEmail;
+    console.log(otherEmail);
+    if (otherEmail) {
+      await Promise.all(
+        otherEmail.map(async (email) => {
+          const emailData = new sendEmail(email, 'eventCreated');
+          await emailData.sendNewEventAlert(newEvent);
+        }),
+      );
+    }
     // const users = await User.find(); // Fetch all users or specific users
 
     // await Promise.all(

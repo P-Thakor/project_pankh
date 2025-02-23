@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 
 const SearchBar = ({ events }) => {
-  const [event, setEvent] = useState({});
+  const [event, setEvent] = useState("");
   const [query, setQuery] = useState("");
   const router = useRouter();
 

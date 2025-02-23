@@ -28,7 +28,7 @@ const ViewFaculty = () => {
     if (selectedDepartment && selectedInstitute) {
       const filtered = users.filter(
         (user) =>
-          user.role === "faculty-member" &&
+          (user.role === "faculty-member" || user.role === "admin") &&
           user.department === selectedDepartment &&
           user.institute === selectedInstitute
       );

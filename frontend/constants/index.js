@@ -3,7 +3,8 @@ export const footerLinks = [
     links: [
       { title: "Home", url: "/home" },
       { title: "Events", url: "/home" },
-      { title: "Clubs", url: "/home" },
+      // { title: "Clubs", url: "/home" },
+      { title: "About Us", url: "/about-us" },
       { title: "Contact Us", url: "/contact-us" },
     ],
   },

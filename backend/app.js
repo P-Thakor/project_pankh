@@ -30,7 +30,6 @@ app.use(bodyParser.json());
 
 app.use(
   session({
-    // secret: 1234234554657,
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -38,8 +37,8 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 3600000,
-      // secure: process.env.NODE_ENV === 'production',
-      secure: false,
+      secure: process.env.NODE_ENV === 'production',
+      // secure: false,
       samesite: 'none',
     },
   }),

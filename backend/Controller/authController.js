@@ -15,6 +15,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     role,
     contactNumber,
     institute,
+    department,
   } = req.body;
   // console.log(collegeId);
 
@@ -25,6 +26,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     role,
     contactNumber,
     institute,
+    department,
   });
 
   await User.register(newUser, password);
@@ -60,16 +62,9 @@ exports.signup = catchAsync(async (req, res, next) => {
 
     req.session.user = {
       id: newUser._id,
-      username: newUser.username,
+      email: newUser.email,
     };
-
-    // res.cookie('userId', newUser._id.toString(), {
-    //   httpOnly: true,
-    //   maxAge: 3600000, // 1 hour
-    //   // secure: process.env.NODE_ENV === 'production',
-    //   secure: false,
-    //   sameSite: 'lax',
-    // });
+    // console.log(req.user);
 
     res.status(201).json({
       status: 'success',
@@ -81,20 +76,20 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 // Login
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) return next(err);
 
     if (!user) {
-      // console.log('Authentication failed:', info?.message || 'User not found');
+      // console.warn('Authentication failed:', info?.message || 'User not found');
       return res.status(401).json({
         status: 'fail',
         message: 'Incorrect username or password',
       });
     }
 
-    if (!user.isVerifiedEmail) {
-      // console.log('User email is not verified.');
+    if (!user || !user.isVerifiedEmail) {
+      // console.warn('User email is not verified.');
       return res.status(401).json({
         status: 'fail',
         message: 'Please verify your email before logging in.',
@@ -106,7 +101,7 @@ exports.login = (req, res, next) => {
 
       req.session.user = {
         id: user._id,
-        username: user.username,
+        email: user.email,
       };
 
       res.status(200).json({
@@ -122,22 +117,26 @@ exports.login = (req, res, next) => {
 
 // Logout
 exports.logout = (req, res, next) => {
-  req.session.destroy((err) => {
+  req.logout((err) => {
     if (err) return next(err);
-    // req.logout((err) => {
-    //   if (err) {
-    //     return next(err); // Passes any error to the global error handler
-    //   }
 
-    res.clearCookie('connect.sid', {
-      httpOnly: true,
-      // secure: process.env.NODE_ENV === 'production',
-      secure: false,
-      sameSite: 'none',
-    });
-    res.status(200).json({
-      status: 'success',
-      message: 'Logged out successfully',
+    req.session.destroy((err) => {
+      if (err) return next(err);
+      // req.logout((err) => {
+      //   if (err) {
+      //     return next(err); // Passes any error to the global error handler
+      //   }
+
+      res.clearCookie('connect.sid', {
+        httpOnly: true,
+        // secure: process.env.NODE_ENV === 'production',
+        secure: false,
+        sameSite: 'none',
+      });
+      res.status(200).json({
+        status: 'success',
+        message: 'Logged out successfully',
+      });
     });
   });
 };

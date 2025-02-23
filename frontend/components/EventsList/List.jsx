@@ -10,7 +10,7 @@ export default function List({ list = [], style = "", isFaculty = false, isCreat
               <ListItem item={listItem} isFaculty = {isFaculty} isCreator={isCreator}/>{" "}
             </li>
           ))
-        : null}
+        : "No events to show"}{" "}
     </ul>
   );
 }

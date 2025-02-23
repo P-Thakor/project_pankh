@@ -12,7 +12,7 @@ const UserProfilePage = async ({ params }) => {
   const events = await fetchEvents();
 
   return (
-    <>
+    <div className="min-h-screen">
       <div className="flex flex-col space-y-6 md:flex-row md:space-x-6 md:space-y-0">
         <UserProfile user={user} />
         {user.role === "user" && <EventAttendancePieChart user={user} />}
@@ -22,7 +22,7 @@ const UserProfilePage = async ({ params }) => {
       ) : (
         <NewEventsCreatedList user={user} events={events} />
       )}
-    </>
+    </div>
   );
 };
 

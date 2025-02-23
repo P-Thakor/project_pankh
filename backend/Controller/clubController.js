@@ -49,7 +49,7 @@ exports.updateClub = catchAsync(async (req, res, next) => {
     runValidators: true,
   });
   if (!updatedClub) {
-    return next(new AppError('Club not found', 404));
+    return next(new AppError('Club not found', 404))
   }
   res.status(200).json({
     status: 'success',

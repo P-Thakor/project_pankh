@@ -1,7 +1,6 @@
-import React from 'react'
 import ViewFaculty from '@/components/ViewFaculty'
 
-const viewFaculty = () => {
+const ViewFacultyPage = () => {
   return (
     <>
     <ViewFaculty />
@@ -9,4 +8,4 @@ const viewFaculty = () => {
   )
 }
 
-export default ViewFaculty
+export default ViewFacultyPage

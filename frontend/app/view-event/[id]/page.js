@@ -19,13 +19,13 @@ const EventPage = async ({ params }) => {
       <EventHero item={eventData} />
       <EventDescription event={eventData} />
       {otherEvents.length > 0 ? (
-        <>
+        <div className="sm:ml-16">
           <div className="flex w-1/2 mb-4 sm:ml-24 sm:mb-0 ">
             <h1 className="mr-3 text-4xl font-semibold">Other </h1>
             <h1 className="text-4xl font-semibold text-primaryblue">Events</h1>
           </div>
           <List list={otherEvents} />
-        </>
+        </div>
       ) : null}
     </main>
   );

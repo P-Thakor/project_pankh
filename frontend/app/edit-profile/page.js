@@ -52,10 +52,10 @@ const EditProfilePage = () => {
     // router.refresh();
 
     setUsername(user?.username);
-    setContactNumber(user?.contactNumber);
-    setDesignation(user?.designation);
-    setInstitute(user?.institute);
-    setDepartment(user?.department);
+    setContactNumber(user?.contactNumber || "");
+    setDesignation(user?.designation || "");
+    setInstitute(user?.institute || "");
+    setDepartment(user?.department || "");
   }, [user]);
 
   const handleModalClose = () => {
@@ -191,7 +191,7 @@ const EditProfilePage = () => {
             >
               Institute
             </label>
-            <div>
+            <div className="mb-4">
               <ComboboxSelector
                 value={institute}
                 onChange={(e) => setInstitute(e)}

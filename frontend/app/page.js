@@ -1,11 +1,14 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const page = () => {
   const router = useRouter();
-  setTimeout(() => {
+
+  useEffect(() => {
     router.push("/home");
-  }, 2000);
+  }, [router]);
+
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-5xl text-transparent bg-gradient-to-b from-primarylightblue to-primaryblue bg-clip-text">

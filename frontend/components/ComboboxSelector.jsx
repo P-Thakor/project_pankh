@@ -17,7 +17,7 @@ const ComboboxSelector = ({value, onChange, options}) => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <ComboboxOptions className="absolute z-10 w-full mt-1 overflow-auto text-sm bg-white rounded-md shadow-lg max-h-60 focus:outline-none">
+                  <ComboboxOptions className="relative z-10 w-full mt-1 overflow-auto text-sm bg-white rounded-md shadow-lg max-h-60 focus:outline-none">
                     {options.map((item) => (
                       <ComboboxOption
                         key={item}

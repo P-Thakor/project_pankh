@@ -40,6 +40,12 @@ const UserList = ({ userList, events }) => {
           
           {" "}
           - <span className="text-gray-600">{user.username}</span>
+          {" "}
+          {
+            user.role !== "user" && (
+              <span className="font-medium">{user.designation || ""}</span>
+            )
+          }
           {selectedUser?._id === user._id && (
             <>
               {/* <Profile userData={selectedUser} /> */}

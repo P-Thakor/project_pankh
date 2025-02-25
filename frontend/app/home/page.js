@@ -24,7 +24,7 @@ const page = () => {
       setEvents(data);
       const date = new Date();
       // const date = today.toISOString();
-      console.log(data);
+      // console.log(data);
       data.forEach((event) => {
         const startDateObj = new Date(event.startDate);
         const endDateObj = new Date(event.endDate);
@@ -57,7 +57,7 @@ const page = () => {
   // }, []);
 
   useEffect(() => {
-    console.log(upcomingList);
+    // console.log(upcomingList);
   }, [upcomingList]);
 
   const { user } = useContext(UserContext);
@@ -66,7 +66,7 @@ const page = () => {
     if (user?.role === "faculty-member" || user?.role === "admin") {
       setIsAuthorized(true);
     }
-    console.log(user);
+    // console.log(user);
   }, []);
 
   // console.log(isAuthorized);

@@ -6,8 +6,8 @@ const ParticipantsPage = async({params}) => {
   const event = await fetchEventById(params.id);
 
   const participants = event.participants;
-  console.log(event);
-  console.log(participants);
+  // console.log(event);
+  // console.log(participants);
 
   return (
     <>

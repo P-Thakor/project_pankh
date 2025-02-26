@@ -14,7 +14,6 @@ const ViewFaculty = () => {
     const getUsers = async () => {
       try {
         const allUsers = await fetchUsers();
-        console.log("Fetched Users:", allUsers);
         setUsers(allUsers);
       } catch (error) {
         console.error("Error fetching users:", error);

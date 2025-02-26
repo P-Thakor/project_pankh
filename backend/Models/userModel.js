@@ -85,7 +85,7 @@ const userSchema = new mongoose.Schema({
   },
   department: {
     type: String,
-    enum: ['CSE', 'IT', 'CE', 'EC', 'EE', 'MECH', 'CVL', 'AIML'],
+    enum: ['CSE', 'IT', 'CE', 'EC', 'EE', 'MECH', 'CVL', 'AIML', ''],
   },
   designation: {
     type: String,

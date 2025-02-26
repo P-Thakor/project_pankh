@@ -107,12 +107,12 @@ export default function EventParticipants({ participants = [], eventId = "" }) {
                 key={index}
                 className="flex items-center justify-start px-4 py-3 rounded-md hover:bg-gray-50"
               >
-                <input
+                {user && event && user._id === event.creator && (<input
                   type="checkbox"
                   className="text-blue-600 rounded form-checkbox"
                   checked={selectedParticipants.includes(participant._id)}
                   onChange={() => handleToggle(participant)}
-                />
+                />)}
                 <div
                   className="flex items-center ml-4 space-x-2"
                   onClick={() => handleToggle(participant)}

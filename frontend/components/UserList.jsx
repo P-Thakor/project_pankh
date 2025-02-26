@@ -23,16 +23,29 @@ const UserList = ({ userList, events }) => {
 
   return (
     <ul className="space-y-2">
-      {userList.map((user) => (
+      {userList.map((user, index) => (
         <li
-          key={user._id}
+          key={index}
           className="p-3 rounded-lg shadow-sm cursor-pointer bg-blue-50"
           onClick={() => handleUserClick(user)}
         >
           {user.role === "user" && (
             <span className="font-medium">{user.collegeId}</span>
-          )}{" "}
+          )}
+          {
+            user.role !== "user" && (
+              <span className="font-medium">{index +1}</span>
+            )
+          }
+          
+          {" "}
           - <span className="text-gray-600">{user.username}</span>
+          {" "}
+          {
+            user.role !== "user" && (
+              <span className="font-medium">{user.designation || ""}</span>
+            )
+          }
           {selectedUser?._id === user._id && (
             <>
               {/* <Profile userData={selectedUser} /> */}

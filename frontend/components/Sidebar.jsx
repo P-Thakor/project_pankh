@@ -139,7 +139,7 @@ export default function Sidebar() {
                 toggleSidebar();
               }}
             >
-              View Faculty
+              View Details
             </li>
           )}
           {/* <li

@@ -43,7 +43,7 @@ const UserList = ({ userList, events }) => {
           {" "}
           {
             user.role !== "user" && (
-              <span className="font-medium">{user.designation || ""}</span>
+              <span className="font-extralight text-sm">{user.designation || ""}</span>
             )
           }
           {selectedUser?._id === user._id && (

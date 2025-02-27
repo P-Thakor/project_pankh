@@ -186,7 +186,7 @@ exports.generateEventRepot = async (req, res, next) => {
       .populate('participants', 'username collegeId email')
       .populate('attendance', 'username collegeId email')
       .populate('creator', 'username')
-      .select('name description startDate endDate creator');
+      .select('name description startDate endDate creator locations');
 
     const attendance = event.attendance.map((user) => ({
       username: user.username,
@@ -201,7 +201,8 @@ exports.generateEventRepot = async (req, res, next) => {
     }));
 
     const absentees = participants.filter(
-      (user) => !attendance.some((attendee) => attendee.email === user.email),
+      (user) =>
+        !attendance.some((attendee) => attendee.collegeId === user.collegeId),
     );
 
     if (!event) {
@@ -236,6 +237,14 @@ exports.generateEventRepot = async (req, res, next) => {
     doc.font('Helvetica').text(` ${event.name}`); // Normal font for value
     doc.moveDown(0.5);
 
+    doc
+      .font('Helvetica-Bold')
+      .fontSize(14)
+      .fillColor('#000')
+      .text(`Event Venue:`, { continued: true });
+    doc.font('Helvetica').text(` ${event.locations}`); // Normal font for value
+    doc.moveDown(0.5);
+
     doc.font('Helvetica-Bold').text(`Description:`, { continued: true });
     doc.font('Helvetica').text(` ${event.description}`);
     doc.moveDown(0.5);
@@ -263,7 +272,7 @@ exports.generateEventRepot = async (req, res, next) => {
         .font('Helvetica-Bold') // ✅ Make the title bold
         .text('Attendance:', { align: 'left', underline: true });
       doc.moveDown(0.5); // Add spacing before table
-      addTable(doc, ['No.', 'Name', 'College ID', 'Email'], event.participants);
+      addTable(doc, ['No.', 'Name', 'College ID', 'Email'], attendance);
     }
 
     // **Force "Attendance" Title to Align with "Participants" & Bold**
@@ -276,7 +285,7 @@ exports.generateEventRepot = async (req, res, next) => {
         .font('Helvetica-Bold') // ✅ Make the title bold
         .text('Absentees:', { align: 'left', underline: true });
       doc.moveDown(0.5);
-      addTable(doc, ['No.', 'Name', 'College ID', 'Email'], event.attendance);
+      addTable(doc, ['No.', 'Name', 'College ID', 'Email'], absentees);
     }
 
     doc.end();

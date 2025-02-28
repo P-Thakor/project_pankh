@@ -124,7 +124,7 @@ export default function EventHero({ item }) {
           {/* text on image */}
           <div className="absolute inset-0 flex">
             <div className="flex flex-col justify-center w-2/3 px-10 lg:w-1/2 sm:w-full">
-              <h1 className="mb-6 font-bold text-white md:mb-12 text-4xl sm:text-5xl md:text-[4vw]">
+              <h1 className="mb-6 font-bold text-white md:mb-12 text-2xl sm:text-5xl md:text-[4vw]">
                 {/* event name */}
                 {item.name}
               </h1>

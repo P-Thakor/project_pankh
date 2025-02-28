@@ -186,104 +186,87 @@ exports.generateEventRepot = async (req, res, next) => {
       .populate('participants', 'username collegeId email')
       .populate('attendance', 'username collegeId email')
       .populate('creator', 'username')
-      .select('name description startDate endDate creator locations');
-
-    const attendance = event.attendance.map((user) => ({
-      username: user.username,
-      collegeId: user.collegeId,
-      email: user.email,
-    }));
-
-    const participants = event.participants.map((user) => ({
-      username: user.username,
-      collegeId: user.collegeId,
-      email: user.email,
-    }));
-
-    const absentees = participants.filter(
-      (user) =>
-        !attendance.some((attendee) => attendee.collegeId === user.collegeId),
-    );
+      .select('name description startDate endDate creator locations attendance participants');
 
     if (!event) {
       return res.status(404).json({ error: 'Event not found' });
     }
 
-    // **Set Response Headers for PDF Download**
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader(
-      'Content-Disposition',
-      `attachment; filename="event_report.pdf"`,
+    const attendance = event.attendance.map(user => ({
+      username: user.username,
+      collegeId: user.collegeId,
+      email: user.email,
+    }));
+
+    const participants = event.participants.map(user => ({
+      username: user.username,
+      collegeId: user.collegeId,
+      email: user.email,
+    }));
+
+    const absentees = participants.filter(user =>
+      !attendance.some(attendee => attendee.collegeId === user.collegeId)
     );
 
-    // **Create PDF and Pipe it to Response**
+    // Set Response Headers for PDF Download
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename="event_report.pdf"');
+
+    // Create PDF and Pipe it to Response
     const doc = new PDFDocument({ margin: 50 });
     doc.pipe(res);
 
-    // **Header**
-    doc
-      .fontSize(20)
-      .fillColor('#1F618D')
-      .font('Helvetica-Bold') // ✅ Make the title bold
-      .text('Event Report', { align: 'center', underline: true });
+    // Header
+    doc.fontSize(20)
+       .fillColor('#1F618D')
+       .font('Helvetica-Bold')
+       .text('Event Report', { align: 'center', underline: true });
     doc.moveDown(1);
 
-    // **Event Details**
-    doc
-      .font('Helvetica-Bold')
-      .fontSize(14)
-      .fillColor('#000')
-      .text(`Event Name:`, { continued: true });
-    doc.font('Helvetica').text(` ${event.name}`); // Normal font for value
+    // Event Details
+    doc.font('Helvetica-Bold').fontSize(14).fillColor('#000');
+    doc.text('Event Name:', { continued: true });
+    doc.font('Helvetica').text(` ${event.name}`);
     doc.moveDown(0.5);
 
-    doc
-      .font('Helvetica-Bold')
-      .fontSize(14)
-      .fillColor('#000')
-      .text(`Event Venue:`, { continued: true });
-    doc.font('Helvetica').text(` ${event.locations}`); // Normal font for value
+    doc.font('Helvetica-Bold').text('Event Venue:', { continued: true });
+    doc.font('Helvetica').text(` ${event.locations}`);
     doc.moveDown(0.5);
 
-    doc.font('Helvetica-Bold').text(`Description:`, { continued: true });
+    doc.font('Helvetica-Bold').text('Description:', { continued: true });
     doc.font('Helvetica').text(` ${event.description}`);
     doc.moveDown(0.5);
 
-    doc.font('Helvetica-Bold').text(`Start Date:`, { continued: true });
-    doc
-      .font('Helvetica')
-      .text(` ${new Date(event.startDate).toLocaleString()}`);
+    doc.font('Helvetica-Bold').text('Start Date:', { continued: true });
+    doc.font('Helvetica').text(` ${new Date(event.startDate).toLocaleString()}`);
     doc.moveDown(0.5);
 
-    doc.font('Helvetica-Bold').text(`End Date:`, { continued: true });
+    doc.font('Helvetica-Bold').text('End Date:', { continued: true });
     doc.font('Helvetica').text(` ${new Date(event.endDate).toLocaleString()}`);
     doc.moveDown(0.5);
 
-    doc.font('Helvetica-Bold').text(`Organizer:`, { continued: true });
+    doc.font('Helvetica-Bold').text('Organizer:', { continued: true });
     doc.font('Helvetica').text(` ${event.creator.username}`);
     doc.moveDown(1);
 
-    // **Participants Title (Ensure Left Alignment & Bold)**
-    if (event.attendance.length > 0) {
-      doc.moveDown(1); // Ensure spacing before title
-      doc
-        .fontSize(16)
-        .fillColor('#1F618D')
-        .font('Helvetica-Bold') // ✅ Make the title bold
-        .text('Attendance:', { align: 'left', underline: true });
-      doc.moveDown(0.5); // Add spacing before table
+    // Attendance Table
+    if (attendance.length > 0) {
+      doc.moveDown(1);
+      doc.fontSize(16)
+         .fillColor('#1F618D')
+         .font('Helvetica-Bold')
+         .text('Attendance:', { align: 'left', underline: true });
+      doc.moveDown(0.5);
       addTable(doc, ['No.', 'Name', 'College ID', 'Email'], attendance);
     }
 
-    // **Force "Attendance" Title to Align with "Participants" & Bold**
+    // Absentees Table
     if (absentees.length > 0) {
-      doc.moveDown(1); // Ensure same spacing as "Participants"
-      doc.text('', 50); // Move cursor to start of line
-      doc
-        .fontSize(16)
-        .fillColor('#1F618D')
-        .font('Helvetica-Bold') // ✅ Make the title bold
-        .text('Absentees:', { align: 'left', underline: true });
+      doc.moveDown(1);
+      doc.fontSize(16)
+         .fillColor('#1F618D')
+         .font('Helvetica-Bold')
+         .text('Absentees:', { align: 'left', underline: true });
       doc.moveDown(0.5);
       addTable(doc, ['No.', 'Name', 'College ID', 'Email'], absentees);
     }
@@ -295,43 +278,119 @@ exports.generateEventRepot = async (req, res, next) => {
   }
 };
 
-// **Function to Draw Table**
+// Updated addTable function with page-break handling
 function addTable(doc, headers, data) {
-  let startX = 50;
-  let startY = doc.y + 10;
+  const startX = 50;
+  let currentY = doc.y + 10;
   const columnWidths = [40, 150, 100, 200];
+  const pageBottom = doc.page.height - doc.page.margins.bottom;
 
   doc.fontSize(12).fillColor('#000');
 
-  // Draw Headers
-  headers.forEach((text, i) => {
-    doc.rect(startX, startY, columnWidths[i], 25).stroke();
-    doc.text(text, startX + 5, startY + 7);
-    startX += columnWidths[i];
-  });
+  // Fixed header row height
+  const headerHeight = 25;
+  // If header row doesn't fit, add a new page.
+  if (currentY + headerHeight > pageBottom) {
+    doc.addPage();
+    currentY = doc.page.margins.top;
+  }
 
-  // Draw Rows
-  startY += 25;
+  // Draw Header Row
+  let x = startX;
+  headers.forEach((text, i) => {
+    doc.rect(x, currentY, columnWidths[i], headerHeight).stroke();
+    doc.text(text, x + 5, currentY + 7, {
+      width: columnWidths[i] - 10,
+      align: 'left'
+    });
+    x += columnWidths[i];
+  });
+  currentY += headerHeight;
+
+  // Fixed row height for data rows (adjust if needed)
+  const rowHeight = 20;
   data.forEach((item, index) => {
-    startX = 50;
-    const row = [
+    // Check if next row fits on current page; if not, add a new page.
+    if (currentY + rowHeight > pageBottom) {
+      doc.addPage();
+      currentY = doc.page.margins.top;
+    }
+    x = startX;
+    const rowData = [
       index + 1,
       item.username || 'N/A',
       item.collegeId || 'N/A',
-      item.email || 'N/A',
+      item.email || 'N/A'
     ];
-
-    row.forEach((cell, i) => {
-      let text = cell !== undefined && cell !== null ? cell.toString() : 'N/A';
-      doc.rect(startX, startY, columnWidths[i], 20).stroke();
-      doc.text(text, startX + 5, startY + 5);
-      startX += columnWidths[i];
+    rowData.forEach((cell, i) => {
+      doc.rect(x, currentY, columnWidths[i], rowHeight).stroke();
+      doc.text(cell.toString(), x + 5, currentY + 5, {
+        width: columnWidths[i] - 10,
+        align: 'left'
+      });
+      x += columnWidths[i];
     });
-    startY += 20;
+    currentY += rowHeight;
   });
-
-  doc.moveDown(2);
+  // Set the document's y position for subsequent content.
+  doc.y = currentY + 10;
 }
+
+
+// Updated addTable function that prevents doc.y from being updated unexpectedly
+// function addTable(doc, headers, data) {
+//   const startX = 50;
+//   let currentY = doc.y + 10;
+//   // Define fixed column widths (adjust as needed)
+//   const columnWidths = [40, 150, 100, 200];
+  
+//   doc.fontSize(12).fillColor('#000');
+
+//   // Draw Header Row
+//   let x = startX;
+//   const headerHeight = 25;
+//   headers.forEach((text, i) => {
+//     // Draw cell border for header
+//     doc.rect(x, currentY, columnWidths[i], headerHeight).stroke();
+//     // Save current y before drawing text
+//     const savedY = doc.y;
+//     // Draw header text at an absolute position
+//     doc.text(text, x + 5, currentY + 7, {
+//       width: columnWidths[i] - 10,
+//       align: 'left'
+//     });
+//     // Reset y position so subsequent text is not shifted
+//     doc.y = savedY;
+//     x += columnWidths[i];
+//   });
+//   currentY += headerHeight;
+
+//   // Draw Data Rows
+//   data.forEach((item, index) => {
+//     x = startX;
+//     const rowData = [
+//       index + 1,
+//       item.username || 'N/A',
+//       item.collegeId || 'N/A',
+//       item.email || 'N/A',
+//     ];
+//     const rowHeight = 20;
+//     rowData.forEach((cell, i) => {
+//       doc.rect(x, currentY, columnWidths[i], rowHeight).stroke();
+//       const savedY = doc.y;
+//       doc.text(cell.toString(), x + 5, currentY + 5, {
+//         width: columnWidths[i] - 10,
+//         align: 'left'
+//       });
+//       doc.y = savedY;
+//       x += columnWidths[i];
+//     });
+//     currentY += rowHeight;
+//   });
+//   // Reset the document's y position for subsequent content
+//   doc.y = currentY + 10;
+// }
+
 
 exports.createEvent = catchAsync(async (req, res, next) => {
   try {

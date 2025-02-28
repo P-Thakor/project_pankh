@@ -186,41 +186,48 @@ exports.generateEventRepot = async (req, res, next) => {
       .populate('participants', 'username collegeId email')
       .populate('attendance', 'username collegeId email')
       .populate('creator', 'username')
-      .select('name description startDate endDate creator locations attendance participants');
+      .select(
+        'name description startDate endDate creator locations attendance participants',
+      );
 
     if (!event) {
       return res.status(404).json({ error: 'Event not found' });
     }
 
-    const attendance = event.attendance.map(user => ({
+    const attendance = event.attendance.map((user) => ({
       username: user.username,
       collegeId: user.collegeId,
       email: user.email,
     }));
 
-    const participants = event.participants.map(user => ({
+    const participants = event.participants.map((user) => ({
       username: user.username,
       collegeId: user.collegeId,
       email: user.email,
     }));
 
-    const absentees = participants.filter(user =>
-      !attendance.some(attendee => attendee.collegeId === user.collegeId)
+    const absentees = participants.filter(
+      (user) =>
+        !attendance.some((attendee) => attendee.collegeId === user.collegeId),
     );
 
     // Set Response Headers for PDF Download
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename="event_report.pdf"');
+    res.setHeader(
+      'Content-Disposition',
+      'attachment; filename="event_report.pdf"',
+    );
 
     // Create PDF and Pipe it to Response
     const doc = new PDFDocument({ margin: 50 });
     doc.pipe(res);
 
     // Header
-    doc.fontSize(20)
-       .fillColor('#1F618D')
-       .font('Helvetica-Bold')
-       .text('Event Report', { align: 'center', underline: true });
+    doc
+      .fontSize(20)
+      .fillColor('#1F618D')
+      .font('Helvetica-Bold')
+      .text('Event Report', { align: 'center', underline: true });
     doc.moveDown(1);
 
     // Event Details
@@ -238,7 +245,9 @@ exports.generateEventRepot = async (req, res, next) => {
     doc.moveDown(0.5);
 
     doc.font('Helvetica-Bold').text('Start Date:', { continued: true });
-    doc.font('Helvetica').text(` ${new Date(event.startDate).toLocaleString()}`);
+    doc
+      .font('Helvetica')
+      .text(` ${new Date(event.startDate).toLocaleString()}`);
     doc.moveDown(0.5);
 
     doc.font('Helvetica-Bold').text('End Date:', { continued: true });
@@ -252,10 +261,11 @@ exports.generateEventRepot = async (req, res, next) => {
     // Attendance Table
     if (attendance.length > 0) {
       doc.moveDown(1);
-      doc.fontSize(16)
-         .fillColor('#1F618D')
-         .font('Helvetica-Bold')
-         .text('Attendance:', { align: 'left', underline: true });
+      doc
+        .fontSize(16)
+        .fillColor('#1F618D')
+        .font('Helvetica-Bold')
+        .text('Attendance:', { align: 'left', underline: true });
       doc.moveDown(0.5);
       addTable(doc, ['No.', 'Name', 'College ID', 'Email'], attendance);
     }
@@ -263,10 +273,13 @@ exports.generateEventRepot = async (req, res, next) => {
     // Absentees Table
     if (absentees.length > 0) {
       doc.moveDown(1);
-      doc.fontSize(16)
-         .fillColor('#1F618D')
-         .font('Helvetica-Bold')
-         .text('Absentees:', { align: 'left', underline: true });
+      // Reset x position to the left margin before printing the heading
+      doc.x = doc.page.margins.left;
+      doc
+        .fontSize(16)
+        .fillColor('#1F618D')
+        .font('Helvetica-Bold')
+        .text('Absentees:', { align: 'left', underline: true });
       doc.moveDown(0.5);
       addTable(doc, ['No.', 'Name', 'College ID', 'Email'], absentees);
     }
@@ -278,7 +291,6 @@ exports.generateEventRepot = async (req, res, next) => {
   }
 };
 
-// Updated addTable function with page-break handling
 function addTable(doc, headers, data) {
   const startX = 50;
   let currentY = doc.y + 10;
@@ -301,7 +313,7 @@ function addTable(doc, headers, data) {
     doc.rect(x, currentY, columnWidths[i], headerHeight).stroke();
     doc.text(text, x + 5, currentY + 7, {
       width: columnWidths[i] - 10,
-      align: 'left'
+      align: 'left',
     });
     x += columnWidths[i];
   });
@@ -320,13 +332,13 @@ function addTable(doc, headers, data) {
       index + 1,
       item.username || 'N/A',
       item.collegeId || 'N/A',
-      item.email || 'N/A'
+      item.email || 'N/A',
     ];
     rowData.forEach((cell, i) => {
       doc.rect(x, currentY, columnWidths[i], rowHeight).stroke();
       doc.text(cell.toString(), x + 5, currentY + 5, {
         width: columnWidths[i] - 10,
-        align: 'left'
+        align: 'left',
       });
       x += columnWidths[i];
     });
@@ -336,14 +348,13 @@ function addTable(doc, headers, data) {
   doc.y = currentY + 10;
 }
 
-
 // Updated addTable function that prevents doc.y from being updated unexpectedly
 // function addTable(doc, headers, data) {
 //   const startX = 50;
 //   let currentY = doc.y + 10;
 //   // Define fixed column widths (adjust as needed)
 //   const columnWidths = [40, 150, 100, 200];
-  
+
 //   doc.fontSize(12).fillColor('#000');
 
 //   // Draw Header Row
@@ -390,7 +401,6 @@ function addTable(doc, headers, data) {
 //   // Reset the document's y position for subsequent content
 //   doc.y = currentY + 10;
 // }
-
 
 exports.createEvent = catchAsync(async (req, res, next) => {
   try {

@@ -14,9 +14,9 @@ mongoose.connect(DB);
 const createUsers = async () => {
   try {
     const users = [];
-    // for (let i = 132; i <= 133; i++) {
-    const id = `d23dce174`;
-    const email = `d23dce174@charusat.edu.in`;
+    for (let i = 132; i <= 165; i++) {
+    const id = `d24dce${i}`;
+    const email = `${id}@charusat.edu.in`;
     const password = id;
     const institute = 'DEPSTAR';
     const isVerifiedEmail = true;
@@ -36,7 +36,7 @@ const createUsers = async () => {
 
     await User.register(user, password);
     users.push(user);
-    // }
+    }
     console.log(`${users.length} users created successfully!`);
     mongoose.connection.close();
   } catch (err) {

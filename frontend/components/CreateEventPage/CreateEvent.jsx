@@ -312,7 +312,7 @@ const CreateEvent = () => {
                 </label>
                 <input
                   type='date'
-                  value={deadlineDate}
+                  // value={deadlineDate}
                   onChange={(e) => setDeadlineDate(e.target.value)}
                   className='w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
                   defaultValue={startDate}

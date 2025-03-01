@@ -28,6 +28,7 @@ const Navbar = () => {
   const handleLogout = () => {
     fetch("http://localhost:8001/api/v1/auth/logout", {
       method: "GET",
+      credentials: "include",
     })
       .then((response) => {
         if (response.ok) {

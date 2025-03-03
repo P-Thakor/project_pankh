@@ -65,11 +65,6 @@ PANKH introduces a digital system to streamline event organization, student part
    npm run dev
    ```
 
-## Deployment
-
-
-
-
 ---
 Built by students, for students – PANKH is a step towards a smarter and more connected campus!
 

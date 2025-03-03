@@ -39,7 +39,7 @@ const AboutUsPage = () => {
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           <div className="flex flex-col items-center p-4 bg-blue-100 border border-blue-200 rounded-lg shadow-md">
             <img
-              src="/assets/images/jaysir.jpg"
+              src="/assets/images/jaysir.png"
               alt="Jay Patel"
               className="object-cover w-40 h-40 mb-3 rounded-full"
             />
@@ -77,7 +77,7 @@ const AboutUsPage = () => {
 
           <div className="flex flex-col items-center p-4 bg-blue-100 border border-blue-200 rounded-lg shadow-md">
             <img
-              src="/assets/images/kandarp.jpg"
+              src="/assets/images/kandarp.png"
               alt="Kandarp Vyas"
               className="object-cover w-40 h-40 mb-3 rounded-full"
             />

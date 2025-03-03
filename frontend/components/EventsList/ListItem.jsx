@@ -66,7 +66,7 @@ export default function ListItem({ item, isFaculty, isCreator }) {
                       "/upload/",
                       "/upload/c_crop,w_350,h_238/"
                     )
-                  : "/Event.png"
+                  : "/assets/images/Event.png"
               }
               width={350}
               height={350}

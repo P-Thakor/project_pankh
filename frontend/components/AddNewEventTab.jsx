@@ -6,7 +6,7 @@ const AddNewEventTab = () => {
     <>
       <div className="flex w-full px-0 py-10">
         <Image
-          src="/newEvent.png"
+          src="/assets/images/newEvent.png"
           alt="add new event"
           width={550}
           height={550}

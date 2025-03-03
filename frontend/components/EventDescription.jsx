@@ -12,7 +12,7 @@ const EventDescription = ({ event }) => {
         </h2>
         <Link href={`/view-event/${event._id}`}>
           <Image
-            src={event.coverImage || "/Event.png"}
+            src={event.coverImage || "/assets/images/Event.png"}
             alt="Event Poster"
             width={500}
             height={500}
@@ -52,7 +52,7 @@ const EventDescription = ({ event }) => {
           <h2 className="mb-2 text-xl font-bold text-center sm:mb-4 sm:text-2xl text-primaryblue sm:text-left">
             Event Location
           </h2>
-          <p className="text-center mb-5 text-gray-500 sm:text-left mt-4">
+          <p className="mt-4 mb-5 text-center text-gray-500 sm:text-left">
             {event.locations}
           </p>
           {event.Registration?.deadline && (

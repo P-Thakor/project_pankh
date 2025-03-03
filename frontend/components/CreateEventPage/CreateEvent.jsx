@@ -368,11 +368,11 @@ const CreateEvent = () => {
 
             {/* Faculty Coordinators */}
             <div className='col-span-2 mb-4'>
-              <label className='block text-sm font-medium text-gray-700'>Faculty Coordinators</label>
+              <label className='block text-sm font-medium text-gray-700'>Faculty Coordinators <span className="text-gray-400">(optional)</span></label>
               <div className='flex mt-2 space-x-2'>
                 <input
                   type='text'
-                  placeholder='Enter faculty coordinator name'
+                  placeholder='Enter faculty coordinator name (Other than one who creates it)'
                   value={facultyCoordinatorInput}
                   onChange={(e) => setFacultyCoordinatorInput(e.target.value)}
                   className='w-full p-3 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
@@ -391,7 +391,7 @@ const CreateEvent = () => {
             
             {/* Student Coordinators */}
             <div className='col-span-2 mb-4'>
-              <label className='block text-sm font-medium text-gray-700'>Student Coordinators</label>
+              <label className='block text-sm font-medium text-gray-700'>Student Coordinators <span className="text-gray-400">(optional)</span></label>
               <div className='flex mt-2 space-x-2'>
                 <input
                   type='text'
@@ -586,7 +586,7 @@ const CreateEvent = () => {
 
             <div>
               <label className='block text-sm font-medium text-gray-700'>
-                Event Poster (size limit: 10MB)
+                Event Poster <span className="text-gray-500">(size limit: 10MB)</span>
               </label>
               <input
                 type='file'

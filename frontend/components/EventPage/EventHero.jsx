@@ -233,7 +233,7 @@ export default function EventHero({ item }) {
           <div className="items-center justify-center p-8 bg-white w-96 rounded-xl">
             <h3 className="mb-4 font-sans text-3xl font-bold">Date & Time</h3>
             <p className="mb-2 text-lg text-gray">
-              {item.startDate}, {item.startTime}
+            {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
             </p>
             <p className="mb-4 text-lg text-primaryblue">{item.locations}</p>
             <button

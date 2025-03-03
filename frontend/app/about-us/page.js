@@ -5,7 +5,7 @@ const AboutUsPage = () => {
         <h1 className="mt-5 text-3xl font-bold text-center text-blue-600">
           About Us
         </h1>
-        <p className="mt-4 text-lg leading-relaxed text-gray-700 text-justify">
+        <p className="mt-4 text-lg leading-relaxed text-justify text-gray-700">
           Welcome to <span className="font-semibold text-blue-500">PANKH</span>,
           the official Event & Club Management Website of{" "}
           <span className="font-semibold">DEPSTAR</span>. Developed by students
@@ -14,7 +14,7 @@ const AboutUsPage = () => {
           traditional offline paperwork with a streamlined digital system,
           making event organization and participation more efficient than ever.
         </p>
-        <p className="mt-4 text-lg leading-relaxed text-gray-700 text-justify">
+        <p className="mt-4 text-lg leading-relaxed text-justify text-gray-700">
           With this platform, students can explore upcoming events, register
           with ease, and stay updated on various activities. Faculty members can
           monitor student attendance at events, ensuring better engagement
@@ -22,7 +22,7 @@ const AboutUsPage = () => {
           detailed insights into student participation, faculty contributions,
           and overall event statistics.
         </p>
-        <p className="mt-4 text-lg leading-relaxed text-gray-700 text-justify">
+        <p className="mt-4 text-lg leading-relaxed text-justify text-gray-700">
           Our goal is to enhance the student experience, provide seamless event
           management, and ensure efficient monitoring of college activities.{" "}
           <span className="font-semibold text-blue-500">

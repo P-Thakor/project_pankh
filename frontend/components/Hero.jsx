@@ -7,7 +7,7 @@ const Hero = () => {
         <div className="relative w-full">
           {/* image */}
           <Image
-            src="/assets/images/depstar-gate.png"
+            src="/assets/images/depstar-gate1.png"
             alt="Bg image"
             height={1500}
             width={1500}

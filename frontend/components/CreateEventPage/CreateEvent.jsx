@@ -356,7 +356,7 @@ const CreateEvent = () => {
                 </label>
                 <input
                   type='time'
-                  value={deadlineTime}
+                  // value={deadlineTime}
                   max={startTime}
                   onChange={(e) => setDeadlineTime(e.target.value)}
                   className='w-full p-3 mb-8 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'

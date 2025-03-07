@@ -109,6 +109,18 @@ const eventSchema = new mongoose.Schema({
       ref: 'User',
     },
   ],
+  facultyCoordinators: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+  studentCoordinators: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
 });
 
 // eventSchema.path('contactNumbr').validate(function validatePhone() {

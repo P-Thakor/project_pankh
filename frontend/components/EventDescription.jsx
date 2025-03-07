@@ -28,7 +28,7 @@ const EventDescription = ({ event }) => {
           <h2 className="text-xl font-bold text-center sm:text-2xl text-primaryblue sm:text-left">
             Description
           </h2>
-          <p className="mt-2 text-center text-gray-500 sm:mt-4 sm:text-left">
+          <p className="mt-2 text-center text-gray-500 sm:mt-4 sm:text-left whitespace-pre-wrap">
             {event.description}
           </p>
         </div>

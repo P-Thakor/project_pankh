@@ -11,7 +11,8 @@ const PDFDocument = require('pdfkit');
 const { Table } = require('pdfkit-table');
 const fs = require('fs');
 const path = require('path');
-
+const emojiUnicode = require('emoji-unicode');
+const axios = require('axios');
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: 'dosqfitt3', // Your Cloudinary cloud name
@@ -187,7 +188,7 @@ exports.generateEventRepot = async (req, res, next) => {
       .populate('attendance', 'username collegeId email')
       .populate('creator', 'username')
       .select(
-        'name description startDate endDate creator locations attendance participants',
+        'name description startDate endDate creator locations attendance participants coverImage',
       );
 
     if (!event) {
@@ -222,7 +223,16 @@ exports.generateEventRepot = async (req, res, next) => {
     const doc = new PDFDocument({ margin: 50 });
     doc.pipe(res);
 
-    // Header
+    // Function to download image if coverImage is a URL
+    async function downloadImage(url, filename) {
+      const response = await axios({
+        url,
+        responseType: 'arraybuffer',
+      });
+      fs.writeFileSync(filename, response.data);
+    }
+
+    // **Event Report Header**
     doc
       .fontSize(20)
       .fillColor('#1F618D')
@@ -230,10 +240,10 @@ exports.generateEventRepot = async (req, res, next) => {
       .text('Event Report', { align: 'center', underline: true });
     doc.moveDown(1);
 
-    // Event Details
+    // **Event Details**
     doc.font('Helvetica-Bold').fontSize(14).fillColor('#000');
     doc.text('Event Name:', { continued: true });
-    doc.font('Helvetica').text(` ${event.name}`);
+    doc.font('Helvetica').text(` ${event.name} `);
     doc.moveDown(0.5);
 
     doc.font('Helvetica-Bold').text('Event Venue:', { continued: true });
@@ -258,7 +268,15 @@ exports.generateEventRepot = async (req, res, next) => {
     doc.font('Helvetica').text(` ${event.creator.username}`);
     doc.moveDown(1);
 
-    // Attendance Table
+    // **Add Cover Image if Available**
+    if (event.coverImage && event.coverImage.startsWith('http')) {
+      const imagePath = path.join(__dirname, 'cover.jpg');
+      await downloadImage(event.coverImage, imagePath);
+      doc.image(imagePath, { fit: [500, 300], align: 'center', valign: 'top' });
+      doc.moveDown(500);
+    }
+
+    // **Attendance Table**
     if (attendance.length > 0) {
       doc.moveDown(1);
       doc
@@ -270,10 +288,9 @@ exports.generateEventRepot = async (req, res, next) => {
       addTable(doc, ['No.', 'Name', 'College ID', 'Email'], attendance);
     }
 
-    // Absentees Table
+    // **Absentees Table**
     if (absentees.length > 0) {
       doc.moveDown(1);
-      // Reset x position to the left margin before printing the heading
       doc.x = doc.page.margins.left;
       doc
         .fontSize(16)
@@ -290,7 +307,6 @@ exports.generateEventRepot = async (req, res, next) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
 function addTable(doc, headers, data) {
   const startX = 50;
   let currentY = doc.y + 10;

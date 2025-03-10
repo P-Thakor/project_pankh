@@ -4,11 +4,13 @@ import { useState } from "react";
 
 const SearchUserPage = () => {
   const [studentId, setStudentId] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSearch = async (e) => {
     e.preventDefault();
     // console.log(studentId);
+    setLoading(true);
     try {
       const response = await fetch(
         `/api/v1/user/getUserByStudentId/${studentId}`
@@ -22,6 +24,8 @@ const SearchUserPage = () => {
     } catch (error) {
       console.log(error);
       alert("User not found");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,7 +53,9 @@ const SearchUserPage = () => {
               type="button"
               onClick={handleSearch}
             >
-              Search
+              {
+              loading ? "Searching..." :
+              "Search"}
             </button>
           </div>
         </form>

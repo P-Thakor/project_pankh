@@ -36,5 +36,5 @@ router
   .route('/getUserByStudentId/:collegeId')
   .get(userController.getOneUserByStudentId);
 
-router.route('/activateUser').post(userRole, userController.activateUser);
+router.route('/activateUser').patch(userRole, userController.activateUser);
 module.exports = router;

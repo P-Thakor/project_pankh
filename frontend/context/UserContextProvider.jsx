@@ -21,6 +21,7 @@ const UserContextProvider = ({ children }) => {
 
   const logoutUser = () => {
     setUser(null);
+    localStorage.setItem("isLoggedIn", "0");
     localStorage.removeItem("isLoggedIn ");
   };
 

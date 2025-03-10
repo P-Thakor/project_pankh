@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { AuthModal } from ".";
 import ForgotPasswordModal from "./ForgotPasswordModal";
@@ -9,6 +9,18 @@ import UserContext from "../context/UserContext";
 import Image from "next/image";
 
 const SignIn = () => {
+
+    const router = useRouter();
+    useEffect(() => {
+      if (typeof window !== "undefined") {
+        const loggedIn = localStorage.getItem("isLoggedIn");
+        console.log(loggedIn);
+        if (loggedIn == 1) {
+          router.push("/dashboard");
+        }
+      }
+    }, []);
+
   // const [username, setUsername] = useState('');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +33,7 @@ const SignIn = () => {
   const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const router = useRouter();
+  // const router = useRouter();
   const { loginUser } = useContext(UserContext);
 
   const handleSignIn = async (e) => {

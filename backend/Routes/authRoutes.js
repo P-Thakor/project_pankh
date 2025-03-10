@@ -2,13 +2,15 @@ const express = require('express');
 
 const router = express.Router();
 const authController = require('../Controller/authController');
-const { isVerifiedEmail } = require('../Utils/middleware');
+const { isVerifiedEmail, checkUserActive } = require('../Utils/middleware');
 
 // Sign-up Route
 router.route('/signup').post(authController.signup);
 
 // Login Route
-router.route('/login').post(isVerifiedEmail, authController.login);
+router
+  .route('/login')
+  .post(isVerifiedEmail, checkUserActive, authController.login);
 
 // Logout Route
 router.route('/logout').get(authController.logout);

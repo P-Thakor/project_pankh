@@ -33,7 +33,7 @@ exports.getOneUserByStudentId = catchAsync(async (req, res, next) => {
     status: 'success',
     data: user,
   });
-})
+});
 
 exports.createUser = catchAsync(async (req, res, next) => {
   // const newUser = await User.create(req.body);
@@ -84,5 +84,17 @@ exports.getMe = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: data,
+  });
+});
+
+exports.activateUser = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.body.id);
+  if (!user) {
+    return next(new AppError(404, 'User not found'));
+  }
+  user.active = true;
+  await user.save();
+  res.status(200).json({
+    status: 'success',
   });
 });

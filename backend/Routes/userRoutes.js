@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { isAuthenticated } = require('../Utils/middleware');
+const { isAuthenticated, userRole } = require('../Utils/middleware');
 
 const userController = require('../Controller/userController');
 const eventController = require('../Controller/eventContoller');
@@ -11,7 +11,7 @@ router.route('/getAllUsers').get(isAuthenticated, userController.getAllUsers);
 
 router.route('/createUser').post(userController.createUser);
 
-router.route('/getUser/:id').get( userController.getOneUser);
+router.route('/getUser/:id').get(userController.getOneUser);
 
 router
   .route('/updateUser/:id')
@@ -32,6 +32,9 @@ router.route('/registerEvent/:id').patch(eventController.registerEventForUser);
 
 router.route('/me').get(isAuthenticated, userController.getMe);
 
-router.route('/getUserByStudentId/:collegeId').get(userController.getOneUserByStudentId);
+router
+  .route('/getUserByStudentId/:collegeId')
+  .get(userController.getOneUserByStudentId);
 
+router.route('/activateUser').post(userRole, userController.activateUser);
 module.exports = router;

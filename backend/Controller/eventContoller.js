@@ -364,60 +364,6 @@ function addTable(doc, headers, data) {
   doc.y = currentY + 10;
 }
 
-// Updated addTable function that prevents doc.y from being updated unexpectedly
-// function addTable(doc, headers, data) {
-//   const startX = 50;
-//   let currentY = doc.y + 10;
-//   // Define fixed column widths (adjust as needed)
-//   const columnWidths = [40, 150, 100, 200];
-
-//   doc.fontSize(12).fillColor('#000');
-
-//   // Draw Header Row
-//   let x = startX;
-//   const headerHeight = 25;
-//   headers.forEach((text, i) => {
-//     // Draw cell border for header
-//     doc.rect(x, currentY, columnWidths[i], headerHeight).stroke();
-//     // Save current y before drawing text
-//     const savedY = doc.y;
-//     // Draw header text at an absolute position
-//     doc.text(text, x + 5, currentY + 7, {
-//       width: columnWidths[i] - 10,
-//       align: 'left'
-//     });
-//     // Reset y position so subsequent text is not shifted
-//     doc.y = savedY;
-//     x += columnWidths[i];
-//   });
-//   currentY += headerHeight;
-
-//   // Draw Data Rows
-//   data.forEach((item, index) => {
-//     x = startX;
-//     const rowData = [
-//       index + 1,
-//       item.username || 'N/A',
-//       item.collegeId || 'N/A',
-//       item.email || 'N/A',
-//     ];
-//     const rowHeight = 20;
-//     rowData.forEach((cell, i) => {
-//       doc.rect(x, currentY, columnWidths[i], rowHeight).stroke();
-//       const savedY = doc.y;
-//       doc.text(cell.toString(), x + 5, currentY + 5, {
-//         width: columnWidths[i] - 10,
-//         align: 'left'
-//       });
-//       doc.y = savedY;
-//       x += columnWidths[i];
-//     });
-//     currentY += rowHeight;
-//   });
-//   // Reset the document's y position for subsequent content
-//   doc.y = currentY + 10;
-// }
-
 exports.createEvent = catchAsync(async (req, res, next) => {
   try {
     // eslint-disable-next-line node/no-unsupported-features/es-syntax

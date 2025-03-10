@@ -33,6 +33,12 @@ const CreateEvent = () => {
 
   const [selectedYears, setSelectedYears] = useState([]);
 
+    // State for Faculty and Student Coordinators
+    const [facultyCoordinators, setFacultyCoordinators] = useState([]);
+    const [studentCoordinators, setStudentCoordinators] = useState([]);
+    const [facultyCoordinatorInput, setFacultyCoordinatorInput] = useState("");
+    const [studentCoordinatorInput, setStudentCoordinatorInput] = useState("");
+
   const router = useRouter();
 
   const handleStartDateChange = (e) => {
@@ -116,6 +122,28 @@ const CreateEvent = () => {
     }
   };
 
+  const handleAddFacultyCoordinator = () => {
+    if (facultyCoordinatorInput.trim()) {
+      setFacultyCoordinators([...facultyCoordinators, facultyCoordinatorInput.trim()]);
+      setFacultyCoordinatorInput("");
+    }
+  };
+
+  const handleRemoveFacultyCoordinator = (coordinator) => {
+    setFacultyCoordinators(facultyCoordinators.filter((c) => c !== coordinator));
+  };
+
+  const handleAddStudentCoordinator = () => {
+    if (studentCoordinatorInput.trim()) {
+      setStudentCoordinators([...studentCoordinators, studentCoordinatorInput.trim()]);
+      setStudentCoordinatorInput("");
+    }
+  };
+
+  const handleRemoveStudentCoordinator = (coordinator) => {
+    setStudentCoordinators(studentCoordinators.filter((c) => c !== coordinator));
+  };
+
   const handleCreateEvent = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -139,6 +167,8 @@ const CreateEvent = () => {
     formData.append("endTime", endEvent);
     formData.append("description", eventDescription);
     formData.append("Registration[deadline]", Registration.deadline);
+    facultyCoordinators.forEach((coordinator) => formData.append("facultyCoordinators[]", coordinator));
+    studentCoordinators.forEach((coordinator) => formData.append("studentCoordinators[]", coordinator));
     otherEmails.forEach((email) => formData.append("otherEmail[]", email));
     selectedDepartments.forEach((dept) =>
       formData.append("department[]", dept)
@@ -272,7 +302,7 @@ const CreateEvent = () => {
                   type='date'
                   value={endDate}
                   onChange={handleEndDateChange}
-                  className='w-full p-3 mb-4 text-sm rounded-lg bg-blue-50 focus:outline-none'
+                  className='w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
                   disabled={!isMultipleDays}
                 />
               </div>
@@ -312,7 +342,7 @@ const CreateEvent = () => {
                 </label>
                 <input
                   type='date'
-                  value={deadlineDate}
+                  // value={deadlineDate}
                   onChange={(e) => setDeadlineDate(e.target.value)}
                   className='w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
                   defaultValue={startDate}
@@ -326,7 +356,7 @@ const CreateEvent = () => {
                 </label>
                 <input
                   type='time'
-                  value={deadlineTime}
+                  // value={deadlineTime}
                   max={startTime}
                   onChange={(e) => setDeadlineTime(e.target.value)}
                   className='w-full p-3 mb-8 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
@@ -336,12 +366,58 @@ const CreateEvent = () => {
               </div>
             </div>
 
+            {/* Faculty Coordinators */}
+            <div className='col-span-2 mb-4'>
+              <label className='block text-sm font-medium text-gray-700'>Faculty Coordinators <span className="text-gray-400">(optional)</span></label>
+              <div className='flex mt-2 space-x-2'>
+                <input
+                  type='text'
+                  placeholder='Enter faculty coordinator name (Other than one who creates it)'
+                  value={facultyCoordinatorInput}
+                  onChange={(e) => setFacultyCoordinatorInput(e.target.value)}
+                  className='w-full p-3 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
+                />
+                <button type='button' onClick={handleAddFacultyCoordinator} className='px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none'>Add</button>
+              </div>
+              <ul className='mt-2 text-sm text-gray-700'>
+                {facultyCoordinators.map((coordinator, index) => (
+                  <li key={index} className='flex justify-between p-2 border-b border-gray-200'>
+                    {coordinator}
+                    <button type='button' onClick={() => handleRemoveFacultyCoordinator(coordinator)} className='text-red-500 hover:underline'>Remove</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            {/* Student Coordinators */}
+            <div className='col-span-2 mb-4'>
+              <label className='block text-sm font-medium text-gray-700'>Student Coordinators <span className="text-gray-400">(optional)</span></label>
+              <div className='flex mt-2 space-x-2'>
+                <input
+                  type='text'
+                  placeholder='Enter student coordinator name'
+                  value={studentCoordinatorInput}
+                  onChange={(e) => setStudentCoordinatorInput(e.target.value)}
+                  className='w-full p-3 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none'
+                />
+                <button type='button' onClick={handleAddStudentCoordinator} className='px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none'>Add</button>
+              </div>
+              <ul className='mt-2 text-sm text-gray-700'>
+                {studentCoordinators.map((coordinator, index) => (
+                  <li key={index} className='flex justify-between p-2 border-b border-gray-200'>
+                    {coordinator}
+                    <button type='button' onClick={() => handleRemoveStudentCoordinator(coordinator)} className='text-red-500 hover:underline'>Remove</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             {/* New Field: Email to Department Checkboxes */}
             <div className='col-span-2 mb-4'>
               <label className='block text-sm font-medium text-gray-700'>
                 Email to Department
               </label>
-              <div className='flex space-x-4 mt-2'>
+              <div className='flex mt-2 space-x-4'>
                 <div>
                   <input
                     type='checkbox'
@@ -388,10 +464,10 @@ const CreateEvent = () => {
                   </label>
                 </div>
               </div>
-              <label className='mt-4 block text-sm font-medium text-gray-700'>
+              <label className='block mt-4 text-sm font-medium text-gray-700'>
                 Year
               </label>
-              <div className='flex space-x-4 mt-2'>
+              <div className='flex mt-2 space-x-4'>
                 <div>
                   <input
                     type='checkbox'
@@ -510,7 +586,7 @@ const CreateEvent = () => {
 
             <div>
               <label className='block text-sm font-medium text-gray-700'>
-                Event Poster (size limit: 10MB)
+                Event Poster <span className="text-gray-500">(size limit: 10MB)</span>
               </label>
               <input
                 type='file'

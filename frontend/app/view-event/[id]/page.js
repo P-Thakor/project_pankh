@@ -2,6 +2,8 @@ import { EventDescription, EventHero } from "@/components";
 import List from "@/components/EventsList/List";
 import { fetchEventById, fetchEvents } from "@/utils";
 
+export const dynamic = "force-dynamic"
+
 const EventPage = async ({ params }) => {
   const eventData = await fetchEventById(params.id);
   const events = await fetchEvents();

@@ -41,8 +41,8 @@ const ViewFaculty = () => {
   };
 
   const departments = [
-    { name: "DEPSTAR CSE", department: "CSE", institute: "DEPSTAR" },
     { name: "DEPSTAR CE", department: "CE", institute: "DEPSTAR" },
+    { name: "DEPSTAR CSE", department: "CSE", institute: "DEPSTAR" },
     { name: "DEPSTAR IT", department: "IT", institute: "DEPSTAR" },
   ];
 

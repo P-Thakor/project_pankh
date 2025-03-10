@@ -90,6 +90,12 @@ const userSchema = new mongoose.Schema({
   designation: {
     type: String,
   },
+  eventsCoordinated: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Event',
+    },
+  ],
   passwordChangedAt: Date,
   resetPasswordToken: String,
   resetPasswordExpire: Date,

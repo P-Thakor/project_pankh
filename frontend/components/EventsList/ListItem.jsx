@@ -64,9 +64,9 @@ export default function ListItem({ item, isFaculty, isCreator }) {
                 item.coverImage?.startsWith("https://res.cloudinary.com/")
                   ? item.coverImage.replace(
                       "/upload/",
-                      "/upload/c_crop,w_350,h_238/"
+                      "/upload/w_350,h_238,c_fill/"
                     )
-                  : "/Event.png"
+                  : "/assets/images/Event.png"
               }
               width={350}
               height={350}

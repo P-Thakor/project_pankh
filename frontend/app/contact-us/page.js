@@ -25,7 +25,7 @@ const ContactUsPage = () => {
 
         <div className="flex flex-col items-center p-4 bg-blue-100 border border-blue-200 rounded-lg shadow-md">
           <img
-            src="/assets/images/kandarp.jpg"
+            src="/assets/images/kandarp.png"
             alt="Kandarp Vyas"
             className="object-cover w-40 h-40 mb-3 rounded-full"
           />

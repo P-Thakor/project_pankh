@@ -513,6 +513,7 @@ exports.attendance = catchAsync(async (req, res, next) => {
       const user = await User.findById(userId);
       if (user) {
         user.eventsAttended.push(id);
+        user.missedEventCounter = 0;
         await user.save();
       }
     }),
@@ -532,6 +533,10 @@ exports.attendance = catchAsync(async (req, res, next) => {
       const user = await User.findById(userId);
       if (user) {
         user.eventsMissed.push(id);
+        user.missedEventCounter += 1;
+        if (user.missedEventCounter >= 2) {
+          user.active = false;
+        }
         await user.save();
       }
     }),

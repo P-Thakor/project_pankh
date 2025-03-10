@@ -42,3 +42,21 @@ exports.isVerifiedEmail = async (req, res, next) => {
     ),
   );
 };
+
+exports.checkUserActive = async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email }).select('+active');
+  if (!user) {
+    return res.status(404).json({ message: 'User not found.' });
+  }
+
+  console.log('Missed Event Counter:', user.missedEventCounter);
+
+  if (!user.active) {
+    return res.status(403).json({
+      message:
+        'Your account has been deactivated due to repeated absences. Please contact your faculty for reactivation.',
+    });
+  }
+
+  next();
+};

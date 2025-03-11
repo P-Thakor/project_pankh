@@ -223,15 +223,6 @@ exports.generateEventRepot = async (req, res, next) => {
     const doc = new PDFDocument({ margin: 50 });
     doc.pipe(res);
 
-    // Function to download image if coverImage is a URL
-    async function downloadImage(url, filename) {
-      const response = await axios({
-        url,
-        responseType: 'arraybuffer',
-      });
-      fs.writeFileSync(filename, response.data);
-    }
-
     // **Event Report Header**
     doc
       .fontSize(20)
@@ -268,12 +259,24 @@ exports.generateEventRepot = async (req, res, next) => {
     doc.font('Helvetica').text(` ${event.creator.username}`);
     doc.moveDown(1);
 
-    // **Add Cover Image if Available**
+    // **Add Cover Image if Available (Without Storing Locally)**
     if (event.coverImage && event.coverImage.startsWith('http')) {
-      const imagePath = path.join(__dirname, 'cover.jpg');
-      await downloadImage(event.coverImage, imagePath);
-      doc.image(imagePath, { fit: [500, 300], align: 'center', valign: 'top' });
-      doc.moveDown(500);
+      try {
+        const response = await axios({
+          url: event.coverImage,
+          responseType: 'arraybuffer',
+        });
+        const imageBuffer = Buffer.from(response.data, 'binary');
+
+        doc.image(imageBuffer, {
+          fit: [500, 300],
+          align: 'center',
+          valign: 'top',
+        });
+        doc.moveDown(500);
+      } catch (error) {
+        console.error('Error loading cover image:', error);
+      }
     }
 
     // **Attendance Table**
@@ -307,6 +310,8 @@ exports.generateEventRepot = async (req, res, next) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+// Function to add tables to the PDF
 function addTable(doc, headers, data) {
   const startX = 50;
   let currentY = doc.y + 10;
@@ -317,7 +322,6 @@ function addTable(doc, headers, data) {
 
   // Fixed header row height
   const headerHeight = 25;
-  // If header row doesn't fit, add a new page.
   if (currentY + headerHeight > pageBottom) {
     doc.addPage();
     currentY = doc.page.margins.top;
@@ -335,10 +339,9 @@ function addTable(doc, headers, data) {
   });
   currentY += headerHeight;
 
-  // Fixed row height for data rows (adjust if needed)
+  // Fixed row height for data rows
   const rowHeight = 20;
   data.forEach((item, index) => {
-    // Check if next row fits on current page; if not, add a new page.
     if (currentY + rowHeight > pageBottom) {
       doc.addPage();
       currentY = doc.page.margins.top;
@@ -360,7 +363,6 @@ function addTable(doc, headers, data) {
     });
     currentY += rowHeight;
   });
-  // Set the document's y position for subsequent content.
   doc.y = currentY + 10;
 }
 

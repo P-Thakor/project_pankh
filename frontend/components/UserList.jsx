@@ -29,23 +29,19 @@ const UserList = ({ userList, events }) => {
           className="p-3 rounded-lg shadow-sm cursor-pointer bg-blue-50"
           onClick={() => handleUserClick(user)}
         >
-          {user.role === "user" && (
+          {user.collegeId ? (
             <span className="font-medium">{user.collegeId}</span>
+          ) : (
+            user.role !== "user" && (
+              <span className="font-medium">{index + 1}</span>
+            )
+          )}{" "}
+          - <span className="text-gray-600">{user.username}</span>{" "}
+          {user.role !== "user" && (
+            <span className="font-extralight text-sm">
+              {user.designation || ""}
+            </span>
           )}
-          {
-            user.role !== "user" && (
-              <span className="font-medium">{index +1}</span>
-            )
-          }
-          
-          {" "}
-          - <span className="text-gray-600">{user.username}</span>
-          {" "}
-          {
-            user.role !== "user" && (
-              <span className="font-extralight text-sm">{user.designation || ""}</span>
-            )
-          }
           {selectedUser?._id === user._id && (
             <>
               {/* <Profile userData={selectedUser} /> */}

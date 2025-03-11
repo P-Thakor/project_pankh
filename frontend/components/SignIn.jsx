@@ -11,15 +11,16 @@ import Image from "next/image";
 const SignIn = () => {
 
     const router = useRouter();
+    const { user, loginUser } = useContext(UserContext);
     useEffect(() => {
       if (typeof window !== "undefined") {
         const loggedIn = localStorage.getItem("isLoggedIn");
-        console.log(loggedIn);
-        if (loggedIn == 1) {
-          router.push("/dashboard");
+        console.log(loggedIn, user);
+        if (loggedIn == 1 && user) {
+          router.push("/home");
         }
       }
-    }, []);
+    }, [user]);
 
   // const [username, setUsername] = useState('');
   const [email, setEmail] = useState("");
@@ -34,7 +35,6 @@ const SignIn = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   // const router = useRouter();
-  const { loginUser } = useContext(UserContext);
 
   const handleSignIn = async (e) => {
     setIsLoading(true);

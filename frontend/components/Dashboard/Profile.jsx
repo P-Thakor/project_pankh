@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext";
 import { useRouter } from "next/navigation";
 import { ForgotPasswordModal } from "..";
@@ -8,6 +8,17 @@ import { ForgotPasswordModal } from "..";
 export default function Profile() {
   const { user } = useContext(UserContext);
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const loggedIn = localStorage.getItem("isLoggedIn");
+      setTimeout(() => {
+        if (loggedIn == 0 || !user) {
+          router.push("/sign-in");
+        }
+      }, 1500);
+    }
+  }, [user]);
 
   const [resetPasswordModalOpen, setResetPasswordModalOpen] = useState(false);
 
@@ -117,7 +128,10 @@ export default function Profile() {
           >
             Edit Profile
           </button>
-          <button className="px-4 py-2 border rounded-md border-primaryblue text-primaryblue hover:bg-primaryblue hover:text-white" onClick={() => setResetPasswordModalOpen(true)}>
+          <button
+            className="px-4 py-2 border rounded-md border-primaryblue text-primaryblue hover:bg-primaryblue hover:text-white"
+            onClick={() => setResetPasswordModalOpen(true)}
+          >
             Reset Password
           </button>
         </div>

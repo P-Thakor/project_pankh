@@ -1,25 +1,26 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { AuthModal } from ".";
 import Image from "next/image";
 import { departments, institutes } from "@/constants";
 import ComboboxSelector from "./ComboboxSelector";
+import UserContext from "@/context/UserContext";
 
 const SignUp = () => {
-
   const router = useRouter();
+  const { user } = useContext(UserContext);
   useEffect(() => {
-        if (typeof window !== "undefined") {
-          const loggedIn = localStorage.getItem("isLoggedIn");
-          console.log(loggedIn);
-          if (loggedIn == 1) {
-            router.push("/dashboard");
-          }
-        }
-      }, []);
+    if (typeof window !== "undefined") {
+      const loggedIn = localStorage.getItem("isLoggedIn");
+      console.log(loggedIn, user);
+      if (loggedIn == 1 && user) {
+        router.push("/home");
+      }
+    }
+  }, [user]);
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -37,7 +38,6 @@ const SignUp = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   // const [collegeId, setCollegeId] = useState("");
   // const [role, setRole] = useState("other");
-
 
   const handleSignUp = async (e) => {
     try {

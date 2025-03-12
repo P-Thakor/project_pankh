@@ -17,9 +17,9 @@ const Footer = () => {
       </div>
       <div className="flex justify-evenly justify-self-end sm:flex-col">
         {footerLinks.map((footerLink, index) => (
-          <div key={index}>
+          <div key={index} className="flex ">
             {footerLink.links.map((link, index) => (
-              <a key={index} href={link.url} className="mx-5">
+              <a key={index} href={link.url} className="mx-3 sm:mx-5">
                 {link.title}
               </a>
             ))}

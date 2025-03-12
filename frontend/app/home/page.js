@@ -72,7 +72,7 @@ const page = () => {
   // console.log(isAuthorized);
   // console.log(user.role);
   return (
-    <main className="overflow-hidden">
+    <main className="overflow-hidden min-h-screen">
       <Hero />
       <div className="flex flex-col items-center justify-between w-full mb-10 sm:px-20 sm:flex-row">
         <div className="flex flex-col items-center w-full mb-4 sm:flex-row sm:w-1/2 sm:mb-0 sm:items-start">

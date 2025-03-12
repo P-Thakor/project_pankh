@@ -2,6 +2,8 @@ import GenerateReportButton from "@/components/GenerateReportButton";
 import UserList from "@/components/UserList";
 import { fetchEventById, fetchEvents } from "@/utils";
 
+export const dynamic = "force-dynamic";
+
 const AttendancePage = async ({ params }) => {
   if (!params?.id)
     return <p className="text-red-500 text-center py-4">Invalid Event</p>;

@@ -1,6 +1,8 @@
 import { EventParticipants } from "@/components";
 import { fetchEventById, fetchEvents } from "@/utils";
 
+export const dynamic = "force-dynamic";
+
 const ParticipantsPage = async({params}) => {
 
   const event = await fetchEventById(params.id);

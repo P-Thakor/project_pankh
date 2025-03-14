@@ -13,6 +13,7 @@ const fs = require('fs');
 const path = require('path');
 const emojiUnicode = require('emoji-unicode');
 const axios = require('axios');
+
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: 'dosqfitt3', // Your Cloudinary cloud name
@@ -220,10 +221,35 @@ exports.generateEventRepot = async (req, res, next) => {
     );
 
     // Create PDF and Pipe it to Response
-    const doc = new PDFDocument({ margin: 50 });
+    const doc = new PDFDocument({ margin: 30 });
     doc.pipe(res);
 
     // **Event Report Header**
+    const pathToLogo = path.join(__dirname, '../public/charusat_logo.png');
+    doc.image(pathToLogo, 30, 20, {
+      fit: [200, 75],
+      align: 'left',
+      valign: 'top',
+    });
+    const pathToLogo2 = path.join(__dirname, '../public/depstar_logo.png');
+    const imageWidth = 100; // Width of the image
+    const imageHeight = 75; // Height of the image
+    const pageWidth = doc.page.width; // Total width of the page
+    const marginRight = 0; // Right margin
+    const marginTop = 0; // Top margin
+
+    // Calculate the x-coordinate for the top-right corner
+    const x = pageWidth - imageWidth - marginRight;
+
+    // Set the y-coordinate for the top margin
+    const y = marginTop;
+
+    // Add the image at the calculated position
+    doc.image(pathToLogo2, x, y, {
+      width: imageWidth,
+      height: imageHeight,
+    });
+    doc.moveDown(6);
     doc
       .fontSize(20)
       .fillColor('#1F618D')
@@ -266,14 +292,27 @@ exports.generateEventRepot = async (req, res, next) => {
           url: event.coverImage,
           responseType: 'arraybuffer',
         });
+
         const imageBuffer = Buffer.from(response.data, 'binary');
 
+        const imageWidth = 500; // Fixed width
+        const imageHeight = 300; // Fixed height
+        const marginTop = 50; // Space from the top
+        const marginBottom = 20; // Space after the image
+
+        // **Always Start a New Page for the Cover Image**
+        doc.addPage();
+
+        // **Place the Cover Image at the Top**
         doc.image(imageBuffer, {
-          fit: [500, 300],
+          fit: [imageWidth, imageHeight],
           align: 'center',
           valign: 'top',
         });
-        doc.moveDown(500);
+
+        // **Move Cursor Below the Image Before Writing Any Text**
+        doc.y = imageHeight + marginTop + marginBottom;
+        doc.moveDown(2); // Add extra spacing before text
       } catch (error) {
         console.error('Error loading cover image:', error);
       }

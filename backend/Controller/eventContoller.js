@@ -184,6 +184,7 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
 
 exports.generateEventRepot = async (req, res, next) => {
   try {
+    // Fetch event details
     const event = await Event.findById(req.params.id)
       .populate('participants', 'username collegeId email')
       .populate('attendance', 'username collegeId email')
@@ -196,6 +197,7 @@ exports.generateEventRepot = async (req, res, next) => {
       return res.status(404).json({ error: 'Event not found' });
     }
 
+    // Prepare attendance and absentees data
     const attendance = event.attendance.map((user) => ({
       username: user.username,
       collegeId: user.collegeId,
@@ -213,136 +215,37 @@ exports.generateEventRepot = async (req, res, next) => {
         !attendance.some((attendee) => attendee.collegeId === user.collegeId),
     );
 
-    // Set Response Headers for PDF Download
+    // Set response headers for PDF download
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader(
       'Content-Disposition',
       'attachment; filename="event_report.pdf"',
     );
 
-    // Create PDF and Pipe it to Response
+    // Create PDF document
     const doc = new PDFDocument({ margin: 30 });
     doc.pipe(res);
 
-    // **Event Report Header**
-    const pathToLogo = path.join(__dirname, '../public/charusat_logo.png');
-    doc.image(pathToLogo, 30, 20, {
-      fit: [200, 75],
-      align: 'left',
-      valign: 'top',
-    });
-    const pathToLogo2 = path.join(__dirname, '../public/depstar_logo.png');
-    const imageWidth = 100; // Width of the image
-    const imageHeight = 75; // Height of the image
-    const pageWidth = doc.page.width; // Total width of the page
-    const marginRight = 0; // Right margin
-    const marginTop = 0; // Top margin
+    // Add header logos
+    addHeaderLogos(doc);
 
-    // Calculate the x-coordinate for the top-right corner
-    const x = pageWidth - imageWidth - marginRight;
+    // Add event details
+    addEventDetails(doc, event);
 
-    // Set the y-coordinate for the top margin
-    const y = marginTop;
+    // Add cover image if available
+    await addCoverImage(doc, event.coverImage);
 
-    // Add the image at the calculated position
-    doc.image(pathToLogo2, x, y, {
-      width: imageWidth,
-      height: imageHeight,
-    });
-    doc.moveDown(6);
-    doc
-      .fontSize(20)
-      .fillColor('#1F618D')
-      .font('Helvetica-Bold')
-      .text('Event Report', { align: 'center', underline: true });
-    doc.moveDown(1);
-
-    // **Event Details**
-    doc.font('Helvetica-Bold').fontSize(14).fillColor('#000');
-    doc.text('Event Name:', { continued: true });
-    doc.font('Helvetica').text(` ${event.name} `);
-    doc.moveDown(0.5);
-
-    doc.font('Helvetica-Bold').text('Event Venue:', { continued: true });
-    doc.font('Helvetica').text(` ${event.locations}`);
-    doc.moveDown(0.5);
-
-    doc.font('Helvetica-Bold').text('Description:', { continued: true });
-    doc.font('Helvetica').text(` ${event.description}`);
-    doc.moveDown(0.5);
-
-    doc.font('Helvetica-Bold').text('Start Date:', { continued: true });
-    doc
-      .font('Helvetica')
-      .text(` ${new Date(event.startDate).toLocaleString()}`);
-    doc.moveDown(0.5);
-
-    doc.font('Helvetica-Bold').text('End Date:', { continued: true });
-    doc.font('Helvetica').text(` ${new Date(event.endDate).toLocaleString()}`);
-    doc.moveDown(0.5);
-
-    doc.font('Helvetica-Bold').text('Organizer:', { continued: true });
-    doc.font('Helvetica').text(` ${event.creator.username}`);
-    doc.moveDown(1);
-
-    // **Add Cover Image if Available (Without Storing Locally)**
-    if (event.coverImage && event.coverImage.startsWith('http')) {
-      try {
-        const response = await axios({
-          url: event.coverImage,
-          responseType: 'arraybuffer',
-        });
-
-        const imageBuffer = Buffer.from(response.data, 'binary');
-
-        const imageWidth = 500; // Fixed width
-        const imageHeight = 300; // Fixed height
-        const marginTop = 50; // Space from the top
-        const marginBottom = 20; // Space after the image
-
-        // **Always Start a New Page for the Cover Image**
-        doc.addPage();
-
-        // **Place the Cover Image at the Top**
-        doc.image(imageBuffer, {
-          fit: [imageWidth, imageHeight],
-          align: 'center',
-          valign: 'top',
-        });
-
-        // **Move Cursor Below the Image Before Writing Any Text**
-        doc.y = imageHeight + marginTop + marginBottom;
-        doc.moveDown(2); // Add extra spacing before text
-      } catch (error) {
-        console.error('Error loading cover image:', error);
-      }
-    }
-
-    // **Attendance Table**
+    // Add attendance table
     if (attendance.length > 0) {
-      doc.moveDown(1);
-      doc
-        .fontSize(16)
-        .fillColor('#1F618D')
-        .font('Helvetica-Bold')
-        .text('Attendance:', { align: 'left', underline: true });
-      doc.moveDown(0.5);
-      addTable(doc, ['No.', 'Name', 'College ID', 'Email'], attendance);
+      addTableSection(doc, 'Attendance', attendance);
     }
 
-    // **Absentees Table**
+    // Add absentees table
     if (absentees.length > 0) {
-      doc.moveDown(1);
-      doc.x = doc.page.margins.left;
-      doc
-        .fontSize(16)
-        .fillColor('#1F618D')
-        .font('Helvetica-Bold')
-        .text('Absentees:', { align: 'left', underline: true });
-      doc.moveDown(0.5);
-      addTable(doc, ['No.', 'Name', 'College ID', 'Email'], absentees);
+      addTableSection(doc, 'Absentees', absentees);
     }
 
+    // Finalize the PDF
     doc.end();
   } catch (error) {
     console.error('Error generating PDF:', error);
@@ -350,7 +253,112 @@ exports.generateEventRepot = async (req, res, next) => {
   }
 };
 
-// Function to add tables to the PDF
+// Helper function to add header logos
+function addHeaderLogos(doc) {
+  try {
+    const pathToLogo1 = path.join(__dirname, '../public/charusat_logo.png');
+    const pathToLogo2 = path.join(__dirname, '../public/depstar_logo.png');
+
+    // Add left logo
+    if (fs.existsSync(pathToLogo1)) {
+      doc.image(pathToLogo1, 30, 20, { fit: [200, 75], align: 'left' });
+    }
+
+    // Add right logo
+    const pageWidth = doc.page.width;
+    const imageWidth = 100;
+    const marginRight = 10;
+    const x = pageWidth - imageWidth - marginRight;
+    if (fs.existsSync(pathToLogo2)) {
+      doc.image(pathToLogo2, x, 0, { width: imageWidth, height: 75 });
+    }
+
+    doc.moveDown(6);
+  } catch (error) {
+    console.error('Error adding header logos:', error);
+  }
+}
+
+// Helper function to add event details
+function addEventDetails(doc, event) {
+  doc
+    .fontSize(20)
+    .fillColor('#1F618D')
+    .font('Helvetica-Bold')
+    .text('Event Report', { align: 'center', underline: true });
+  doc.moveDown(1);
+
+  doc.font('Helvetica-Bold').fontSize(14).fillColor('#000');
+  doc.text('Event Name:', { continued: true });
+  doc.font('Helvetica').text(` ${event.name} `);
+  doc.moveDown(0.5);
+
+  doc.font('Helvetica-Bold').text('Event Venue:', { continued: true });
+  doc.font('Helvetica').text(` ${event.locations}`);
+  doc.moveDown(0.5);
+
+  doc.font('Helvetica-Bold').text('Description:', { continued: true });
+  doc.font('Helvetica').text(` ${event.description}`);
+  doc.moveDown(0.5);
+
+  doc.font('Helvetica-Bold').text('Start Date:', { continued: true });
+  doc.font('Helvetica').text(` ${new Date(event.startDate).toLocaleString()}`);
+  doc.moveDown(0.5);
+
+  doc.font('Helvetica-Bold').text('End Date:', { continued: true });
+  doc.font('Helvetica').text(` ${new Date(event.endDate).toLocaleString()}`);
+  doc.moveDown(0.5);
+
+  doc.font('Helvetica-Bold').text('Organizer:', { continued: true });
+  doc.font('Helvetica').text(` ${event.creator.username}`);
+  doc.moveDown(1);
+}
+
+// Helper function to add cover image
+async function addCoverImage(doc, coverImageUrl) {
+  if (coverImageUrl && coverImageUrl.startsWith('http')) {
+    try {
+      const response = await axios({
+        url: coverImageUrl,
+        responseType: 'arraybuffer',
+      });
+      const imageBuffer = Buffer.from(response.data, 'binary');
+
+      const imageHeight = 300;
+      const availableSpace = doc.page.height - doc.y - doc.page.margins.bottom;
+
+      // Add a new page if the image doesn't fit
+      if (availableSpace < imageHeight) {
+        doc.addPage();
+      }
+
+      doc.image(imageBuffer, {
+        fit: [500, 300],
+        align: 'center',
+        valign: 'top',
+      });
+      doc.moveDown(1);
+    } catch (error) {
+      console.error('Error loading cover image:', error);
+    }
+  }
+}
+
+// Helper function to add table sections
+function addTableSection(doc, title, data) {
+  doc.moveDown(1);
+  doc
+    .fontSize(16)
+    .fillColor('#1F618D')
+    .font('Helvetica-Bold')
+    .text(`${title}:`, { align: 'left', underline: true });
+  doc.moveDown(0.5);
+
+  const headers = ['No.', 'Name', 'College ID', 'Email'];
+  addTable(doc, headers, data);
+}
+
+// Helper function to add tables
 function addTable(doc, headers, data) {
   const startX = 50;
   let currentY = doc.y + 10;

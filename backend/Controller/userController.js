@@ -93,6 +93,7 @@ exports.activateUser = catchAsync(async (req, res, next) => {
     return next(new AppError(404, 'User not found'));
   }
   user.active = true;
+  user.missedEventCounter = 0;
   await user.save();
   res.status(200).json({
     status: 'success',

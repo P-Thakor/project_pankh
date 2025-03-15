@@ -1,4 +1,62 @@
+import { FaPhone, FaEnvelope, FaLinkedin } from "react-icons/fa";
+
 const AboutUsPage = () => {
+  const teamMembers = [
+    {
+      name: "Mr. Jay Patel",
+      role: "Assistant Professor | Mentor",
+      phone: "+919428153390",
+      email: "jaypatel.dce@charusat.ac.in",
+      linkedin: "https://www.linkedin.com/in/jrbpatel/",
+      image: "/assets/images/jaysir.png",
+    },
+    {
+      name: "Parth Thakor",
+      role: "Project Manager & Frontend Developer",
+      id: "22DCE124",
+      phone: "+917490001678",
+      email: "22dce124@charusat.edu.in",
+      linkedin: "https://www.linkedin.com/in/parththakor/",
+      image: "/assets/images/parth.png",
+    },
+    {
+      name: "Kandarp Vyas",
+      role: "Backend Developer",
+      id: "22DCE133",
+      phone: "+918511123848",
+      email: "22dce133@charusat.edu.in",
+      linkedin: "https://www.linkedin.com/in/vyaskandarp/",
+      image: "/assets/images/kandarp.png",
+    },
+    {
+      name: "Hemax Patel",
+      role: "Frontend Developer",
+      id: "22DCE069",
+      phone: "+918488894484",
+      email: "22dce069@charusat.edu.in",
+      linkedin: "https://www.linkedin.com/in/hemax-patel/",
+      image: "/assets/images/hemax.png",
+    },
+    {
+      name: "Namra Vekariya",
+      role: "Backend Developer",
+      id: "22DCE131",
+      phone: "+917096740206",
+      email: "22dce131@charusat.edu.in",
+      linkedin: "https://www.linkedin.com/in/namra-vekariya-69b3862a3/",
+      image: "/assets/images/namra.png",
+    },
+    {
+      name: "Atmiy Vithani",
+      role: "UI/UX Designer",
+      id: "22DCE132",
+      phone: "+916351818987",
+      email: "22dce132@charusat.edu.in",
+      linkedin: "https://www.linkedin.com/in/atmiy-vithani-489855263/",
+      image: "/assets/images/atmiy.png",
+    },
+  ];
+
   return (
     <>
       <div className="p-6 mx-auto bg-white max-w-7xl">
@@ -37,119 +95,38 @@ const AboutUsPage = () => {
       </h1>
       <div className="flex flex-col items-center min-h-screen p-5">
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-          <div className="flex flex-col items-center p-4 bg-blue-100 border border-blue-200 rounded-lg shadow-md">
-            <img
-              src="/assets/images/jaysir.png"
-              alt="Jay Patel"
-              className="object-cover w-40 h-40 mb-3 rounded-full"
-            />
-            <h1 className="text-2xl">Mr. Jay Patel</h1>
-            <h2 className="mt-1 text-xl">Assistant Professor</h2>
-            <h2 className="text-xl">Mentor</h2>
-            <div className="flex items-center justify-center">
-              <h3 className="text-lg">Phone:</h3>
-              <p className="ml-2 text-blue-600">+91 9428153390</p>
-            </div>
-            <div className="flex justify-center">
-              <h3>Email:</h3>
-              <p className="ml-2 text-blue-600">jaypatel.dce@charusat.ac.in</p>
-            </div>
-          </div>
+          {teamMembers.map((member, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center p-4 bg-blue-100 border border-blue-200 rounded-lg shadow-md"
+            >
+              <img
+                src={member.image}
+                alt={member.name}
+                className="object-cover w-40 h-40 mb-3 rounded-full"
+              />
+              <h1 className="text-2xl font-semibold">{member.name}</h1>
+              {member.id && <h2 className="mt-1 text-xl">{member.id}</h2>}
+              <h2 className="text-xl">{member.role}</h2>
 
-          <div className="flex flex-col items-center p-4 bg-blue-100 border border-blue-200 rounded-lg shadow-md">
-            <img
-              src="/assets/images/parth.png"
-              alt="Parth Thakor"
-              className="object-cover w-40 h-40 mb-3 rounded-full"
-            />
-            <h1 className="text-2xl">Parth Thakor</h1>
-            <h2 className="mt-1 text-xl">22DCE124</h2>
-            <h2 className="text-xl">Project Manager & Frontend Developer</h2>
-            <div className="flex items-center justify-center">
-              <h3 className="text-lg">Phone:</h3>
-              <p className="ml-2 text-blue-600">+91 7490001678</p>
+              <div className="flex items-center mt-3 space-x-4">
+                <a href={`tel:${member.phone}`} className="text-blue-600">
+                  <FaPhone />
+                </a>
+                <a href={`mailto:${member.email}`} className="text-blue-600">
+                  <FaEnvelope />
+                </a>
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600"
+                >
+                  <FaLinkedin />
+                </a>
+              </div>
             </div>
-            <div className="flex justify-center">
-              <h3>Email:</h3>
-              <p className="ml-2 text-blue-600">22dce124@charusat.edu.in</p>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center p-4 bg-blue-100 border border-blue-200 rounded-lg shadow-md">
-            <img
-              src="/assets/images/kandarp.png"
-              alt="Kandarp Vyas"
-              className="object-cover w-40 h-40 mb-3 rounded-full"
-            />
-            <h1 className="text-2xl">Kandarp Vyas</h1>
-            <h2 className="mt-1 text-xl">22DCE133</h2>
-            <h2 className="text-xl">Backend Developer</h2>
-            <div className="flex items-center justify-center">
-              <h3 className="text-lg">Phone:</h3>
-              <p className="ml-2 text-blue-600">+91 8511123848</p>
-            </div>
-            <div className="flex justify-center">
-              <h3>Email:</h3>
-              <p className="ml-2 text-blue-600">22dce133@charusat.edu.in</p>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center p-4 bg-blue-100 border border-blue-200 rounded-lg shadow-md">
-            <img
-              src="/assets/images/hemax.png"
-              alt="Hemax Patel"
-              className="object-cover w-40 h-40 mb-3 rounded-full"
-            />
-            <h1 className="text-2xl">Hemax Patel</h1>
-            <h2 className="mt-1 text-xl">22DCE069</h2>
-            <h2 className="text-xl">Frontend Developer</h2>
-            <div className="flex items-center justify-center">
-              <h3 className="text-lg">Phone:</h3>
-              <p className="ml-2 text-blue-600">+91 8488894484</p>
-            </div>
-            <div className="flex justify-center">
-              <h3>Email:</h3>
-              <p className="ml-2 text-blue-600">22dce069@charusat.edu.in</p>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center p-4 bg-blue-100 border border-blue-200 rounded-lg shadow-md">
-            <img
-              src="/assets/images/namra.png"
-              alt="Namra Vekariya"
-              className="object-cover w-40 h-40 mb-3 rounded-full"
-            />
-            <h1 className="text-2xl">Namra Vekariya</h1>
-            <h2 className="mt-1 text-xl">22DCE131</h2>
-            <h2 className="text-xl">Backend Developer</h2>
-            <div className="flex items-center justify-center">
-              <h3 className="text-lg">Phone:</h3>
-              <p className="ml-2 text-blue-600">+91 7096740206</p>
-            </div>
-            <div className="flex justify-center">
-              <h3>Email:</h3>
-              <p className="ml-2 text-blue-600">22dce131@charusat.edu.in</p>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center p-4 bg-blue-100 border border-blue-200 rounded-lg shadow-md">
-            <img
-              src="/assets/images/atmiy.png"
-              alt="Atmiy Vithani"
-              className="object-cover w-40 h-40 mb-3 rounded-full"
-            />
-            <h1 className="text-2xl">Atmiy Vithani</h1>
-            <h2 className="mt-1 text-xl">22DCE132</h2>
-            <h2 className="text-xl">UI/UX Designer</h2>
-            <div className="flex items-center justify-center">
-              <h3 className="text-lg">Phone:</h3>
-              <p className="ml-2 text-blue-600">+91 6351818987</p>
-            </div>
-            <div className="flex justify-center">
-              <h3>Email:</h3>
-              <p className="ml-2 text-blue-600">22dce132@charusat.edu.in</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </>

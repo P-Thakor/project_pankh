@@ -30,15 +30,15 @@ PANKH introduces a digital system to streamline event organization, student part
 - **Tools:** Postman, Prettier 
 
 ## Developed By:
-[Parth Thakor](https://github.com/P-Thakor)
+- [Parth Thakor](https://github.com/P-Thakor)
 
-[Hemax Patel](https://github.com/hemaxpatel)
+- [Hemax Patel](https://github.com/hemaxpatel)
 
-[Kandarp Vyas](https://github.com/Kandarpvyas2591)
+- [Kandarp Vyas](https://github.com/Kandarpvyas2591)
 
-[Namra Vekariya](https://github.com/Namra-Vekariya)
+- [Namra Vekariya](https://github.com/Namra-Vekariya)
 
-[Atmiy Vithani](https://github.com/Atmiy1234)
+- [Atmiy Vithani](https://github.com/Atmiy1234)
 
 
 ## Installation & Setup

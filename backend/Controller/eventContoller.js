@@ -422,6 +422,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       contactEmail: req.user.email,
       contactNumber: req.user.contactNumber,
     });
+    console.log(req.body);
 
     // await new sendEmail(req.user.email, 'eventCreated').sendNewEventAlert(
     //   newEvent,
@@ -464,7 +465,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
         await Promise.all(
           emailData.map(async (user) => {
             const emailData = new sendEmail(user.email, 'eventCreated');
-            await emailData.sendNewEventAlert(newEvent);
+            // await emailData.sendNewEventAlert(newEvent);
           }),
         );
       }
@@ -484,7 +485,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
           await Promise.all(
             emailData.map(async (user) => {
               const emailData = new sendEmail(user.email, 'eventCreated');
-              await emailData.sendNewEventAlert(newEvent);
+              // await emailData.sendNewEventAlert(newEvent);
             }),
           );
         }
@@ -508,7 +509,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
           await Promise.all(
             yearData.map(async (user) => {
               const emailData = new sendEmail(user.email, 'eventCreated');
-              await emailData.sendNewEventAlert(newEvent);
+              // await emailData.sendNewEventAlert(newEvent);
             }),
           );
         }
@@ -520,7 +521,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       await Promise.all(
         otherEmail.map(async (email) => {
           const emailData = new sendEmail(email, 'eventCreated');
-          await emailData.sendNewEventAlert(newEvent);
+          // await emailData.sendNewEventAlert(newEvent);
         }),
       );
     }

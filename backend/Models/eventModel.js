@@ -111,14 +111,12 @@ const eventSchema = new mongoose.Schema({
   ],
   facultyCoordinators: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      type: String,
     },
   ],
   studentCoordinators: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      type: String,
     },
   ],
 });

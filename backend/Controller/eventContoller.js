@@ -420,7 +420,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       ...req.body,
       creator: req.user.id,
       contactEmail: req.user.email,
-      contactNumber: req.user.contactNumber,
+      contactNumber: req.user.contactNumber || '',
     });
     console.log(req.body);
 
@@ -455,17 +455,17 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       }).select('email');
 
       const emailData = emailData1.concat(emailData2);
-      console.log('Department Regex:', regexPattern);
-      console.log('Year Patterns:', yearPatterns);
-      console.log('Email Faculty:', emailData2);
-      console.log('Email Students:', emailData1);
-      console.log('Matching Emails:', emailData);
+      // console.log('Department Regex:', regexPattern);
+      // console.log('Year Patterns:', yearPatterns);
+      // console.log('Email Faculty:', emailData2);
+      // console.log('Email Students:', emailData1);
+      // console.log('Matching Emails:', emailData);
 
       if (emailData.length > 0) {
         await Promise.all(
           emailData.map(async (user) => {
             const emailData = new sendEmail(user.email, 'eventCreated');
-            // await emailData.sendNewEventAlert(newEvent);
+            await emailData.sendNewEventAlert(newEvent);
           }),
         );
       }
@@ -485,7 +485,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
           await Promise.all(
             emailData.map(async (user) => {
               const emailData = new sendEmail(user.email, 'eventCreated');
-              // await emailData.sendNewEventAlert(newEvent);
+              await emailData.sendNewEventAlert(newEvent);
             }),
           );
         }
@@ -509,7 +509,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
           await Promise.all(
             yearData.map(async (user) => {
               const emailData = new sendEmail(user.email, 'eventCreated');
-              // await emailData.sendNewEventAlert(newEvent);
+              await emailData.sendNewEventAlert(newEvent);
             }),
           );
         }
@@ -521,7 +521,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       await Promise.all(
         otherEmail.map(async (email) => {
           const emailData = new sendEmail(email, 'eventCreated');
-          // await emailData.sendNewEventAlert(newEvent);
+          await emailData.sendNewEventAlert(newEvent);
         }),
       );
     }

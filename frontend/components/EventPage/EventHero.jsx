@@ -108,7 +108,6 @@ export default function EventHero({ item }) {
     <>
       <section className="relative m-5 lg:mx-10 lg:my-5 ">
         <div className="relative w-full h-[200px]  lg:h-[600px] rounded-md overflow-hidden">
-          
           {/* image */}
           {/* <Image
             src="/assets/images/EventHeroBg.png"
@@ -158,15 +157,15 @@ export default function EventHero({ item }) {
                       className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
                     >
                       {loading ? (
-                      <TailSpin
-                        type="Tailspin"
-                        color="#FFFFFF"
-                        height={25}
-                        width={25}
-                      />
-                    ) : (
-                      "View Attendance"
-                    )}
+                        <TailSpin
+                          type="Tailspin"
+                          color="#FFFFFF"
+                          height={25}
+                          width={25}
+                        />
+                      ) : (
+                        "View Attendance"
+                      )}
                     </button>
                   ) : (
                     <button
@@ -174,15 +173,15 @@ export default function EventHero({ item }) {
                       className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
                     >
                       {loading ? (
-                      <TailSpin
-                        type="Tailspin"
-                        color="#FFFFFF"
-                        height={25}
-                        width={25}
-                      />
-                    ) : (
-                      "View Participants"
-                    )}
+                        <TailSpin
+                          type="Tailspin"
+                          color="#FFFFFF"
+                          height={25}
+                          width={25}
+                        />
+                      ) : (
+                        "View Participants"
+                      )}
                     </button>
                   )
                 ) : registered ? (
@@ -192,7 +191,8 @@ export default function EventHero({ item }) {
                   >
                     Registered
                   </button>
-                ) : (new Date(item.startDate) < date || new Date(item.Registration?.deadline) < date) ? (
+                ) : new Date(item.startDate) < date ||
+                  new Date(item.Registration?.deadline) < date ? (
                   <button
                     className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
                     disabled
@@ -233,15 +233,75 @@ export default function EventHero({ item }) {
           <div className="items-center justify-center p-8 bg-white w-96 rounded-xl">
             <h3 className="mb-4 font-sans text-3xl font-bold">Date & Time</h3>
             <p className="mb-2 text-lg text-gray">
-            {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
+              {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
             </p>
             <p className="mb-4 text-lg text-primaryblue">{item.locations}</p>
-            <button
-              className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
-              onClick={handleRegisterForEvent}
-            >
-              Register Now
-            </button>
+            {isFaculty ? (
+              item.attendance.length > 0 ? (
+                <button
+                  onClick={handleViewAttendance}
+                  className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+                >
+                  {loading ? (
+                    <TailSpin
+                      type="Tailspin"
+                      color="#FFFFFF"
+                      height={25}
+                      width={25}
+                    />
+                  ) : (
+                    "View Attendance"
+                  )}
+                </button>
+              ) : (
+                <button
+                  onClick={handleViewParticipants}
+                  className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+                >
+                  {loading ? (
+                    <TailSpin
+                      type="Tailspin"
+                      color="#FFFFFF"
+                      height={25}
+                      width={25}
+                    />
+                  ) : (
+                    "View Participants"
+                  )}
+                </button>
+              )
+            ) : registered ? (
+              <button
+                className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
+                disabled
+              >
+                Registered
+              </button>
+            ) : new Date(item.startDate) < date ||
+              new Date(item.Registration?.deadline) < date ? (
+              <button
+                className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
+                disabled
+              >
+                Registration Closed
+              </button>
+            ) : (
+              <button
+                onClick={handleRegisterForEvent}
+                className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+              >
+                {loading ? (
+                  <TailSpin
+                    type="Tailspin"
+                    color="#FFFFFF"
+                    height={25}
+                    width={25}
+                  />
+                ) : (
+                  "Register Now"
+                )}
+              </button>
+            )}
             <button
               className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full"
               onClick={() => setIsUserModalVisible(true)}

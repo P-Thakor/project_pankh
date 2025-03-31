@@ -22,6 +22,10 @@ PANKH introduces a digital system to streamline event organization, student part
 - **Faculty Oversight** – Faculty can monitor student attendance and engagement.  
 - **Detailed Analytics** – Admins can access reports on student participation and event performance.
 
+## Images
+![Home Page](https://github.com/user-attachments/assets/46eabfc3-a217-4fd4-9dc8-b7b45845f15a)
+![Event Page](https://github.com/user-attachments/assets/a0232e54-9033-4489-8e42-7b56598a2294)
+
 ## Tech Stack
 - **Frontend:** Next.js, React.js, Tailwind CSS  
 - **Backend:** Node.js, Express.js, JWT  

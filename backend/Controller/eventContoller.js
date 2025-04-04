@@ -169,11 +169,11 @@ exports.getOneEvent = catchAsync(async (req, res, next) => {
 
   // Manually sort the populated fields
   if (event.participants) {
-    event.participants.sort((a, b) => a.collegeId.localeCompare(b.collegeId));
+    event.participants.sort((a, b) => a.collegeId?.localeCompare(b.collegeId));
   }
 
   if (event.attendance) {
-    event.attendance.sort((a, b) => a.collegeId.localeCompare(b.collegeId));
+    event.attendance.sort((a, b) => a.collegeId?.localeCompare(b.collegeId));
   }
 
   res.status(200).json({

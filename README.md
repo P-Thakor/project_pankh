@@ -4,6 +4,10 @@
 The PANKH platform is only accessible on the CHARUSAT network at:  
 🔗 **[PANKH Website](http://172.16.11.55:3005)** or **URL:** http://172.16.11.55:3005
 
+## Images
+![Home Page](https://github.com/user-attachments/assets/46eabfc3-a217-4fd4-9dc8-b7b45845f15a)
+![Event Page](https://github.com/user-attachments/assets/a0232e54-9033-4489-8e42-7b56598a2294)
+
 ## Project Overview
 PANKH is an innovative Event & Club Management platform designed to modernize how events and clubs are managed at our college. The platform replaces traditional offline paperwork with a streamlined digital system, making event organization and participation more efficient than ever.
 
@@ -31,13 +35,9 @@ PANKH introduces a digital system to streamline event organization, student part
 
 ## Developed By:
 - [Parth Thakor](https://github.com/P-Thakor)
-
 - [Hemax Patel](https://github.com/hemaxpatel)
-
 - [Kandarp Vyas](https://github.com/Kandarpvyas2591)
-
 - [Namra Vekariya](https://github.com/Namra-Vekariya)
-
 - [Atmiy Vithani](https://github.com/Atmiy1234)
 
 

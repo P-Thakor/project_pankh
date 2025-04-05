@@ -324,22 +324,42 @@ async function addCoverImage(doc, coverImageUrl) {
       });
       const imageBuffer = Buffer.from(response.data, 'binary');
 
+      // Add a clean new page before the image
+      doc.addPage();
+
+      const imageWidth = 500;
       const imageHeight = 300;
-      const availableSpace = doc.page.height - doc.y - doc.page.margins.bottom;
 
-      // Add a new page if the image doesn't fit
-      if (availableSpace < imageHeight) {
-        doc.addPage();
-      }
+      const topMargin = 50;
+      const centerX = (doc.page.width - imageWidth) / 2;
 
-      doc.image(imageBuffer, {
-        fit: [500, 300],
+      // Draw the image
+      doc.image(imageBuffer, centerX, topMargin, {
+        fit: [imageWidth, imageHeight],
         align: 'center',
         valign: 'top',
       });
-      doc.moveDown(1);
+
+      // Caption below image
+      doc
+        .fontSize(12)
+        .fillColor('gray')
+        .font('Helvetica-Oblique')
+        .text('Event Cover Photo', {
+          align: 'center',
+        });
+
+      // ✅ Reset styles here
+      doc.moveDown(1).font('Helvetica').fontSize(12).fillColor('black');
+
+      doc.y = topMargin + imageHeight + 60; // extra space
     } catch (error) {
       console.error('Error loading cover image:', error);
+      doc
+        .addPage()
+        .fontSize(12)
+        .fillColor('red')
+        .text('⚠️ Failed to load cover image.', { align: 'center' });
     }
   }
 }
@@ -351,7 +371,10 @@ function addTableSection(doc, title, data) {
     .fontSize(16)
     .fillColor('#1F618D')
     .font('Helvetica-Bold')
-    .text(`${title}:`, { align: 'left', underline: true });
+    .text(`${title}:`, {
+      align: 'left', // force heading to be on the left
+      underline: true,
+    });
   doc.moveDown(0.5);
 
   const headers = ['No.', 'Name', 'College ID', 'Email'];

@@ -84,7 +84,7 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
         req.files.coverImage[0],
         `coverImage_${Date.now()}`,
       );
-      if (req.url === '/updateEvent/:id') {
+      if (req.url.includes('/updateEvent')) {
         const updatedEvent = await Event.findByIdAndUpdate(
           req.params.id,
           { coverImage: coverImageUrl },

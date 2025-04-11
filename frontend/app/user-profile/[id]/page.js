@@ -43,7 +43,7 @@ const UserProfilePage = async ({ params }) => {
       });
       if (res.ok) {
         alert("User has been activated");
-        window.location.reload();
+        router.refresh();
       } else {
         alert("Failed to activate user");
       }

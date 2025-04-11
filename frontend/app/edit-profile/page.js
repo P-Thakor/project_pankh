@@ -60,7 +60,7 @@ const EditProfilePage = () => {
 
   const handleModalClose = () => {
     setShowModal(false);
-    router.push("/dashboard");
+    router.replace("/dashboard");
   };
 
   const handleSubmit = async (e) => {

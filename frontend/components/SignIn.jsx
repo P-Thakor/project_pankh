@@ -9,18 +9,17 @@ import UserContext from "../context/UserContext";
 import Image from "next/image";
 
 const SignIn = () => {
-
-    const router = useRouter();
-    const { user, loginUser } = useContext(UserContext);
-    useEffect(() => {
-      if (typeof window !== "undefined") {
-        const loggedIn = localStorage.getItem("isLoggedIn");
-        console.log(loggedIn, user);
-        if (loggedIn == 1 && user) {
-          router.push("/home");
-        }
+  const router = useRouter();
+  const { user, loginUser } = useContext(UserContext);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const loggedIn = localStorage.getItem("isLoggedIn");
+      console.log(loggedIn, user);
+      if (loggedIn == 1 && user) {
+        router.push("/home");
       }
-    }, [user]);
+    }
+  }, [user]);
 
   // const [username, setUsername] = useState('');
   const [email, setEmail] = useState("");
@@ -39,46 +38,54 @@ const SignIn = () => {
   const handleSignIn = async (e) => {
     setIsLoading(true);
     e.preventDefault();
-    const response = await fetch("http://localhost:8001/api/v1/auth/login", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // username,
-        email,
-        password,
-      }),
-    });
+    try {
+      const response = await fetch("http://localhost:8001/api/v1/auth/login", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          // username,
+          email,
+          password,
+        }),
+      });
 
-    if (response.status === 200) {
-      // alert("Login successfull.");
-      const res = await response.json();
-      loginUser(res.data.user);
-      // setModalType("success-login");
-      setModalTitle("Login Successful!");
-      setModalMessage("Welcome back! You have successfully logged in.");
-      setModalIconColor("bg-blue-500");
-      setIsvisible(true);
-      setTimeout(() => {
-        router.push("/home");
-      }, 2500);
-    } else {
+      if (response.status === 200) {
+        // alert("Login successfull.");
+        const res = await response.json();
+        loginUser(res.data.user);
+        // setModalType("success-login");
+        setModalTitle("Login Successful!");
+        setModalMessage("Welcome back! You have successfully logged in.");
+        setModalIconColor("bg-blue-500");
+        setIsvisible(true);
+        setEmail("");
+        setPassword("");
+        setTimeout(() => {
+          router.push("/home");
+        }, 2500);
+      } else {
+        // setModalType("error-login");
+        const data = await response.json();
+        setModalTitle("Login Unsuccessful");
+        setModalMessage(data.message);
+        // console.log(data);
+        setModalIconColor("bg-red-500");
+        setIsvisible(true);
+        // alert("Login failed.");
+      }
+    } catch (error) {
       // setModalType("error-login");
-      const data = await response.json();
       setModalTitle("Login Unsuccessful");
       setModalMessage(data.message);
-      // console.log(data);
       setModalIconColor("bg-red-500");
       setIsvisible(true);
-      // alert("Login failed.");
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
     }
-    // setUsername('');
-    setEmail("");
-    setPassword("");
-    setIsLoading(false);
-    // router.push("/home");
   };
 
   return (

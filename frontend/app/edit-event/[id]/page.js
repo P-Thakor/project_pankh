@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { convertToISO, fetchEventById, formattedTime } from "@/utils";
 import { TailSpin } from "react-loader-spinner";
+import { AuthModal } from "@/components";
 
 export default function EditEventPage({ params }) {
   const router = useRouter();
@@ -15,6 +16,10 @@ export default function EditEventPage({ params }) {
   const [deadlineTime, setDeadlineTime] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("");
   const [image, setImage] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [message, setMessage] = useState("");
+  const [iconColor, setIconColor] = useState("");
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -86,9 +91,12 @@ export default function EditEventPage({ params }) {
       formData.append("endDate", newEndTime);
       formData.append("startTime", newStartTime);
       formData.append("endTime", newEndTime);
-      formData.append("coverImage", image);
       formData.append("Registration[deadline]", newDeadline);
       console.log("formData: ", formData);
+
+      if (image) {
+        formData.append("coverImage", image);
+      }
 
       const res = await axios.patch(
         `/api/v1/event/updateEvent/${id}`,
@@ -96,10 +104,18 @@ export default function EditEventPage({ params }) {
       );
       console.log("Response: ", res.data);
       if (res.status === 200) {
-        alert("Event updated successfully!");
-        router.push("/view-event/" + id);
+        // alert("Event updated successfully!");
+        setModalTitle("Event Edited Successfully.");
+        setMessage("Please review the changes!");
+        setIconColor("bg-green-500");
+        setIsModalVisible(true);
+        // router.push("/view-event/" + id);
       } else {
-        alert("Failed to update event.");
+        setModalTitle("Event Editing Unsuccessful.");
+        setMessage("Please try again!");
+        setIconColor("bg-red-500");
+        setIsModalVisible(true);
+        // alert("Failed to update event.");
       }
     } catch (error) {
       console.error("Failed to update event:", error);
@@ -242,7 +258,7 @@ export default function EditEventPage({ params }) {
             {form.coverImage && (
               <>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Current Cover Image
+                  Current Poster
                 </label>
                 <img
                   src={form.coverImage}
@@ -252,13 +268,19 @@ export default function EditEventPage({ params }) {
               </>
             )}
 
-            {/* <input
-              type="file"
-              accept="image/*"
-              name="coverImage"
-              onChange={(e) => setImage(e.target.files[0])}
-              className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
-            /> */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Add New Event Poster{" "}
+                <span className="text-gray-500">(size limit: 10MB)</span>
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                name="coverImage"
+                onChange={(e) => setImage(e.target.files[0])}
+                className="w-full p-3 mb-4 text-sm border border-blue-100 rounded-lg bg-blue-50 focus:outline-none"
+              />
+            </div>
 
             {/* <input
           name="externalLink"
@@ -285,6 +307,18 @@ export default function EditEventPage({ params }) {
           </form>
         </div>
       </section>
+      <AuthModal
+        isVisible={isModalVisible}
+        title={modalTitle}
+        message={message}
+        iconColor={iconColor}
+        onClose={() => {
+          setIsModalVisible(false);
+          if (modalTitle == "Event Edited Successfully.") {
+            router.push("/view-event/" + id);
+          }
+        }}
+      />
     </>
   );
 }

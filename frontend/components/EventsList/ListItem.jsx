@@ -35,7 +35,7 @@ export default function ListItem({ item, isFaculty, isCreator }) {
         );
         if (res.ok) {
           setIsLoading(false);
-          router.reload();
+          router.refresh();
         }
       }
     } catch (error) {
@@ -74,20 +74,20 @@ export default function ListItem({ item, isFaculty, isCreator }) {
               className="rounded-md"
             />
           </div>
-          <div className="flex items-center justify-between mt-4">
-            <div
-              className="max-w-[350px] text-wrap"
-              // onClick={() => handleRedirect(`/view-event/${item._id}`)}
-            >
-              <h3 className="my-4 font-sans text-lg font-semibold overflow-ellipsis">
-                {item.name}
-              </h3>
-              <div className="flex items-center justify-between">
+          {/* <div className="flex w-full items-center mt-4"> */}
+          <div
+            className="max-w-[350px] text-wrap"
+            // onClick={() => handleRedirect(`/view-event/${item._id}`)}
+          >
+            <h3 className="my-4 font-sans text-lg font-semibold overflow-ellipsis">
+              {item.name}
+            </h3>
+            <div className="flex items-center justify-between">
               <p className="text-sm text-primaryblue">
                 {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
               </p>
               {isFaculty && (
-                <div className="">
+                <div>
                   {item.attendance && item.attendance.length > 0 ? (
                     <button
                       className="z-10 px-2 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
@@ -105,18 +105,18 @@ export default function ListItem({ item, isFaculty, isCreator }) {
                   )}
                 </div>
               )}
-              </div>
-              <p className="mt-4 text-gray-500">{item.locations}</p>
             </div>
+            <p className="mt-4 text-gray-500">{item.locations}</p>
           </div>
+          {/* </div> */}
           {isCreator && (
-            <div>
-              {/* <button
-              className="z-10 px-2 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
-              onClick={() => handleRedirect(`/edit-event/${item._id}`)}
-            >
-              Edit
-            </button> */}
+            <div className="flex items-center justify-between mt-4">
+              <button
+                className="z-10 px-5 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
+                onClick={() => handleRedirect(`/edit-event/${item._id}`)}
+              >
+                Edit
+              </button>
               <button
                 className="z-10 px-2 py-2 mt-2 text-red-400 rounded-md hover:bg-red-600 hover:text-white"
                 onClick={handleDeleteEvent}

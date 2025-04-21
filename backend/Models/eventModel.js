@@ -76,10 +76,6 @@ const eventSchema = new mongoose.Schema({
       validate: [validator.isEmail, 'Please provide a valid Email'],
     },
   ],
-  // {
-  //   type: mongoose.Schema.ObjectId,
-  //   ref: 'User',
-  // },
   clubOrganiser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Club',

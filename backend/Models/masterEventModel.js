@@ -24,16 +24,16 @@ const masterEventSchema = new mongoose.Schema(
     description: {
       type: String,
       trim: true,
-      required: [true, 'An Event must have a Description'],
+      // required: [true, 'An Event must have a Description'],
     },
     summary: {
       type: String,
-      required: [true, 'An Event must have a Summary'],
+      // required: [true, 'An Event must have a Summary'],
       trim: true,
     },
     locations: {
       type: String,
-      required: [true, 'An Event must have a Location'],
+      // required: [true, 'An Event must have a Location'],
       trim: true,
     },
     Registration: {

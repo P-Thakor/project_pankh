@@ -12,6 +12,7 @@ const session = require('express-session');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
+const masterEventRouter = require('./Routes/masterEventRoutes')
 const reviewRouter = require('./Routes/reviewRouter');
 const eventRouter = require('./Routes/eventRouter');
 const userRouter = require('./Routes/userRoutes');
@@ -103,6 +104,7 @@ app.use('/api/v1/club', clubRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/session', sessionRoutes);
+app.use('/api/v1/masterEvent',masterEventRouter)
 app.use(globalErrorHandler);
 
 module.exports = app;

@@ -5,10 +5,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
+import CancelEventModal from "../CancelEventModal";
 
 export default function ListItem({ item, isFaculty, isCreator }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); //for cancel event modal
 
   const handleRedirect = (url) => {
     setIsLoading(true);
@@ -41,6 +43,16 @@ export default function ListItem({ item, isFaculty, isCreator }) {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleCancelEvent = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleEventCancelled = (eventId, reason) => {
+    // Update your UI state or show a success message
+    console.log(`Event ${eventId} cancelled with reason: ${reason}`);
+    // You might want to refresh your events list or update the status
   };
   return (
     <>
@@ -123,10 +135,24 @@ export default function ListItem({ item, isFaculty, isCreator }) {
               >
                 Delete
               </button>
+
+              <button
+                onClick={() => handleCancelEvent("event-123")}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              >
+                Cancel Event
+              </button>
             </div>
           )}
         </div>
       )}
+
+      <CancelEventModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        eventId={item._id}
+        onCancel={handleEventCancelled}
+      />
     </>
   );
 }

@@ -4,7 +4,7 @@ import Image from "next/image";
 const AddNewEventTab = () => {
   return (
     <>
-      <div className="flex w-full px-0 py-10">
+      <div className="flex w-full px-0 py-10 lg:mt-10 mt-28">
         <Image
           src="/assets/images/newEvent.png"
           alt="add new event"

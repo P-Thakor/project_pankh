@@ -122,8 +122,8 @@ export default function EventHero({ item }) {
 
           {/* text on image */}
           <div className="absolute inset-0 flex">
-            <div className="flex flex-col justify-center w-2/3 px-10 lg:w-1/2 sm:w-full">
-              <h1 className="mb-6 font-bold text-white md:mb-12 text-2xl sm:text-5xl md:text-[4vw]">
+            <div className="flex flex-col justify-center w-full px-10 lg:w-1/2 sm:w-full">
+              <h1 className="mb-6 font-bold text-white md:mb-12 text-xl md:text-5xl md:text-[4vw]">
                 {/* event name */}
                 {item.name}
               </h1>
@@ -138,38 +138,71 @@ export default function EventHero({ item }) {
             </div>
 
             {/* book event */}
-            <div className="items-center justify-center hidden w-1/2 shadow-lg lg:flex">
-              <div className="items-center justify-center p-8 bg-white w-96 rounded-xl">
-                <h3 className="mb-4 font-sans text-3xl font-bold">
-                  Date & Time
-                </h3>
-                <p className="mb-2 text-lg text-gray">
-                  {formattedDate(item.startDate)},{" "}
-                  {formattedTime(item.startTime)}
-                </p>
-                <p className="mb-4 text-lg text-primaryblue">
-                  {item.locations}
-                </p>
-                {isFaculty ? (
-                  item.attendance.length > 0 ? (
+            {item.status !== "cancelled" ? (
+              <div className="items-center justify-center hidden w-1/2 shadow-lg lg:flex">
+                <div className="items-center justify-center p-8 bg-white w-96 rounded-xl">
+                  <h3 className="mb-4 font-sans text-3xl font-bold">
+                    Date & Time
+                  </h3>
+                  <p className="mb-2 text-lg text-gray">
+                    {formattedDate(item.startDate)},{" "}
+                    {formattedTime(item.startTime)}
+                  </p>
+                  <p className="mb-4 text-lg text-primaryblue">
+                    {item.locations}
+                  </p>
+                  {isFaculty ? (
+                    item.attendance.length > 0 ? (
+                      <button
+                        onClick={handleViewAttendance}
+                        className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+                      >
+                        {loading ? (
+                          <TailSpin
+                            type="Tailspin"
+                            color="#FFFFFF"
+                            height={25}
+                            width={25}
+                          />
+                        ) : (
+                          "View Attendance"
+                        )}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleViewParticipants}
+                        className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+                      >
+                        {loading ? (
+                          <TailSpin
+                            type="Tailspin"
+                            color="#FFFFFF"
+                            height={25}
+                            width={25}
+                          />
+                        ) : (
+                          "View Participants"
+                        )}
+                      </button>
+                    )
+                  ) : registered ? (
                     <button
-                      onClick={handleViewAttendance}
-                      className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+                      className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
+                      disabled
                     >
-                      {loading ? (
-                        <TailSpin
-                          type="Tailspin"
-                          color="#FFFFFF"
-                          height={25}
-                          width={25}
-                        />
-                      ) : (
-                        "View Attendance"
-                      )}
+                      Registered
+                    </button>
+                  ) : new Date(item.startDate) < date ||
+                    new Date(item.Registration?.deadline) < date ? (
+                    <button
+                      className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
+                      disabled
+                    >
+                      Registration Closed
                     </button>
                   ) : (
                     <button
-                      onClick={handleViewParticipants}
+                      onClick={handleRegisterForEvent}
                       className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
                     >
                       {loading ? (
@@ -180,28 +213,58 @@ export default function EventHero({ item }) {
                           width={25}
                         />
                       ) : (
-                        "View Participants"
+                        "Register Now"
                       )}
                     </button>
-                  )
-                ) : registered ? (
+                  )}
                   <button
-                    className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
-                    disabled
+                    className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full"
+                    onClick={() => setIsUserModalVisible(true)}
                   >
-                    Registered
+                    More Info
                   </button>
-                ) : new Date(item.startDate) < date ||
-                  new Date(item.Registration?.deadline) < date ? (
+                </div>
+              </div>
+            ) : (
+              <div className="items-center justify-center hidden w-1/2 shadow-lg lg:flex">
+                <div className="items-center justify-center p-8 bg-white w-96 rounded-xl">
+                  <h3 className="mb-4 font-sans text-3xl font-bold">
+                    Event Cancelled
+                  </h3>
+                  <p className="mb-2 text-lg text-gray">
+                    This event has been cancelled for the following reason:{" "}
+                    <br />
+                    {item.cancellationReason}
+                  </p>
+                  <p className="mb-4 text-lg text-primaryblue">
+                    {item.locations}
+                  </p>
                   <button
-                    className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
-                    disabled
+                    className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full"
+                    onClick={() => setIsUserModalVisible(true)}
                   >
-                    Registration Closed
+                    More Info
                   </button>
-                ) : (
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+      {/* responsive book box */}
+      <section>
+        {item.status !== "cancelled" ? (
+          <div className="flex items-center justify-center m-5 shadow-lg lg:hidden">
+            <div className="items-center justify-center p-8 bg-white w-96 rounded-xl">
+              <h3 className="mb-4 font-sans text-3xl font-bold">Date & Time</h3>
+              <p className="mb-2 text-lg text-gray">
+                {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
+              </p>
+              <p className="mb-4 text-lg text-primaryblue">{item.locations}</p>
+              {isFaculty ? (
+                item.attendance.length > 0 ? (
                   <button
-                    onClick={handleRegisterForEvent}
+                    onClick={handleViewAttendance}
                     className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
                   >
                     {loading ? (
@@ -212,50 +275,44 @@ export default function EventHero({ item }) {
                         width={25}
                       />
                     ) : (
-                      "Register Now"
+                      "View Attendance"
                     )}
                   </button>
-                )}
+                ) : (
+                  <button
+                    onClick={handleViewParticipants}
+                    className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+                  >
+                    {loading ? (
+                      <TailSpin
+                        type="Tailspin"
+                        color="#FFFFFF"
+                        height={25}
+                        width={25}
+                      />
+                    ) : (
+                      "View Participants"
+                    )}
+                  </button>
+                )
+              ) : registered ? (
                 <button
-                  className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full"
-                  onClick={() => setIsUserModalVisible(true)}
+                  className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
+                  disabled
                 >
-                  More Info
+                  Registered
                 </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* responsive book box */}
-      <section>
-        <div className="flex items-center justify-center m-5 shadow-lg lg:hidden">
-          <div className="items-center justify-center p-8 bg-white w-96 rounded-xl">
-            <h3 className="mb-4 font-sans text-3xl font-bold">Date & Time</h3>
-            <p className="mb-2 text-lg text-gray">
-              {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
-            </p>
-            <p className="mb-4 text-lg text-primaryblue">{item.locations}</p>
-            {isFaculty ? (
-              item.attendance.length > 0 ? (
+              ) : new Date(item.startDate) < date ||
+                new Date(item.Registration?.deadline) < date ? (
                 <button
-                  onClick={handleViewAttendance}
-                  className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
+                  className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
+                  disabled
                 >
-                  {loading ? (
-                    <TailSpin
-                      type="Tailspin"
-                      color="#FFFFFF"
-                      height={25}
-                      width={25}
-                    />
-                  ) : (
-                    "View Attendance"
-                  )}
+                  Registration Closed
                 </button>
               ) : (
                 <button
-                  onClick={handleViewParticipants}
+                  onClick={handleRegisterForEvent}
                   className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
                 >
                   {loading ? (
@@ -266,50 +323,38 @@ export default function EventHero({ item }) {
                       width={25}
                     />
                   ) : (
-                    "View Participants"
+                    "Register Now"
                   )}
                 </button>
-              )
-            ) : registered ? (
+              )}
               <button
-                className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
-                disabled
+                className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full"
+                onClick={() => setIsUserModalVisible(true)}
               >
-                Registered
+                More Info
               </button>
-            ) : new Date(item.startDate) < date ||
-              new Date(item.Registration?.deadline) < date ? (
-              <button
-                className="w-full mb-2 px-[30px] py-[10px] text-white rounded-md bg-primarydarkblue cursor-not-allowed"
-                disabled
-              >
-                Registration Closed
-              </button>
-            ) : (
-              <button
-                onClick={handleRegisterForEvent}
-                className="w-full mb-2 custom-btn hover:bg-primarydarkblue"
-              >
-                {loading ? (
-                  <TailSpin
-                    type="Tailspin"
-                    color="#FFFFFF"
-                    height={25}
-                    width={25}
-                  />
-                ) : (
-                  "Register Now"
-                )}
-              </button>
-            )}
-            <button
-              className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full"
-              onClick={() => setIsUserModalVisible(true)}
-            >
-              More Info
-            </button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex items-center justify-center m-5 shadow-lg lg:hidden">
+            <div className="items-center justify-center p-8 bg-white w-96 rounded-xl">
+              <h3 className="mb-4 font-sans text-3xl font-bold">
+                Event Cancelled
+              </h3>
+              <p className="mb-2 text-lg text-gray">
+                This event has been cancelled for the following reason: <br />
+                {item.cancellationReason}
+              </p>
+              <p className="mb-4 text-lg text-primaryblue">{item.locations}</p>
+              <button
+                className="px-[30px] py-[10px] text-white rounded-md hover:bg-gray-700 bg-gray-500 w-full"
+                onClick={() => setIsUserModalVisible(true)}
+              >
+                More Info
+              </button>
+            </div>
+          </div>
+        )}
       </section>
       <AuthModal
         isVisible={isModalVisible}

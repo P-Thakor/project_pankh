@@ -115,6 +115,14 @@ const eventSchema = new mongoose.Schema({
       type: String,
     },
   ],
+  status: {
+    type: String,
+    enum: ['active', 'cancelled', 'completed'],
+    default: 'active',
+  },
+  cancellationReason: {
+    type: String,
+  },
 });
 
 // eventSchema.path('contactNumbr').validate(function validatePhone() {

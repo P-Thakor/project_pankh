@@ -697,6 +697,33 @@ exports.registerEventForUser = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.cancelEvent = catchAsync(async (req, res, next) => {
+  const { eventId, cancellationReason } = req.body;
+  const event = await Event.findById(eventId);
+  if (!event) {
+    return res.status(404).json({ message: 'Event not found' });
+  }
+  if (event.status === 'cancelled') {
+    return res.status(400).json({ message: 'Event is already cancelled' });
+  }
+  if (!cancellationReason) {
+    return res.status(400).json({ message: 'Cancellation reason is required' });
+  }
+  if (event.status === 'completed') {
+    return res.status(400).json({ message: 'Event is already completed' });
+  }
+
+
+  event.status = 'cancelled';
+  event.cancellationReason = cancellationReason;
+  await event.save();
+  res.status(200).json({
+    status: 'success',
+    message: 'Event cancelled successfully',
+  });
+  // Notify participants about the cancellation
+});
+
 // Create a regex pattern to match any department name in the email
 // const regexPattern = req.body.department.join('|'); // E.g., "cse|ce|it"
 

@@ -53,4 +53,6 @@ router
   .delete(isAuthenticated, eventController.deleteEvent);
 
 router.route('/attendance/:id').post(userRole, eventController.attendance);
+
+router.route('/cancelEvent').patch(eventController.cancelEvent);
 module.exports = router;

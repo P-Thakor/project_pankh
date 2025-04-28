@@ -6,11 +6,16 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import CancelEventModal from "../CancelEventModal";
+import { AuthModal } from "..";
 
 export default function ListItem({ item, isFaculty, isCreator }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); //for cancel event modal
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false); //for auth modal
+  const [modalTitle, setModalTitle] = useState(""); //for auth modal title
+  const [message, setMessage] = useState(""); //for auth modal message
+  const [iconColor, setIconColor] = useState(""); //for auth modal icon color
 
   const handleRedirect = (url) => {
     setIsLoading(true);
@@ -23,6 +28,10 @@ export default function ListItem({ item, isFaculty, isCreator }) {
 
   const handleViewAttendance = () => {
     router.push(`/view-attendance/${item._id}`);
+  };
+
+  const handleOnClose = () => {
+    setIsModalOpen(false);
   };
 
   const handleDeleteEvent = async () => {
@@ -49,24 +58,36 @@ export default function ListItem({ item, isFaculty, isCreator }) {
     setIsModalOpen(true);
   };
 
-  const handleEventCancelled = (eventId, reason) => {
+  const handleEventCancelled = (finalResponse, cancellationStatus) => {
     // Update your UI state or show a success message
-    console.log(`Event ${eventId} cancelled with reason: ${reason}`);
-    // You might want to refresh your events list or update the status
+    if (cancellationStatus) {
+      setModalTitle("Event Cancelled");
+      setMessage(finalResponse);
+      setIconColor("bg-green-500");
+    } else {
+      setModalTitle("Cancellation Unsuccessful");
+      setMessage(finalResponse);
+      setIconColor("bg-red-500");
+    }
+    setIsAuthModalOpen(true);
+    router.refresh(); // Refresh the page to update the event status
   };
+
   return (
     <>
       {isLoading ? (
-        // <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-80">
         <div className="items-center justify-center w-96 h-96 pl-44 pt-44">
-          {/* <span className="text-2xl">Loading...</span> */}
           <TailSpin type="Tailspin" color="#00BFFF" height={50} width={50} />
         </div>
       ) : (
-        <div className="items-center justify-center p-4 transition-all duration-300 shadow-xl cursor-pointer w-100 rounded-xl hover:shadow-2xl hover:scale-105">
-          {/* <div className="absolute px-2 py-1 m-2 text-xs text-purple-600 bg-white rounded-xl">
-            {item.price !== 0 ? "PAID" : "FREE"}
-          </div> */}
+        <div className="items-center justify-center p-4 transition-all duration-300 shadow-xl cursor-pointer w-100 rounded-xl hover:shadow-2xl hover:scale-105 relative">
+          {/* Cancelled banner - Only shown when item status is cancelled */}
+          {item.status === "cancelled" && (
+            <div className="absolute top-0 left-0 w-full bg-red-600 text-white py-2 px-4 text-center font-bold rounded-t-xl z-10">
+              CANCELLED
+            </div>
+          )}
+
           <div
             className="object-contain"
             onClick={() => handleRedirect(`/view-event/${item._id}`)}
@@ -83,19 +104,29 @@ export default function ListItem({ item, isFaculty, isCreator }) {
               width={350}
               height={350}
               alt="event image"
-              className="rounded-md"
+              className={`rounded-md ${
+                item.status === "cancelled" ? "opacity-50" : ""
+              }`}
             />
           </div>
-          {/* <div className="flex w-full items-center mt-4"> */}
-          <div
-            className="max-w-[350px] text-wrap"
-            // onClick={() => handleRedirect(`/view-event/${item._id}`)}
-          >
-            <h3 className="my-4 font-sans text-lg font-semibold overflow-ellipsis">
-              {item.name}
+          <div className="max-w-[350px] text-wrap">
+            <h3
+              className={`my-4 font-sans text-lg font-semibold overflow-ellipsis ${
+                item.status === "cancelled" ? "text-gray-500" : ""
+              }`}
+            >
+              {item.name.length > 100
+                ? `${item.name.substring(0, 70)}...`
+                : item.name}
             </h3>
             <div className="flex items-center justify-between">
-              <p className="text-sm text-primaryblue">
+              <p
+                className={`text-sm ${
+                  item.status === "cancelled"
+                    ? "text-gray-500"
+                    : "text-primaryblue"
+                }`}
+              >
                 {formattedDate(item.startDate)}, {formattedTime(item.startTime)}
               </p>
               {isFaculty && (
@@ -120,12 +151,12 @@ export default function ListItem({ item, isFaculty, isCreator }) {
             </div>
             <p className="mt-4 text-gray-500">{item.locations}</p>
           </div>
-          {/* </div> */}
           {isCreator && (
             <div className="flex items-center justify-between mt-4">
               <button
                 className="z-10 px-5 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
                 onClick={() => handleRedirect(`/edit-event/${item._id}`)}
+                disabled={item.status === "cancelled"}
               >
                 Edit
               </button>
@@ -136,12 +167,14 @@ export default function ListItem({ item, isFaculty, isCreator }) {
                 Delete
               </button>
 
-              <button
-                onClick={() => handleCancelEvent("event-123")}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              >
-                Cancel Event
-              </button>
+              {item.status !== "cancelled" && (
+                <button
+                  onClick={handleCancelEvent}
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                >
+                  Cancel Event
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -149,9 +182,16 @@ export default function ListItem({ item, isFaculty, isCreator }) {
 
       <CancelEventModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleOnClose}
         eventId={item._id}
         onCancel={handleEventCancelled}
+      />
+      <AuthModal
+        isVisible={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        title={modalTitle}
+        message={message}
+        iconColor={iconColor}
       />
     </>
   );

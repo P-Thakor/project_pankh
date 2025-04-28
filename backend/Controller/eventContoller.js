@@ -435,127 +435,39 @@ function addTable(doc, headers, data) {
   });
   doc.y = currentY + 10;
 }
-
 exports.createEvent = catchAsync(async (req, res, next) => {
   try {
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    // Create the event
     const newEvent = await Event.create({
       ...req.body,
       creator: req.user.id,
       contactEmail: req.user.email,
       contactNumber: req.user.contactNumber || '',
     });
-    console.log(req.body);
+    console.log('Request Body:', req.body);
 
-    // await new sendEmail(req.user.email, 'eventCreated').sendNewEventAlert(
-    //   newEvent,
-    // );
-
-    if (
-      req.body.department &&
-      req.body.department.length > 0 &&
-      req.body.year &&
-      req.body.year.length > 0
-    ) {
-      const regexPattern = req.body.department.join('|');
-      const currentYear = new Date().getFullYear();
-
-      // Convert year array to corresponding year patterns (last two digits)
-      const yearPatterns = req.body.year.map((year) => {
-        const yearPattern = currentYear - year;
-        return yearPattern.toString().slice(-2);
-      });
-
-      // Join multiple year patterns using '|' to match any of them
-      const yearRegex = `^(${yearPatterns.join('|')})`;
-
-      const emailData1 = await User.find({
-        email: { $regex: `${yearRegex}${regexPattern}`, $options: 'i' },
-      }).select('email');
-
-      const emailData2 = await User.find({
-        email: { $regex: `(${regexPattern}).*\\.ac\\.in$`, $options: 'i' },
-      }).select('email');
-
-      const emailData = emailData1.concat(emailData2);
-      // console.log('Department Regex:', regexPattern);
-      // console.log('Year Patterns:', yearPatterns);
-      // console.log('Email Faculty:', emailData2);
-      // console.log('Email Students:', emailData1);
-      // console.log('Matching Emails:', emailData);
-
-      if (emailData.length > 0) {
-        await Promise.all(
-          emailData.map(async (user) => {
-            const emailData = new sendEmail(user.email, 'eventCreated');
-            await emailData.sendNewEventAlert(newEvent);
-          }),
-        );
-      }
-    } else {
-      if (req.body.department && req.body.department.length > 0) {
-        // Create a regex pattern to match any department name in the email
-        const regexPattern = req.body.department.join('|'); // E.g., "cse|ce|it"
-
-        // Find students whose email contains any of the department names
-        const emailData = await User.find({
-          email: { $regex: regexPattern, $options: 'i' }, // Case-insensitive match
-        }).select('email');
-
-        console.log('Matching Emails:', emailData);
-
-        if (emailData.length > 0) {
-          await Promise.all(
-            emailData.map(async (user) => {
-              const emailData = new sendEmail(user.email, 'eventCreated');
-              await emailData.sendNewEventAlert(newEvent);
-            }),
-          );
-        }
-      }
-      if (req.body.year && req.body.year.length > 0) {
-        const currentYear = new Date().getFullYear();
-        const yearPatterns = req.body.year.map((year) => {
-          return (currentYear - year).toString().slice(-2);
-        });
-
-        const yearRegex = `^(${yearPatterns.join('|')})`;
-
-        const yearData = await User.find({
-          email: { $regex: yearRegex, $options: 'i' },
-        }).select('email');
-
-        console.log('Year Patterns:', yearPatterns);
-        console.log('Matching Years:', yearData);
-
-        if (yearData.length > 0) {
-          await Promise.all(
-            yearData.map(async (user) => {
-              const emailData = new sendEmail(user.email, 'eventCreated');
-              await emailData.sendNewEventAlert(newEvent);
-            }),
-          );
-        }
-      }
-    }
-    const otherEmail = req.body.otherEmail;
-    console.log(otherEmail);
-    if (otherEmail) {
-      await Promise.all(
-        otherEmail.map(async (email) => {
-          const emailData = new sendEmail(email, 'eventCreated');
-          await emailData.sendNewEventAlert(newEvent);
-        }),
+    // Handle department and year-based email logic
+    if (req.body.department?.length > 0 && req.body.year?.length > 0) {
+      await sendEmailsForDepartmentsAndYears(
+        req.body.department,
+        req.body.year,
+        newEvent,
       );
+    } else {
+      if (req.body.department?.length > 0) {
+        await sendEmailsForDepartments(req.body.department, newEvent);
+      }
+      if (req.body.year?.length > 0) {
+        await sendEmailsForYears(req.body.year, newEvent);
+      }
     }
-    // const users = await User.find(); // Fetch all users or specific users
 
-    // await Promise.all(
-    //   users.map((user) => {
-    //     const email = new sendEmail(user.email, 'eventCreated'); // Instantiate the class with `new`
-    //     return email.sendNewEventAlert(newEvent); // Call the method on the instance
-    //   }),
-    // );
+    // Handle other emails
+    if (req.body.otherEmail?.length > 0) {
+      await sendEmailsToOtherEmails(req.body.otherEmail, newEvent);
+    }
+
+    // Send response
     res.status(201).json({
       status: 'success',
       data: newEvent,
@@ -565,8 +477,98 @@ exports.createEvent = catchAsync(async (req, res, next) => {
       console.error('Error in createEvent:', error);
       return next(new AppError('Event Name already exists', 400));
     }
+    next(error);
   }
 });
+
+const sendEmailsForDepartmentsAndYears = async (departments, years, event) => {
+  const currentYear = new Date().getFullYear();
+
+  // Convert year array to corresponding year patterns (last two digits)
+  const yearPatterns = years.map((year) => {
+    const yearPattern = currentYear - year;
+    return yearPattern.toString().slice(-2);
+  });
+
+  await Promise.all(
+    yearPatterns.map(async (year) => {
+      await Promise.all(
+        departments.map(async (dept) => {
+          const emailAddress = `${year}${dept}@charusat.edu.in`;
+          try {
+            console.log(`Generated email: ${emailAddress}`);
+            const emailData = new sendEmail(emailAddress, 'eventCreated');
+            await emailData.sendNewEventAlert(event);
+            console.log(`Email sent to: ${emailAddress}`);
+          } catch (error) {
+            console.error(`Error sending email to ${emailAddress}:`, error);
+          }
+        }),
+      );
+    }),
+  );
+};
+
+const sendEmailsForDepartments = async (departments, event) => {
+  const years = [22, 23, 24]; // Current year, 2nd year, and 3rd year
+
+  for (const dept of departments) {
+    for (const year of years) {
+      const emailAddress = `${year}${dept}@charusat.edu.in`;
+      try {
+        console.log(`Generated email: ${emailAddress}`);
+        const emailData = new sendEmail(emailAddress, 'eventCreated');
+        await emailData.sendNewEventAlert(event);
+        console.log(`Email sent to: ${emailAddress}`);
+      } catch (error) {
+        console.error(`Error sending email to ${emailAddress}:`, error);
+      }
+    }
+  }
+};
+
+const sendEmailsForYears = async (years, event) => {
+  const currentYear = new Date().getFullYear();
+  const yearPatterns = years.map((year) => {
+    const yearPattern = currentYear - year;
+    return yearPattern.toString().slice(-2);
+  });
+
+  const departments = ['dcse', 'dit', 'dce']; // Example departments
+
+  await Promise.all(
+    yearPatterns.map(async (year) => {
+      await Promise.all(
+        departments.map(async (dept) => {
+          const emailAddress = `${year}${dept}@charusat.edu.in`;
+          try {
+            console.log(`Generated email: ${emailAddress}`);
+            const emailData = new sendEmail(emailAddress, 'eventCreated');
+            await emailData.sendNewEventAlert(event);
+            console.log(`Email sent to: ${emailAddress}`);
+          } catch (error) {
+            console.error(`Error sending email to ${emailAddress}:`, error);
+          }
+        }),
+      );
+    }),
+  );
+};
+
+const sendEmailsToOtherEmails = async (emails, event) => {
+  await Promise.all(
+    emails.map(async (email) => {
+      try {
+        console.log(`Sending email to: ${email}`);
+        const emailData = new sendEmail(email, 'eventCreated');
+        await emailData.sendNewEventAlert(event);
+        console.log(`Email sent to: ${email}`);
+      } catch (error) {
+        console.error(`Error sending email to ${email}:`, error);
+      }
+    }),
+  );
+};
 
 exports.createEventByClub = catchAsync(async (req, res, next) => {
   const newEvent = await Event.create(req.body);
@@ -665,24 +667,6 @@ exports.attendance = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.resizeEventImage = catchAsync(async (req, res, next) => {
-//   console.log(req.files);
-//   // console.log(req.body);
-//   if (!req.files.coverImage || !req.files.photo) return next();
-
-//   // req.file.filename = `event-${Date.now()}.jpeg`;
-
-//   req.body.coverImage = `event-${Date.now()}-cover.jpeg`;
-//   await sharp(req.files.coverImage[0].buffer)
-//     .toFormat('jpeg')
-//     .jpeg({
-//       quality: 90,
-//     })
-//     .toFile(`./public/img/${req.body.coverImage}`);
-
-//   next();
-// });
-
 exports.registerEventForUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id);
   const event = await Event.findById(req.params.id);
@@ -712,3 +696,48 @@ exports.registerEventForUser = catchAsync(async (req, res, next) => {
     data: user,
   });
 });
+
+// Create a regex pattern to match any department name in the email
+// const regexPattern = req.body.department.join('|'); // E.g., "cse|ce|it"
+
+// Find students whose email contains any of the department names
+// const emailData = await User.find({
+//   email: { $regex: regexPattern, $options: 'i' }, // Case-insensitive match
+// }).select('email');
+
+// Join multiple year patterns using '|' to match any of them
+// const yearRegex = `^(${yearPatterns.join('|')})`;
+
+// const emailData1 = await User.find({
+//   email: { $regex: `${yearRegex}${regexPattern}`, $options: 'i' },
+// }).select('email');
+
+// const emailData2 = await User.find({
+//   email: { $regex: `(${regexPattern}).*\\.ac\\.in$`, $options: 'i' },
+// }).select('email');
+
+// const emailData = emailData1.concat(emailData2);
+
+// if (emailData.length > 0) {
+//   await Promise.all(
+//     emailData.map(async (user) => {
+//       // const emailData = new sendEmail(user.email, 'eventCreated');
+//       // await emailData.sendNewEventAlert(newEvent);
+//     }),
+//   );
+// }
+// await emailData.sendNewEventAlert(newEvent);
+// const currentYear = new Date().getFullYear();
+// const yearPatterns = req.body.year.map((year) => {
+//   return (currentYear - year).toString().slice(-2);
+// });
+// const yearRegex = `^(${yearPatterns.join('|')})`;
+// const yearData = await User.find({
+//   email: { $regex: yearRegex, $options: 'i' },
+// }).select('email');
+// if (yearData.length > 0) {
+//   await Promise.all(
+//     yearData.map(async (user) => {
+//     }),
+//   );
+// }

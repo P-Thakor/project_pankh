@@ -34,12 +34,19 @@ exports.signup = catchAsync(async (req, res, next) => {
   console.log(newUser);
   // await new SendEmail(newUser, '').sendWelcome();
 
-  const user = await User.findOne({
+  const Email = await User.findOne({
     email,
   });
 
-  if (!user) {
+  const Password = await User.findOne({
+    password,
+  });
+
+  if (!Email) {
     return next(new AppError('Email not found', 404));
+  }
+  if (!Password) {
+    return next(new AppError('password not found', 404));
   }
 
   const token = jwt.sign({ email }, process.env.JWT_SECRET, {

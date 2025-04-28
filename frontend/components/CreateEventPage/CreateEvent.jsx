@@ -513,7 +513,7 @@ const CreateEvent = () => {
                     3
                   </label>
                 </div>
-                <div>
+                {/* <div>
                   <input
                     type='checkbox'
                     id='year-4'
@@ -527,7 +527,7 @@ const CreateEvent = () => {
                     className='ml-2 text-sm text-gray-900'>
                     4
                   </label>
-                </div>
+                </div> */}
               </div>
             </div>
 

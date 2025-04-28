@@ -26,14 +26,9 @@ const masterEventSchema = new mongoose.Schema(
       trim: true,
       required: [true, 'An Event must have a Description'],
     },
-    summary: {
-      type: String,
-      required: [true, 'An Event must have a Summary'],
-      trim: true,
-    },
     locations: {
       type: String,
-      required: [true, 'An Event must have a Location'],
+      // required: [true, 'An Event must have a Location'],
       trim: true,
     },
     Registration: {
@@ -103,6 +98,12 @@ const masterEventSchema = new mongoose.Schema(
     studentCoordinators: [
       {
         type: String,
+      },
+    ],
+    participants: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Reference to the User model
       },
     ],
   },

@@ -658,6 +658,7 @@ exports.attendance = catchAsync(async (req, res, next) => {
   );
 
   // Save the updated event
+  event.status = 'completed'; // Mark the event as completed
   await event.save();
 
   res.status(200).json({

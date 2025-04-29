@@ -46,13 +46,13 @@ export default function CancelEventModal({
         onCancel(eventId, reason, responseData.message || "Failed to cancel event. Please try again.", false);
       } else {
         // Call onCancel with success=true
-        onCancel(eventId, reason, "Event cancelled successfully.", true);
+        onCancel("Event cancelled successfully.", true);
       }
       
     } catch (err) {
       const errorMessage = err.message || "An error occurred while cancelling the event";
       setError(errorMessage);
-      onCancel(eventId, reason, errorMessage, false);
+      onCancel(errorMessage, false);
     } finally {
       setIsSubmitting(false);
       setReason(""); // Clear the reason input

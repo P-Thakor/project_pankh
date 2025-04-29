@@ -153,13 +153,14 @@ export default function ListItem({ item, isFaculty, isCreator }) {
           </div>
           {isCreator && (
             <div className="flex items-center justify-between mt-4">
+              { item.status !== "cancelled" && (
               <button
                 className="z-10 px-5 py-2 text-white rounded-md bg-primaryblue hover:bg-primarydarkblue"
                 onClick={() => handleRedirect(`/edit-event/${item._id}`)}
                 disabled={item.status === "cancelled"}
               >
                 Edit
-              </button>
+              </button>)}
               <button
                 className="z-10 px-2 py-2 mt-2 text-red-400 rounded-md hover:bg-red-600 hover:text-white"
                 onClick={handleDeleteEvent}
